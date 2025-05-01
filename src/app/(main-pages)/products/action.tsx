@@ -1,0 +1,60 @@
+'use server';
+
+import { createOrder } from '@/services/order';
+import { getAuth } from '@/services/user';
+import { TAX_RATE } from '@/utils/calcTax';
+import { tryCatch } from '@/utils/tryCatch';
+import { z } from 'zod';
+
+const buyProductSchema = z.object({
+  price: z.number(),
+  productId: z.string(),
+  quantity: z.number().positive().min(1).max(10).default(1),
+});
+
+export const checkoutAction = async (data: unknown) => {
+  const [authError, auth] = await tryCatch(getAuth());
+
+  if (authError) {
+    return {
+      success: false,
+      message: authError.message,
+    };
+  }
+
+  const result = buyProductSchema.safeParse(data);
+
+  if (!result.success) {
+    const firstError = Object.values(result.error.flatten().fieldErrors)[0];
+
+    return {
+      success: false,
+      message: firstError.join(', '),
+    };
+  }
+
+  const { price, quantity, productId } = result.data;
+
+  const [createOrderError] = await tryCatch(
+    createOrder({
+      productId,
+      quantity,
+      tax: TAX_RATE,
+      total: price * quantity * TAX_RATE,
+      userId: auth.id,
+    }),
+  );
+
+  if (createOrderError) {
+    console.log(createOrderError);
+    return {
+      success: false,
+      message: createOrderError.message,
+    };
+  }
+
+  return {
+    success: true,
+    message: 'Checkout created',
+  };
+};

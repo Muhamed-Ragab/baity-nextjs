@@ -1,0 +1,111 @@
+'use client';
+
+import { Button, Card, CardBody, Spinner } from '@/components/heroui';
+import { getProductById } from '@/services/product';
+import { getCurrency } from '@/utils/price';
+import { Image } from '@heroui/react';
+import { useRequest } from 'ahooks';
+import { useParams, useRouter } from 'next/navigation';
+
+export default function ChiefProductDetailPage() {
+  const { id } = useParams() as { id: string };
+  const router = useRouter();
+  const { loading, data: product } = useRequest(getProductById, {
+    ready: !!id,
+    defaultParams: [id],
+  });
+
+  if (loading) {
+    return (
+      <div className='flex justify-center py-12'>
+        <Spinner size='lg' />
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className='py-12 text-center'>
+        <p className='mb-4 text-gray-500'>Product not found.</p>
+        <Button onPress={() => router.back()}>Back</Button>
+      </div>
+    );
+  }
+
+  return (
+    <main className='container mx-auto px-4 py-8'>
+      <Button variant='flat' onPress={() => router.back()} className='mb-6'>
+        Back
+      </Button>
+      <Card className='mx-auto max-w-3xl'>
+        <CardBody className='p-6'>
+          <div className='flex flex-col gap-8 md:flex-row'>
+            <div className='w-full flex-shrink-0 md:w-64'>
+              <Image
+                src={product.images?.[0] || ''}
+                alt={product.name}
+                className='h-64 w-full rounded object-cover'
+              />
+            </div>
+            <div className='flex-1'>
+              <h1 className='mb-2 font-bold text-2xl'>{product.name}</h1>
+              <span
+                className={`mb-4 inline-block rounded-full px-3 py-1 text-xs capitalize ${
+                  product.status === 'active'
+                    ? 'bg-green-100 text-green-800'
+                    : product.status === 'pending'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : product.status === 'rejected'
+                        ? 'bg-red-100 text-red-800'
+                        : 'bg-gray-100 text-gray-800'
+                }`}
+              >
+                {product.status}
+              </span>
+              <p className='mb-4 text-gray-700'>{product.description}</p>
+              <div className='mb-4'>
+                <span className='font-semibold'>Price: </span>
+                <span>{getCurrency(product.price)}</span>
+              </div>
+              <div className='mb-4'>
+                <span className='font-semibold'>Orders: </span>
+                <span>{product.orders?.length || 0}</span>
+              </div>
+              <div className='mb-4'>
+                <span className='font-semibold'>Created at: </span>
+                <span>
+                  {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : '-'}
+                </span>
+              </div>
+              <div className='mt-6 flex gap-2'>
+                <Button
+                  as='a'
+                  href={`/chief/products/edit/${product.id}`}
+                  variant='flat'
+                  color='primary'
+                >
+                  Edit
+                </Button>
+              </div>
+            </div>
+          </div>
+          {(product.images?.length ?? 0) > 1 && (
+            <div className='mt-8'>
+              <h2 className='mb-2 font-semibold'>More Images</h2>
+              <div className='flex flex-wrap gap-2'>
+                {product.images?.slice(1).map((img, idx) => (
+                  <Image
+                    key={img}
+                    src={img}
+                    alt={`Product image ${idx + 2}`}
+                    className='h-24 w-24 rounded object-cover'
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </CardBody>
+      </Card>
+    </main>
+  );
+}
