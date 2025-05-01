@@ -7,16 +7,7 @@ import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import {
-  FiArrowLeft,
-  FiCalendar,
-  FiCheck,
-  FiClock,
-  FiMapPin,
-  FiPackage,
-  FiTruck,
-  FiUser,
-} from 'react-icons/fi';
+import { FiArrowLeft, FiCalendar, FiCheck, FiClock, FiPackage, FiUser } from 'react-icons/fi';
 
 export default function OrderDetailsPage() {
   const router = useRouter();
@@ -194,20 +185,6 @@ export default function OrderDetailsPage() {
                   </div>
                 </div>
               </div>
-
-              <Divider className='my-6' />
-
-              <div className='space-y-2'>
-                <div className='flex justify-between'>
-                  <span className='text-gray-600'>Tax</span>
-                  <span>{getCurrency(calculateTax(order.total, order.tax))}</span>
-                </div>
-                <Divider className='my-2' />
-                <div className='flex justify-between font-bold text-lg'>
-                  <span>Total</span>
-                  <span>{getCurrency(order.total)}</span>
-                </div>
-              </div>
             </CardBody>
           </Card>
         </div>
@@ -221,7 +198,7 @@ export default function OrderDetailsPage() {
 
               <div>
                 <p className='font-medium'>Payment Method</p>
-                <p className='text-gray-600'>Credit Card</p>
+                <p className='text-gray-600'>On Delivery</p>
               </div>
             </CardBody>
           </Card>
