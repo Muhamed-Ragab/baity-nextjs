@@ -53,7 +53,9 @@ export default function ChiefOrdersPage() {
 
   const limit = 10;
   const { loading, data: orders = [] } = useRequest(() => getDashboardOrders({ page, limit }));
-  const { loading: updateLoading, run: runUpdateOrder } = useRequest(updateOrder);
+  const { loading: updateLoading, run: runUpdateOrder } = useRequest(updateOrder, {
+    manual: true,
+  });
   const hasNextPage = orders.length === limit;
 
   const handleApproveOrder = (orderId: string) => {
