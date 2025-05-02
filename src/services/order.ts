@@ -12,11 +12,11 @@ export const createOrder = async (orderData: NewOrder) => {
   return orders[0];
 };
 
-export const getOrderById = async (id: string) => {
+export const getOrderById = async (id: string, isChief = false) => {
   const auth = await getAuth();
 
   const result = await db.query.order.findFirst({
-    where: and(eq(order.id, id), eq(order.userId, auth.id)),
+    where: isChief ? eq(order.id, id) : and(eq(order.id, id), eq(order.userId, auth.id)),
     with: {
       user: true,
       product: {
@@ -26,6 +26,12 @@ export const getOrderById = async (id: string) => {
   });
 
   if (!result) return null;
+
+  const isOwner = result.product.userId === auth.id;
+
+  if (!isOwner && isChief) {
+    return null;
+  }
 
   return result;
 };

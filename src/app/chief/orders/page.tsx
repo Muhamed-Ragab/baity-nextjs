@@ -151,7 +151,7 @@ export default function ChiefOrdersPage() {
                         <TableCell>
                           <Button
                             as={Link}
-                            href={`/chiefs/orders/${order.id}`}
+                            href={`/chief/orders/${order.id}`}
                             isIconOnly
                             variant='light'
                             aria-label='View order details'

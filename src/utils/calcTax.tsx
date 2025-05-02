@@ -19,3 +19,10 @@ export const calculatePriceWithTax = (price: number, taxRate = TAX_RATE): number
   // Return rounded to 2 decimal places
   return Number(total.toFixed(2));
 };
+
+export const calcPriceWithoutTax = (price: number, taxRate = TAX_RATE): number => {
+  const tax = calculateTax(price, taxRate);
+  const total = price - tax;
+
+  return Number(total.toFixed(2));
+};

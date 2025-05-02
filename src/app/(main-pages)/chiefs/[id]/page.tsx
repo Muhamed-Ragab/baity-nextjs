@@ -6,6 +6,7 @@ import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
 import { MdEmail, MdPhone, MdShoppingBag, MdVerified } from 'react-icons/md';
 import { NewArrivalCard } from '../../(home)/components/Cards/NewArrival';
+import { cn } from '@/lib/utils';
 
 export default async function ChiefPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -38,6 +39,20 @@ export default async function ChiefPage({ params }: { params: Promise<{ id: stri
                   <h1 className='font-bold text-2xl'>{chief.name}</h1>
                   {chief.emailVerified && <MdVerified className='text-blue-500 text-xl' />}
                 </div>
+                <p
+                  className={cn(
+                    'inline-flex items-center rounded-full px-3 py-1 font-medium text-sm backdrop-blur-xl',
+                    chief.online ? 'bg-green-100/40 text-green-800' : 'bg-red-100/40 text-red-800',
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'mr-1 h-2 w-2 rounded-full',
+                      chief.online ? 'bg-green-400' : 'bg-red-400',
+                    )}
+                  />
+                  {chief.online ? 'Online' : 'Offline'}
+                </p>
               </div>
             </CardBody>
           </Card>

@@ -1,18 +1,30 @@
 'use client';
 
 import { Spotlight } from '@/app/(main-pages)/components/motion/spotlight';
+import { cn } from '@/lib/utils';
 import type { User } from '@/types/user';
 import { Button, Card, CardBody, Image } from '@heroui/react';
 import Link from 'next/link';
 import { MdVerified } from 'react-icons/md';
 
-export const ChiefCard = ({ id, name, image, emailVerified }: User) => {
+export const ChiefCard = ({ id, name, image, emailVerified, online }: User) => {
   return (
     <div className='relative w-full overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
       <Card className='group h-full border-none pt-1 pb-2' radius='md'>
         <CardBody className='flex h-full flex-col gap-4 p-2'>
           <figure className='relative h-full w-full overflow-hidden'>
+            <p
+              className={cn(
+                'absolute top-1 right-1 z-20 inline-flex items-center rounded-full px-3 py-1 font-medium text-sm backdrop-blur-xl',
+                online ? 'bg-green-100/40 text-green-800' : 'bg-red-100/40 text-red-800',
+              )}
+            >
+              <span
+                className={cn('mr-1 h-2 w-2 rounded-full', online ? 'bg-green-400' : 'bg-red-400')}
+              />
+              {online ? 'Online' : 'Offline'}
+            </p>
             <Link href={`/users/${id}`}>
               <Image
                 className='aspect-square size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'

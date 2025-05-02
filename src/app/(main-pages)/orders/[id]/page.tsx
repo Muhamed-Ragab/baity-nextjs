@@ -1,8 +1,7 @@
 'use client';
 
-import { Button, Card, CardBody, Divider, Image, Spinner } from '@/components/heroui';
+import { Button, Card, CardBody, Image, Spinner } from '@/components/heroui';
 import { getOrderById } from '@/services/order';
-import { calculateTax } from '@/utils/calcTax';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
@@ -16,7 +15,6 @@ export default function OrderDetailsPage() {
   const { loading, data: order } = useRequest(getOrderById, {
     ready: !!id,
     defaultParams: [id],
-    refreshDeps: [id],
     onError: () => router.back(),
   });
 
@@ -144,8 +142,18 @@ export default function OrderDetailsPage() {
                     </p>
                     {hasReachedStatus && (
                       <p className='mt-1 text-gray-500 text-xs'>
-                        {order.createdAt.toLocaleDateString()} at{' '}
-                        {order.createdAt.toLocaleTimeString()}
+                        {status === 'pending' && (
+                          <>
+                            {order.createdAt.toLocaleDateString()} at
+                            {order.createdAt.toLocaleTimeString()}
+                          </>
+                        )}
+                        {['paid', 'cancelled'].includes(status) && (
+                          <>
+                            {order.updatedAt.toLocaleDateString()} at
+                            {order.updatedAt.toLocaleTimeString()}
+                          </>
+                        )}
                       </p>
                     )}
                   </div>

@@ -1,8 +1,11 @@
 'use server';
 
 import { db } from '@/db';
+import { user } from '@/db/schema';
 import { auth } from '@/lib/auth';
+import type { NewUser } from '@/types/user';
 import { tryCatch } from '@/utils/tryCatch';
+import { eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
 
 export const getAuth = async () => {
@@ -23,6 +26,18 @@ export const getAuth = async () => {
   }
 
   return dbUser;
+};
+
+export const updateUser = async (data: Partial<NewUser>) => {
+  const auth = await getAuth();
+
+  const [error] = await tryCatch(db.update(user).set(data).where(eq(user.id, auth.id)));
+
+  if (error) {
+    throw error;
+  }
+
+  return auth;
 };
 
 export const getUsers = async () => {
@@ -47,6 +62,7 @@ export const getBestSellers = async (limit = 10) => {
       image: true,
       stripeCustomerId: true,
       role: true,
+      online: true,
     },
     with: {
       subscriptions: true,
@@ -80,6 +96,7 @@ export const getBestSellers = async (limit = 10) => {
 
   return sortedBySubscriptionStatus;
 };
+
 export const getChiefs = async (page = 1, limit = 12) => {
   const offset = (page - 1) * limit;
 
@@ -137,4 +154,19 @@ export const getChiefById = async (id: string) => {
     totalOrders,
     rating,
   };
+};
+
+export const getChiefByProductId = async (productId: string) => {
+  const product = await db.query.product.findFirst({
+    where: (product, { eq }) => eq(product.id, productId),
+    with: {
+      user: true,
+    },
+  });
+
+  if (!product) {
+    throw new Error('Chief not found');
+  }
+
+  return product.user;
 };

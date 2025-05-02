@@ -1,6 +1,7 @@
 'use client';
 
 import { Spotlight } from '@/app/(main-pages)/components/motion/spotlight';
+import { cn } from '@/lib/utils';
 import type { getBestSellers } from '@/services/user';
 import { Button, Card, CardBody, Image } from '@heroui/react';
 import Link from 'next/link';
@@ -8,7 +9,7 @@ import { MdVerified } from 'react-icons/md';
 
 type BestSellerProps = Awaited<ReturnType<typeof getBestSellers>>[number];
 
-export const BestSellerCard = ({ id, image, name, emailVerified }: BestSellerProps) => {
+export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestSellerProps) => {
   return (
     <div className='relative overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
@@ -24,6 +25,20 @@ export const BestSellerCard = ({ id, image, name, emailVerified }: BestSellerPro
               />
             </Link>
             <figcaption className='px-1.5 pt-3'>
+              <p
+                className={cn(
+                  'absolute top-1 right-1 z-10 inline-flex items-center rounded-full px-3 py-1 font-medium text-sm backdrop-blur-xl',
+                  online ? 'bg-green-100/40 text-green-800' : 'bg-red-100/40 text-red-800',
+                )}
+              >
+                <span
+                  className={cn(
+                    'mr-1 h-2 w-2 rounded-full',
+                    online ? 'bg-green-400' : 'bg-red-400',
+                  )}
+                />
+                {online ? 'Online' : 'Offline'}
+              </p>
               <Link href={`/chiefs/${id}`} className='flex items-center gap-1'>
                 <h4 className='line-clamp-2 flex-1 font-semibold text-sm duration-250 hover:opacity-60 sm:text-base'>
                   {name}

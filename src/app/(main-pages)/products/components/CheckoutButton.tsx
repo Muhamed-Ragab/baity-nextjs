@@ -4,22 +4,42 @@ import { Button, addToast } from '@/components/heroui';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { checkoutAction } from '../action';
+import { useRequest } from 'ahooks';
+import { getChiefByProductId } from '@/services/user';
 
 interface BuyProductProps {
-  product: {
+  order: {
     price: number;
     productId: string;
-    quantity?: number;
+    quantity: number;
+    address: string;
   };
 }
 
-export default function CheckoutButton({ product }: BuyProductProps) {
+export default function CheckoutButton({ order }: BuyProductProps) {
+  const { data: chief } = useRequest(getChiefByProductId, {
+    refreshDeps: [order.productId],
+    refreshOnWindowFocus: true,
+    defaultParams: [order.productId],
+    onSuccess: (data) => {
+      if (!data.online) {
+        addToast({ title: 'Chief is Offline', color: 'danger' });
+        return;
+      }
+    },
+  });
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBuyProduct = async () => {
+    if (!chief?.online) {
+      addToast({ title: 'Chief is Offline', color: 'danger' });
+      return;
+    }
+
     setIsLoading(true);
 
-    const { message, success } = await checkoutAction(product);
+    const { message, success } = await checkoutAction(order);
 
     setIsLoading(false);
 
@@ -34,13 +54,14 @@ export default function CheckoutButton({ product }: BuyProductProps) {
 
   return (
     <Button
-      color='primary'
+      color={chief?.online ? 'primary' : 'danger'}
+      variant={chief?.online ? 'solid' : 'flat'}
       fullWidth
       onPress={handleBuyProduct}
-      isDisabled={isLoading}
+      isDisabled={isLoading || !chief?.online}
       isLoading={isLoading}
     >
-      Checkout
+      {chief?.online ? 'Buy Now' : 'Chief is Offline'}
     </Button>
   );
 }

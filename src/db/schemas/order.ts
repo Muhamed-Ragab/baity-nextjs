@@ -13,6 +13,7 @@ export const order = pgTable('order', {
     .notNull()
     .references(() => product.id),
   quantity: integer('quantity').notNull().default(1),
+  address: text('address').notNull(),
   total: doublePrecision('total').notNull(),
   tax: doublePrecision('tax').default(TAX_RATE).notNull(),
   status: text('status', { enum: ['pending', 'paid', 'cancelled', 'shipped'] })

@@ -20,7 +20,7 @@ export const SignOut = () => {
     }
 
     addToast({ title: 'Signed out successfully', color: 'success' });
-    redirect('/auth/login');
+    redirect('/');
   };
 
   return (

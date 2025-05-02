@@ -14,7 +14,8 @@ import {
 import type { getAdminOrders } from '@/services/admin';
 import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
-import { startTransition } from 'react';
+import Link from 'next/link';
+import { FiEye } from 'react-icons/fi';
 
 const columns = [
   { name: 'Order ID', uid: 'id' },
@@ -23,6 +24,7 @@ const columns = [
   { name: 'Qty', uid: 'quantity' },
   { name: 'Total', uid: 'total' },
   { name: 'Status', uid: 'status' },
+  { name: 'Actions', uid: 'actions' },
 ];
 
 interface OrdersTableProps {
@@ -68,6 +70,17 @@ export default function OrdersTable({
                   <SelectItem key={option.value}>{option.label}</SelectItem>
                 ))}
               </Select>
+            </TableCell>
+            <TableCell>
+              <Button
+                as={Link}
+                href={`/admin/orders/${order.id}`}
+                isIconOnly
+                variant='light'
+                aria-label='View order details'
+              >
+                <FiEye />
+              </Button>
             </TableCell>
           </TableRow>
         )}

@@ -44,6 +44,11 @@ export const auth = betterAuth({
       },
     },
     additionalFields: {
+      online: {
+        type: 'boolean',
+        defaultValue: false,
+        required: true,
+      },
       role: {
         type: 'string',
         defaultValue: 'user',
@@ -59,7 +64,7 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days
     updateAge: 60 * 60 * 24 * 3, // 3 days
-    cookieCache: { enabled: true, maxAge: 60 * 60 * 24 }, // 1 day
+    cookieCache: { enabled: true, maxAge: 60 * 60 * 24 * 7 }, // 7 days
     storeSessionInDatabase: true,
   },
   emailAndPassword: {

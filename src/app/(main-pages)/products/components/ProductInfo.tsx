@@ -1,6 +1,6 @@
 'use client';
 
-import { NumberInput } from '@/components/heroui';
+import { Input, NumberInput } from '@/components/heroui';
 import type { getProductById } from '@/services/product';
 import { getCurrency } from '@/utils/price';
 import Link from 'next/link';
@@ -20,6 +20,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
   totalOrders,
 }) => {
   const [quantity, setQuantity] = useState(1);
+  const [address, setAddress] = useState('');
 
   return (
     <section className='flex flex-1 flex-col justify-between'>
@@ -48,13 +49,22 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
 
       <NumberInput
         label='Quantity'
-        min={1}
-        max={10}
+        minValue={1}
+        maxValue={10}
         value={quantity}
         onValueChange={setQuantity}
+        isRequired
         className='mb-4'
       />
-      <CheckoutButton product={{ price, productId: id, quantity }} />
+      <Input
+        label='Address'
+        placeholder='e.g., 123 Main St, Minya, Egypt'
+        value={address}
+        onValueChange={setAddress}
+        isRequired
+        className='mb-4'
+      />
+      <CheckoutButton order={{ price, productId: id, quantity, address }} />
     </section>
   );
 };
