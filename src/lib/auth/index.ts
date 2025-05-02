@@ -118,7 +118,7 @@ export const auth = betterAuth({
         plans: [
           {
             name: 'pro',
-            priceId: 'price_1RGkeOEDJeWGR8MXI5ou7SkH',
+            priceId: 'price_1RKEDmE70QlD7oX3vUUVtvbO',
             limits: {
               projects: 1,
             },

@@ -1,9 +1,7 @@
 'use server';
 
-import { stripeClient } from '@/config/stripe';
 import { db } from '@/db';
 import { auth } from '@/lib/auth';
-import type { User } from '@/types/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { and } from 'drizzle-orm';
 import { headers } from 'next/headers';
@@ -17,7 +15,15 @@ export const getAuth = async () => {
     throw new Error('Unauthorized');
   }
 
-  return session.user as User;
+  const dbUser = await db.query.user.findFirst({
+    where: (user, { eq }) => eq(user.id, session.user.id),
+  });
+
+  if (!dbUser) {
+    throw new Error('Unauthorized');
+  }
+
+  return dbUser;
 };
 
 export const getUsers = async () => {

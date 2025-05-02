@@ -3,29 +3,36 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { authClient } from './lib/auth/client';
 
 export default async function middleware(req: NextRequest) {
-  // TODO: Add your own logic here to validate the session after UI finished
-  // const { data: session } = await authClient.getSession({
-  //   fetchOptions: {
-  //     headers: req.headers,
-  //   },
-  // });
+  const { data: session } = await authClient.getSession({
+    fetchOptions: {
+      headers: req.headers,
+    },
+  });
 
-  // const {
-  //   url,
-  //   nextUrl: { pathname },
-  // } = req;
+  const {
+    url,
+    nextUrl: { pathname },
+  } = req;
 
-  // if (!session) {
-  //   return NextResponse.redirect(new URL('/auth/login', url));
-  // }
+  if (!session) {
+    return NextResponse.next();
+  }
 
-  // if (session && pathname.startsWith('/auth')) {
-  //   return NextResponse.redirect(new URL('/', url));
-  // }
+  if (pathname.startsWith('/auth')) {
+    return NextResponse.redirect(new URL('/', url));
+  }
 
-  // if (session?.user && session.user.role !== 'admin' && pathname.startsWith('/dashboard')) {
-  //   return NextResponse.redirect(new URL('/', url));
-  // }
+  const { user } = session;
+
+  if (pathname !== '/profile') {
+    if (user.role === 'chief' && !pathname.startsWith('/chief')) {
+      return NextResponse.redirect(new URL('/chief', url));
+    }
+
+    if (user.role === 'admin' && !pathname.startsWith('/admin')) {
+      return NextResponse.redirect(new URL('/', url));
+    }
+  }
 
   return NextResponse.next();
 }

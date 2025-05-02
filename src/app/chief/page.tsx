@@ -7,7 +7,7 @@ import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
-import { FiBox, FiShoppingBag } from 'react-icons/fi';
+import { FiBox, FiCreditCard, FiShoppingBag } from 'react-icons/fi';
 import {
   Bar,
   BarChart,
@@ -70,7 +70,18 @@ export default function ChiefDashboardPage() {
 
   return (
     <div className='container mx-auto'>
-      <h1 className='mb-8 font-bold text-3xl'>Dashboard</h1>
+      <div className='mb-8 flex items-center justify-between'>
+        <h1 className='font-bold text-3xl'>Dashboard</h1>
+        <Button
+          as={Link}
+          href='/chief/subscribe'
+          color='primary'
+          className='flex items-center gap-2'
+        >
+          <FiCreditCard className='h-4 w-4' />
+          Manage Subscription
+        </Button>
+      </div>
 
       {/* Stats Cards */}
       <div className='mb-8 grid grid-cols-1 gap-6 md:grid-cols-3'>
@@ -209,14 +220,24 @@ export default function ChiefDashboardPage() {
   );
 }
 
-const Button = ({ children, as, href, variant, color, ...props }: ButtonProps) => {
+const Button = ({
+  children,
+  as,
+  href,
+  variant,
+  color,
+  className = '',
+  ...props
+}: ButtonProps & { className?: string }) => {
   const Component = as || 'button';
-  const className = `px-4 py-2 rounded text-sm font-medium ${
-    variant === 'flat' ? 'bg-transparent hover:bg-gray-100' : 'bg-blue-500 text-white'
-  } ${color === 'primary' ? 'text-blue-500' : ''}`;
+  const baseClassName = `px-4 py-2 rounded text-sm font-medium ${
+    variant === 'flat'
+      ? 'bg-transparent hover:bg-gray-100'
+      : 'bg-blue-500 text-white hover:bg-blue-600'
+  } ${color === 'primary' ? (variant === 'flat' ? 'text-blue-500' : '') : ''}`;
 
   return (
-    <Component href={href} className={className} {...props}>
+    <Component href={href} className={`${baseClassName} ${className}`} {...props}>
       {children}
     </Component>
   );
