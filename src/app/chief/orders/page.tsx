@@ -20,6 +20,7 @@ import {
 } from '@/components/heroui';
 import { getDashboardOrders, getOrders } from '@/services/order';
 import type { Order } from '@/types/order';
+import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
@@ -139,7 +140,7 @@ export default function ChiefOrdersPage() {
                         <TableCell>{order.user.name}</TableCell>
                         <TableCell>{order.product.name}</TableCell>
                         <TableCell>{order.quantity}</TableCell>
-                        <TableCell>${order.total.toFixed(2)}</TableCell>
+                        <TableCell>{getCurrency(order.total)}</TableCell>
                         <TableCell>
                           <span
                             className={`rounded-full px-2 py-1 text-xs capitalize ${getStatusColor(order.status)}`}

@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/heroui';
 import type { Product } from '@/types/product';
+import { getCurrency } from '@/utils/price';
 
 const columns = [
   { name: 'Product ID', uid: 'id' },
@@ -45,7 +46,7 @@ export default function ProductsTable({
           <TableRow key={product.id}>
             <TableCell>{product.id}</TableCell>
             <TableCell>{product.name}</TableCell>
-            <TableCell>{product.price}</TableCell>
+            <TableCell>{getCurrency(product.price)}</TableCell>
             <TableCell>
               <Select
                 placeholder='Select status'
