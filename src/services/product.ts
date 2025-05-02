@@ -1,81 +1,39 @@
 'use server';
 
-import { env } from '@/config/env';
-import { stripeClient } from '@/config/stripe';
 import { db } from '@/db';
 import { product } from '@/db/schemas/product';
 import type { NewProduct, Product } from '@/types/product';
-import { calculateTax } from '@/utils/calcTax';
 import { tryCatch } from '@/utils/tryCatch';
 import { and, eq } from 'drizzle-orm';
 import { getAuth } from './user';
-
-export const createCheckout = async (priceId: string, quantity = 1) => {
-  const price = await stripeClient.prices.retrieve(priceId);
-
-  const baseAmount = price?.unit_amount ?? 0;
-
-  const taxAmount = calculateTax(baseAmount);
-
-  const session = await stripeClient.checkout.sessions.create({
-    line_items: [
-      {
-        price: priceId,
-        quantity,
-      },
-      {
-        price_data: {
-          currency: 'egp',
-          product_data: {
-            name: 'Tax (15%)',
-          },
-          unit_amount: taxAmount,
-          tax_behavior: 'inclusive',
-        },
-        quantity,
-      },
-    ],
-    mode: 'payment',
-    success_url: `${env.BASE_URL}/checkout/success`,
-    cancel_url: `${env.BASE_URL}/checkout/cancelled`,
-    shipping_address_collection: {
-      allowed_countries: ['EG'],
-    },
-    billing_address_collection: 'required',
-    metadata: {
-      quantity,
-      tax_amount: taxAmount,
-    },
-    currency: 'egp',
-  });
-
-  return session;
-};
+import { subscription } from '@/db/schema';
 
 export const createProduct = async (data: NewProduct) => {
+  const [authError, auth] = await tryCatch(getAuth());
+
+  if (authError || auth.role !== 'chief' || !auth.stripeCustomerId) {
+    throw new Error('Unauthorized');
+  }
+
+  const [subscriptionError, userSubscription] = await tryCatch(
+    db.query.subscription.findFirst({
+      where: eq(subscription.stripeCustomerId, auth.stripeCustomerId),
+    }),
+  );
+
+  if (subscriptionError) throw subscriptionError;
+  if (!userSubscription) throw new Error('User not subscribed');
+
   const [createProductError, createdProduct] = await tryCatch(
-    db.insert(product).values(data).returning(),
+    db
+      .insert(product)
+      .values({ ...data, featured: userSubscription.status === 'active', userId: auth.id })
+      .returning(),
   );
 
   if (createProductError) throw createProductError;
 
   return createdProduct[0];
-};
-
-export const createPrice = async (
-  productId: string,
-  unitAmount: number,
-  currency = 'egp',
-  metadata = {},
-) => {
-  const taxAmount = calculateTax(unitAmount);
-
-  return await stripeClient.prices.create({
-    product: productId,
-    unit_amount: unitAmount,
-    currency,
-    metadata: { ...metadata, tax_amount: taxAmount },
-  });
 };
 
 export const getDashboardProducts = async () => {
@@ -132,8 +90,12 @@ export const getProducts = async ({
     (product) => product.user.role === 'chief' && !product.user.banned,
   );
 
+  const sortedByFeatured = unbannedchiefProducts.sort((a, b) =>
+    a.featured === b.featured ? 0 : a.featured ? -1 : 1,
+  );
+
   const offset = (page - 1) * limit;
-  const products = unbannedchiefProducts.slice(offset, offset + limit);
+  const products = sortedByFeatured.slice(offset, offset + limit);
 
   return products;
 };
@@ -179,7 +141,11 @@ export const getNewArrival = async (
 
   const unbannedUsersProducts = products.filter((product) => !product.user.banned);
 
-  return unbannedUsersProducts;
+  const sortedByFeatured = unbannedUsersProducts.sort((a, b) =>
+    a.featured === b.featured ? 0 : a.featured ? -1 : 1,
+  );
+
+  return sortedByFeatured;
 };
 
 export const updateProductStatus = async (id: string, status: Product['status']) => {

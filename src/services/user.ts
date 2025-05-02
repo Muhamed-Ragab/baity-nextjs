@@ -3,7 +3,6 @@
 import { db } from '@/db';
 import { auth } from '@/lib/auth';
 import { tryCatch } from '@/utils/tryCatch';
-import { and } from 'drizzle-orm';
 import { headers } from 'next/headers';
 
 export const getAuth = async () => {
@@ -60,7 +59,7 @@ export const getBestSellers = async (limit = 10) => {
         },
       },
     },
-    where: (user, { eq }) => and(eq(user.role, 'chief'), eq(user.banned, false)),
+    where: (user, { and, eq }) => and(eq(user.role, 'chief'), eq(user.banned, false)),
   });
 
   const usersSortedByTotalAmount = users
