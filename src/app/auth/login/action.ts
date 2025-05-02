@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 import { auth } from '@/lib/auth';
-import { getAuth } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 
 const LoginSchema = z.object({

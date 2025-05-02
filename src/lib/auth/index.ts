@@ -27,6 +27,7 @@ export const auth = betterAuth({
     },
   },
   trustedOrigins: [env.BASE_URL, 'http://localhost:*'],
+  baseURL: env.BASE_URL || env.NEXT_PUBLIC_BASE_URL,
   user: {
     changeEmail: {
       enabled: true,

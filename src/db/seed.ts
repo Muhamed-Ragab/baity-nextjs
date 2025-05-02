@@ -115,6 +115,7 @@ const createOrderTest = async (userId: string, product: Product) => {
       total: product.price * quantity,
       status: faker.helpers.arrayElement(['pending', 'shipped', 'paid', 'cancelled']),
       userId,
+      address: faker.location.streetAddress(),
       createdAt: faker.date.recent({ days: 90 }),
     }),
   );
