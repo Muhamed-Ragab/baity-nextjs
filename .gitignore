@@ -11,10 +11,6 @@ pgdata
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-yarn.lock
-npm.lock
-pnpm-lock.yaml
-bun.lock*
 
 # testing
 /coverage
