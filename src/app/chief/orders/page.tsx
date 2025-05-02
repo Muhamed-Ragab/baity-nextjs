@@ -61,7 +61,7 @@ export default function ChiefOrdersPage() {
     addToast({
       title: 'Order approved',
       description: 'The order has been approved',
-      status: 'success',
+      color: 'success',
     });
   };
 
@@ -70,7 +70,7 @@ export default function ChiefOrdersPage() {
     addToast({
       title: 'Order cancelled',
       description: 'The order has been cancelled',
-      status: 'danger',
+      color: 'danger',
     });
   };
 
