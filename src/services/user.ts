@@ -49,6 +49,7 @@ export const getBestSellers = async (limit = 10) => {
       role: true,
     },
     with: {
+      subscriptions: true,
       orders: {
         columns: {
           id: true,
@@ -69,9 +70,16 @@ export const getBestSellers = async (limit = 10) => {
     })
     .sort((a, b) => b.totalAmount - a.totalAmount);
 
-  return usersSortedByTotalAmount;
-};
+  const sortedBySubscriptionStatus = usersSortedByTotalAmount.sort((a, b) =>
+    a.subscriptions?.status === b.subscriptions?.status
+      ? 0
+      : a.subscriptions?.status === 'active'
+        ? -1
+        : 1,
+  );
 
+  return sortedBySubscriptionStatus;
+};
 export const getChiefs = async (page = 1, limit = 12) => {
   const offset = (page - 1) * limit;
 
