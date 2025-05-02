@@ -16,7 +16,9 @@ export const getOrderById = async (id: string, isChief = false) => {
   const auth = await getAuth();
 
   const result = await db.query.order.findFirst({
-    where: isChief ? eq(order.id, id) : and(eq(order.id, id), eq(order.userId, auth.id)),
+    ...(auth.role === 'admin' && {
+      where: isChief ? eq(order.id, id) : and(eq(order.id, id), eq(order.userId, auth.id)),
+    }),
     with: {
       user: true,
       product: {
@@ -83,9 +85,7 @@ export const getDashboardOrders = async (
     where: eq(product.userId, auth.id),
   });
 
-  const orders = products
-    .filter((product) => product.status === 'active')
-    .flatMap((product) => product.orders);
+  const orders = products.flatMap((product) => product.orders);
 
   const offset = (page - 1) * limit;
   const paginatedOrders = orders.slice(offset, offset + limit);

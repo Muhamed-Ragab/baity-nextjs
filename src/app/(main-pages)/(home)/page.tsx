@@ -10,7 +10,7 @@ const Home = async () => {
   const [bestSellers, newArrival, allProducts] = await Promise.all([
     getBestSellers(),
     getNewArrival({ limit: 10 }),
-    getProducts({ limit: 10 }),
+    getProducts({ limit: 10, status: 'active' }),
   ]);
 
   return (
