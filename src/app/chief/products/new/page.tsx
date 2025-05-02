@@ -35,12 +35,8 @@ export default function CreateProductPage() {
 
     const auth = await getAuth();
 
-    const imagesLinks = await Promise.all(
-      formData.images.map(async (file) => {
-        const res = await uploadFile(file);
-        return res.secure_url;
-      }),
-    );
+    const images = await Promise.all(formData.images.map(async (file) => uploadFile(file)));
+    const imagesLinks = images.map((image) => image.secure_url);
 
     await createProduct({
       name: formData.name,

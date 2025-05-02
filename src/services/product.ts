@@ -22,12 +22,15 @@ export const createProduct = async (data: NewProduct) => {
   );
 
   if (subscriptionError) throw subscriptionError;
-  if (!userSubscription) throw new Error('User not subscribed');
 
   const [createProductError, createdProduct] = await tryCatch(
     db
       .insert(product)
-      .values({ ...data, featured: userSubscription.status === 'active', userId: auth.id })
+      .values({
+        ...data,
+        featured: userSubscription ? userSubscription.status === 'active' : false,
+        userId: auth.id,
+      })
       .returning(),
   );
 
