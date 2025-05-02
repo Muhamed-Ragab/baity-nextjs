@@ -5,6 +5,7 @@ import { order, product } from '@/db/schema';
 import type { NewOrder, Order } from '@/types/order';
 import { and, eq } from 'drizzle-orm';
 import { getAuth } from './user';
+import { tryCatch } from '@/utils/tryCatch';
 
 export const createOrder = async (orderData: NewOrder) => {
   const orders = await db.insert(order).values(orderData).returning();
@@ -16,7 +17,7 @@ export const getOrderById = async (id: string, isChief = false) => {
   const auth = await getAuth();
 
   const result = await db.query.order.findFirst({
-    ...(auth.role === 'admin' && {
+    ...(auth.role !== 'admin' && {
       where: isChief ? eq(order.id, id) : and(eq(order.id, id), eq(order.userId, auth.id)),
     }),
     with: {
@@ -127,12 +128,14 @@ export const getOrdersByProductId = async (productId: string) => {
 };
 
 export const updateOrder = async (id: string, orderData: Partial<Order>) => {
-  const auth = await getAuth();
+  const [getOrderError] = await tryCatch(getOrderById(id, true));
+
+  if (getOrderError) throw getOrderError;
 
   const orders = await db
     .update(order)
     .set(orderData)
-    .where(and(eq(order.id, id), eq(order.userId, auth.id)))
+    .where(and(eq(order.id, id)))
     .returning();
 
   return orders[0];

@@ -67,9 +67,9 @@ export default function OrderDetailsPage() {
           </p>
         </div>
         <span
-          className={`mt-4 rounded-full px-4 py-2 text-sm md:mt-0 ${getStatusColor(order.status)}`}
+          className={`mt-4 rounded-full px-4 py-2 text-sm capitalize md:mt-0 ${getStatusColor(order.status)}`}
         >
-          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+          {order.status}
         </span>
       </div>
 
