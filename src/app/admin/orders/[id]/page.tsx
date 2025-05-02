@@ -3,7 +3,7 @@
 import { Button, Card, CardBody, Divider, Image, Spinner } from '@/components/heroui';
 import { getOrderById } from '@/services/order';
 import type { Order } from '@/types/order';
-import { calcPriceWithoutTax, calculatePriceWithTax, calculateTax } from '@/utils/calcTax';
+import { calcPriceWithoutTax, calculateTax } from '@/utils/calcTax';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import { useParams, useRouter } from 'next/navigation';
@@ -20,6 +20,8 @@ export default function OrderDetailsPage() {
     switch (status) {
       case 'paid':
         return 'bg-green-100 text-green-800';
+      case 'approved':
+        return 'bg-emerald-100 text-emerald-800';
       case 'pending':
         return 'bg-blue-100 text-blue-800';
       case 'cancelled':

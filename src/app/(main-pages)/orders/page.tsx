@@ -96,6 +96,8 @@ export default function OrdersPage() {
         return 'bg-red-100 text-red-800';
       case 'shipped':
         return 'bg-purple-100 text-purple-800';
+      case 'approved':
+        return 'bg-teal-100 text-teal-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -113,6 +115,7 @@ export default function OrdersPage() {
       <Tabs selectedKey={selectedTab} onSelectionChange={setSelectedTab} className='mb-6'>
         <Tab key='all' title='All Orders' />
         <Tab key='pending' title='Pending' />
+        <Tab key='approved' title='Approved' />
         <Tab key='shipped' title='Shipped' />
         <Tab key='paid' title='Paid' />
         <Tab key='cancelled' title='Cancelled' />
@@ -140,9 +143,10 @@ export default function OrdersPage() {
                 onAction={(key) => setStatusFilter(key as string)}
               >
                 <DropdownItem key='all'>All Status</DropdownItem>
-                <DropdownItem key='processing'>Processing</DropdownItem>
+                <DropdownItem key='pending'>Pending</DropdownItem>
+                <DropdownItem key='approved'>Approved</DropdownItem>
                 <DropdownItem key='shipped'>Shipped</DropdownItem>
-                <DropdownItem key='delivered'>Delivered</DropdownItem>
+                <DropdownItem key='paid'>Paid</DropdownItem>
                 <DropdownItem key='cancelled'>Cancelled</DropdownItem>
               </DropdownMenu>
             </Dropdown>

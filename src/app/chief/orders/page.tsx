@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  addToast,
   Button,
   Card,
   CardBody,
@@ -18,14 +19,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/heroui';
-import { getDashboardOrders, getOrders } from '@/services/order';
+import { getDashboardOrders, updateOrder } from '@/services/order';
 import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FiEye, FiFilter } from 'react-icons/fi';
+import { FiCheck, FiEye, FiFilter, FiX } from 'react-icons/fi';
 
 const getStatusColor = (status: Order['status']) => {
   switch (status) {
@@ -35,6 +36,8 @@ const getStatusColor = (status: Order['status']) => {
       return 'bg-blue-100 text-blue-800';
     case 'cancelled':
       return 'bg-red-100 text-red-800';
+    case 'approved':
+      return 'bg-purple-100 text-purple-800';
     default:
       return 'bg-gray-100 text-gray-800';
   }
@@ -50,7 +53,26 @@ export default function ChiefOrdersPage() {
 
   const limit = 10;
   const { loading, data: orders = [] } = useRequest(() => getDashboardOrders({ page, limit }));
+  const { loading: updateLoading, run: runUpdateOrder } = useRequest(updateOrder);
   const hasNextPage = orders.length === limit;
+
+  const handleApproveOrder = (orderId: string) => {
+    runUpdateOrder(orderId, { status: 'approved' });
+    addToast({
+      title: 'Order approved',
+      description: 'The order has been approved',
+      status: 'success',
+    });
+  };
+
+  const handleCancelOrder = (orderId: string) => {
+    runUpdateOrder(orderId, { status: 'cancelled' });
+    addToast({
+      title: 'Order cancelled',
+      description: 'The order has been cancelled',
+      status: 'danger',
+    });
+  };
 
   if (loading) {
     return (
@@ -60,7 +82,6 @@ export default function ChiefOrdersPage() {
     );
   }
 
-  // In a real implementation, you would fetch the chief's orders here
   const filteredOrders = orders.filter((order) => {
     if (statusFilter !== 'all' && order.status !== statusFilter) return false;
     if (
@@ -100,6 +121,7 @@ export default function ChiefOrdersPage() {
                 onAction={(key) => setStatusFilter(key as string)}
               >
                 <DropdownItem key='all'>All Status</DropdownItem>
+                <DropdownItem key='approved'>Approved</DropdownItem>
                 <DropdownItem key='paid'>Paid</DropdownItem>
                 <DropdownItem key='pending'>Pending</DropdownItem>
                 <DropdownItem key='cancelled'>Cancelled</DropdownItem>
@@ -150,15 +172,43 @@ export default function ChiefOrdersPage() {
                         </TableCell>
                         <TableCell>{order.createdAt.toLocaleDateString()}</TableCell>
                         <TableCell>
-                          <Button
-                            as={Link}
-                            href={`/chief/orders/${order.id}`}
-                            isIconOnly
-                            variant='light'
-                            aria-label='View order details'
-                          >
-                            <FiEye />
-                          </Button>
+                          <div className='flex gap-2'>
+                            <Button
+                              as={Link}
+                              href={`/chief/orders/${order.id}`}
+                              isIconOnly
+                              variant='light'
+                              aria-label='View order details'
+                            >
+                              <FiEye />
+                            </Button>
+                            {order.status === 'pending' && (
+                              <>
+                                <Button
+                                  isIconOnly
+                                  color='success'
+                                  variant='flat'
+                                  aria-label='Approve order'
+                                  onPress={() => handleApproveOrder(order.id)}
+                                  isDisabled={updateLoading}
+                                  isLoading={updateLoading}
+                                >
+                                  <FiCheck />
+                                </Button>
+                                <Button
+                                  isIconOnly
+                                  color='danger'
+                                  variant='flat'
+                                  aria-label='Cancel order'
+                                  onPress={() => handleCancelOrder(order.id)}
+                                  isDisabled={updateLoading}
+                                  isLoading={updateLoading}
+                                >
+                                  <FiX />
+                                </Button>
+                              </>
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

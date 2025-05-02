@@ -3,7 +3,7 @@
 import { Button, Card, CardBody, Divider, Image, Spinner } from '@/components/heroui';
 import { getOrderById } from '@/services/order';
 import type { Order } from '@/types/order';
-import { calcPriceWithoutTax, calculatePriceWithTax, calculateTax } from '@/utils/calcTax';
+import { calcPriceWithoutTax, calculateTax } from '@/utils/calcTax';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import { useParams, useRouter } from 'next/navigation';
@@ -24,6 +24,8 @@ export default function OrderDetailsPage() {
         return 'bg-blue-100 text-blue-800';
       case 'cancelled':
         return 'bg-red-100 text-red-800';
+      case 'approved':
+        return 'bg-purple-100 text-purple-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }

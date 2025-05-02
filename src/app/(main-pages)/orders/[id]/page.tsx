@@ -34,7 +34,8 @@ export default function OrderDetailsPage() {
     );
   }
 
-  const statuses = order.status === 'cancelled' ? ['cancelled'] : ['pending', 'shipped', 'paid'];
+  const statuses =
+    order.status === 'cancelled' ? ['cancelled'] : ['pending', 'shipped', 'paid', 'approved'];
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -46,6 +47,8 @@ export default function OrderDetailsPage() {
         return 'bg-red-100 text-red-800';
       case 'shipped':
         return 'bg-purple-100 text-purple-800';
+      case 'approved':
+        return 'bg-yellow-100 text-yellow-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -61,6 +64,8 @@ export default function OrderDetailsPage() {
         return 1;
       case 'paid':
         return 2;
+      case 'approved':
+        return 3;
       default:
         return 0;
     }
@@ -138,6 +143,7 @@ export default function OrderDetailsPage() {
                       {status === 'pending' && 'Order is being processed'}
                       {status === 'shipped' && 'Order has been shipped'}
                       {status === 'paid' && 'Payment confirmed'}
+                      {status === 'approved' && 'Order has been approved'}
                       {status === 'cancelled' && 'Order was cancelled'}
                     </p>
                     {hasReachedStatus && (
@@ -148,7 +154,7 @@ export default function OrderDetailsPage() {
                             {order.createdAt.toLocaleTimeString()}
                           </>
                         )}
-                        {['paid', 'cancelled'].includes(status) && (
+                        {['paid', 'cancelled', 'approved'].includes(status) && (
                           <>
                             {order.updatedAt.toLocaleDateString()} at
                             {order.updatedAt.toLocaleTimeString()}

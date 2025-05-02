@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import { TAX_RATE } from '@/utils/calcTax';
 import { doublePrecision, integer, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { user } from './auth';
@@ -16,9 +15,9 @@ export const order = pgTable('order', {
   address: text('address').notNull(),
   total: doublePrecision('total').notNull(),
   tax: doublePrecision('tax').default(TAX_RATE).notNull(),
-  status: text('status', { enum: ['pending', 'paid', 'cancelled', 'shipped'] })
+  status: text('status', { enum: ['pending', 'approved', 'paid', 'cancelled', 'shipped'] })
     .notNull()
-    .default('pending'), // e.g., pending, paid, cancelled, shipped
+    .default('pending'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });

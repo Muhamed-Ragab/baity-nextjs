@@ -14,17 +14,15 @@ import OrdersTable from './components/OrdersTable';
 const statusOptions = [
   { label: 'Pending', value: 'pending' },
   { label: 'Paid', value: 'paid' },
+  { label: 'Approved', value: 'approved' },
   { label: 'Shipped', value: 'shipped' },
   { label: 'Cancelled', value: 'cancelled' },
 ];
 
 export default function AdminOrdersPage() {
-  const { loading, data, refresh } = useRequest(getAdminOrders);
+  const { loading, data: orders = [], refresh } = useRequest(getAdminOrders);
   const [search, setSearch] = useState('');
-  const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const [page, setPage] = useState(1);
-
-  const orders = data || [];
 
   const filteredOrders = useMemo(() => {
     if (!search) return orders;
