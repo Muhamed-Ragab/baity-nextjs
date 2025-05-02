@@ -19,7 +19,11 @@ export default async function ChiefsPage({
   }
 
   if (!data || data.chiefs.length === 0) {
-    return <div className='container mx-auto px-4 py-8'>No chiefs found</div>;
+    return (
+      <div className='container mx-auto px-4 py-8'>
+        <p className='text-center text-2xl text-muted-foreground'>No chiefs found</p>
+      </div>
+    );
   }
 
   const { chiefs, totalPages, currentPage } = data;

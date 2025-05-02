@@ -35,10 +35,31 @@ export default function OrdersPage() {
     refreshDeps: [currentPage],
   });
 
-  if (loading || !orders) {
+  if (loading) {
     return (
       <div className='flex justify-center py-12'>
         <Spinner size='lg' />
+      </div>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <div className='py-12 text-center'>
+        <FiPackage className='mx-auto mb-4 text-5xl text-gray-300' />
+        <h2 className='mb-2 font-semibold text-xl'>No orders found</h2>
+        <p className='mb-6 text-gray-500'>
+          {searchQuery || statusFilter !== 'all'
+            ? 'Try adjusting your filters to see more results'
+            : "You haven't placed any orders yet"}
+        </p>
+        <Button
+          as={Link}
+          href='/'
+          className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
+        >
+          Browse Products
+        </Button>
       </div>
     );
   }

@@ -11,6 +11,10 @@ export default async function ProductsPage({
   const products = await getProducts({ limit, page, status: 'active' });
   const hasNextPage = products.length === limit;
 
+  if (page > 1 && products.length === 0) {
+    return <h1 className='text-center font-bold text-3xl'>Page not found</h1>;
+  }
+
   return (
     <main className='container py-8'>
       <h1 className='mb-8 text-center font-bold text-4xl'>All Products</h1>

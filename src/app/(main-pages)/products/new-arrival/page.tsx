@@ -4,6 +4,10 @@ import ProductCard from '../components/ProductCard';
 export default async function NewArrivalsPage() {
   const products = await getNewArrival();
 
+  if (products.length === 0) {
+    return <h1 className='text-center font-bold text-3xl'>No products found</h1>;
+  }
+
   return (
     <main className='container py-8'>
       <h1 className='mb-8 text-center font-bold text-4xl'>New Arrivals</h1>
