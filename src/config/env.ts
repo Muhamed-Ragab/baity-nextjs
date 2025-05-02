@@ -5,7 +5,7 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(['development', 'production', 'test']),
     BASE_URL: z.string(),
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.string(),
     BETTER_AUTH_URL: z.string(),
     BETTER_AUTH_SECRET: z.string(),
     SMTP_URL: z.string(),
@@ -19,7 +19,7 @@ export const env = createEnv({
     STRIPE_WEBHOOK_SECRET: z.string(),
   },
   client: {
-    NEXT_PUBLIC_BASE_URL: z.string().url(),
+    NEXT_PUBLIC_BASE_URL: z.string(),
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
