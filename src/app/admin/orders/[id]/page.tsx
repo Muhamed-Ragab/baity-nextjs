@@ -13,7 +13,7 @@ export default function OrderDetailsPage() {
   const router = useRouter();
   const { id } = useParams() as { id: string };
   const { loading, data: order } = useRequest(getOrderById, {
-    defaultParams: [id, true],
+    defaultParams: [id],
   });
 
   const getStatusColor = (status: Order['status']) => {
