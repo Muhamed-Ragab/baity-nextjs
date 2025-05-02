@@ -1,13 +1,5 @@
 export const getCurrency = (amount: number) => {
-  const formattedNumber = new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'EGP',
-    unitDisplay: 'short',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(amount);
-
-  return formattedNumber;
+  return `EGP ${amount.toFixed(2)}`;
 };
 
 // export const getCurrency = (amount: number) =>

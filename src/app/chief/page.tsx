@@ -43,7 +43,9 @@ export default function ChiefDashboardPage() {
   // Calculate metrics
   const totalProducts = products.length;
   const totalOrders = orders.length;
-  const totalRevenue = Math.round(orders.reduce((total, order) => total + order.total, 0) || 0);
+  const totalRevenue = Math.round(
+    orders.reduce((total, order) => total + order.total * order.quantity, 0) || 0,
+  );
 
   // Group orders by date for chart
   const ordersGroupedByDate = orders

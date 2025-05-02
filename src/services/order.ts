@@ -13,13 +13,12 @@ export const createOrder = async (orderData: NewOrder) => {
   return orders[0];
 };
 
-export const getOrderById = async (id: string, isChief = false) => {
+export const getOrderById = async (id: string) => {
   const auth = await getAuth();
 
   const result = await db.query.order.findFirst({
-    ...(auth.role !== 'admin' && {
-      where: isChief ? eq(order.id, id) : and(eq(order.id, id), eq(order.userId, auth.id)),
-    }),
+    where:
+      auth.role !== 'user' ? eq(order.id, id) : and(eq(order.id, id), eq(order.userId, auth.id)),
     with: {
       user: true,
       product: {
@@ -32,7 +31,7 @@ export const getOrderById = async (id: string, isChief = false) => {
 
   const isOwner = result.product.userId === auth.id;
 
-  if (!isOwner && isChief) {
+  if (!isOwner && auth.role === 'chief') {
     return null;
   }
 
@@ -128,7 +127,7 @@ export const getOrdersByProductId = async (productId: string) => {
 };
 
 export const updateOrder = async (id: string, orderData: Partial<Order>) => {
-  const [getOrderError] = await tryCatch(getOrderById(id, true));
+  const [getOrderError] = await tryCatch(getOrderById(id));
 
   if (getOrderError) throw getOrderError;
 

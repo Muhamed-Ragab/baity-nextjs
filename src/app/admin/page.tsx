@@ -65,7 +65,9 @@ export default function AdminPage() {
   };
 
   const paidOrders = orders.filter((order) => order.status === 'paid');
-  const totalRevenue = Math.round(paidOrders.reduce((total, order) => total + order.total, 0) || 0);
+  const totalRevenue = Math.round(
+    paidOrders.reduce((total, order) => total + order.total * order.quantity, 0) || 0,
+  );
 
   const ComponentMap = {
     dashboard: (
