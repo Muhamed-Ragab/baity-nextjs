@@ -52,28 +52,34 @@ export default function ChiefOrdersPage() {
   const page = Number.parseInt(pageParam, 10);
 
   const limit = 10;
-  const { loading, data: orders = [] } = useRequest(() => getDashboardOrders({ page, limit }));
-  const { loading: updateLoading, run: runUpdateOrder } = useRequest(updateOrder, {
+  const {
+    loading,
+    data: orders = [],
+    refreshAsync: refreshOrderAsync,
+  } = useRequest(() => getDashboardOrders({ page, limit }));
+  const { loading: updateLoading, runAsync: runAsyncUpdateOrder } = useRequest(updateOrder, {
     manual: true,
   });
   const hasNextPage = orders.length === limit;
 
-  const handleApproveOrder = (orderId: string) => {
-    runUpdateOrder(orderId, { status: 'approved' });
+  const handleApproveOrder = async (orderId: string) => {
+    await runAsyncUpdateOrder(orderId, { status: 'approved' });
     addToast({
       title: 'Order approved',
       description: 'The order has been approved',
       color: 'success',
     });
+    await refreshOrderAsync();
   };
 
-  const handleCancelOrder = (orderId: string) => {
-    runUpdateOrder(orderId, { status: 'cancelled' });
+  const handleCancelOrder = async (orderId: string) => {
+    await runAsyncUpdateOrder(orderId, { status: 'cancelled' });
     addToast({
       title: 'Order cancelled',
       description: 'The order has been cancelled',
       color: 'danger',
     });
+    await refreshOrderAsync();
   };
 
   if (loading) {
@@ -191,7 +197,7 @@ export default function ChiefOrdersPage() {
                                   color='success'
                                   variant='flat'
                                   aria-label='Approve order'
-                                  onPress={() => handleApproveOrder(order.id)}
+                                  onPress={async () => await handleApproveOrder(order.id)}
                                   isDisabled={updateLoading}
                                   isLoading={updateLoading}
                                 >
@@ -202,7 +208,7 @@ export default function ChiefOrdersPage() {
                                   color='danger'
                                   variant='flat'
                                   aria-label='Cancel order'
-                                  onPress={() => handleCancelOrder(order.id)}
+                                  onPress={async () => await handleCancelOrder(order.id)}
                                   isDisabled={updateLoading}
                                   isLoading={updateLoading}
                                 >
