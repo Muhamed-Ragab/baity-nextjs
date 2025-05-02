@@ -48,7 +48,7 @@ export const auth = betterAuth({
       online: {
         type: 'boolean',
         defaultValue: false,
-        required: true,
+        required: false,
       },
       role: {
         type: 'string',
@@ -104,12 +104,6 @@ export const auth = betterAuth({
   },
   plugins: [
     admin(),
-    validator({
-      middlewares: [
-        { path: '/sign-up/email', schemas: { body: RegisterSchema } },
-        { path: '/sign-in/email', schemas: { body: LoginSchema } },
-      ],
-    }),
     stripePlugin({
       stripeClient,
       stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
