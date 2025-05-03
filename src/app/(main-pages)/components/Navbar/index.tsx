@@ -1,10 +1,10 @@
-import { Button, Image } from '@/components/heroui';
+import { Button } from '@/components/heroui';
 import { getAuth } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import Link from 'next/link';
-import { GrLanguage } from 'react-icons/gr';
 import { MdOutlineShoppingBag } from 'react-icons/md';
 import MainPagesMobileSheet from './MainPagesMobileSheet';
+import Image from 'next/image';
 
 export const Navbar = async () => {
   const [authError, user] = await tryCatch(getAuth());
@@ -12,7 +12,7 @@ export const Navbar = async () => {
   return (
     <nav className='container flex items-center justify-between gap-8 pt-3'>
       <Link href='/' className='w-36'>
-        <Image alt='pclap logo' src='/next.svg' fetchPriority='high' width={60} height={60} />
+        <Image alt='baity logo' src='/logo.png' fetchPriority='high' width={60} height={60} />
       </Link>
 
       <div className='flex items-center gap-4'>

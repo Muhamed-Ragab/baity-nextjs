@@ -9,7 +9,6 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
         <Menubar />
       </header>
       <main className='min-h-screen overflow-y-auto pb-8'>{children}</main>
-      {/* <Footer /> */}
     </>
   );
 };
