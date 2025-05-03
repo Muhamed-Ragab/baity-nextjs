@@ -16,7 +16,7 @@ export default async function ChiefPage({ params }: { params: Promise<{ id: stri
     notFound();
   }
 
-  const { chief, rating, totalOrders } = data;
+  const { chef, rating, totalOrders } = data;
 
   return (
     <main className='container mx-auto px-4 py-8'>
@@ -28,30 +28,30 @@ export default async function ChiefPage({ params }: { params: Promise<{ id: stri
               <div className='relative h-48 bg-gradient-to-r from-customBlue to-customLightBlue'>
                 <div className='-bottom-16 -translate-x-1/2 absolute left-1/2'>
                   <Image
-                    src={chief.image ?? ''}
-                    alt={chief.name}
+                    src={chef.image ?? ''}
+                    alt={chef.name}
                     className='h-32 w-32 rounded-full border-4 border-white object-cover'
                   />
                 </div>
               </div>
               <div className='px-6 pt-20 pb-6 text-center'>
                 <div className='mb-2 flex items-center justify-center gap-2'>
-                  <h1 className='font-bold text-2xl'>{chief.name}</h1>
-                  {chief.emailVerified && <MdVerified className='text-blue-500 text-xl' />}
+                  <h1 className='font-bold text-2xl'>{chef.name}</h1>
+                  {chef.emailVerified && <MdVerified className='text-blue-500 text-xl' />}
                 </div>
                 <p
                   className={cn(
                     'inline-flex items-center rounded-full px-3 py-1 font-medium text-sm backdrop-blur-xl',
-                    chief.online ? 'bg-green-100/40 text-green-800' : 'bg-red-100/40 text-red-800',
+                    chef.online ? 'bg-green-100/40 text-green-800' : 'bg-red-100/40 text-red-800',
                   )}
                 >
                   <span
                     className={cn(
                       'mr-1 h-2 w-2 rounded-full',
-                      chief.online ? 'bg-green-400' : 'bg-red-400',
+                      chef.online ? 'bg-green-400' : 'bg-red-400',
                     )}
                   />
-                  {chief.online ? 'Online' : 'Offline'}
+                  {chef.online ? 'Online' : 'Offline'}
                 </p>
               </div>
             </CardBody>
@@ -63,11 +63,11 @@ export default async function ChiefPage({ params }: { params: Promise<{ id: stri
               <div className='space-y-3'>
                 <div className='flex items-center gap-3 text-muted-foreground'>
                   <MdEmail className='text-xl' />
-                  <span>{chief.email}</span>
+                  <span>{chef.email}</span>
                 </div>
                 <div className='flex items-center gap-3 text-muted-foreground'>
                   <MdPhone className='text-xl' />
-                  <span>{chief.phone}</span>
+                  <span>{chef.phone}</span>
                 </div>
               </div>
             </CardBody>
@@ -79,7 +79,7 @@ export default async function ChiefPage({ params }: { params: Promise<{ id: stri
               <div className='grid grid-cols-3 items-center gap-4'>
                 <div className='space-y-1 rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-900'>
                   <MdShoppingBag className='mx-auto text-2xl text-blue-500' />
-                  <p className='font-bold text-2xl'>{chief.products?.length ?? 0}</p>
+                  <p className='font-bold text-2xl'>{chef.products?.length ?? 0}</p>
                   <p className='text-muted-foreground text-sm'>Products</p>
                 </div>
                 <div className='space-y-1 rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-900'>
@@ -102,10 +102,10 @@ export default async function ChiefPage({ params }: { params: Promise<{ id: stri
           <h2 className='font-bold text-2xl'>Products</h2>
 
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-            {chief.products?.map((product) => (
+            {chef.products?.map((product) => (
               <NewArrivalCard key={product.id} {...product} />
             ))}
-            {chief.products?.length === 0 && (
+            {chef.products?.length === 0 && (
               <p className='col-span-full text-center text-muted-foreground'>
                 No products available
               </p>

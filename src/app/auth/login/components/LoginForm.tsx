@@ -30,7 +30,7 @@ export const LoginForm = () => {
     const user = await getAuth();
 
     addToast({ title: 'Logged in successfully', color: 'success' });
-    redirect(user.role === 'admin' ? '/admin' : user.role === 'chief' ? '/chief' : '/');
+    redirect(user.role === 'admin' ? '/admin' : user.role === 'chef' ? '/chef' : '/');
   };
 
   return (

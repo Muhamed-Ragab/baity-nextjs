@@ -29,8 +29,8 @@ const MainPagesMobileSheet = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <SheetTitle>Menu</SheetTitle>
         </SheetHeader>
         <div className='mt-5 flex w-full flex-col gap-3'>
-          <Button variant='flat' className='font-semibold uppercase' as={Link} href='/chiefs'>
-            Chiefs
+          <Button variant='flat' className='font-semibold uppercase' as={Link} href='/chefs'>
+            chefs
           </Button>
           <Button
             variant='flat'
@@ -65,3 +65,4 @@ const MainPagesMobileSheet = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 };
 
 export default MainPagesMobileSheet;
+

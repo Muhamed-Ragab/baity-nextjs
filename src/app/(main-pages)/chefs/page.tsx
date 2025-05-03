@@ -1,8 +1,8 @@
 import { getChiefs } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
-import { ChiefCard } from './components/ChiefCard';
-import { ChiefsPagination } from './components/ChiefsPagination';
+import { ChiefCard } from './components/ChefCard';
+import { ChiefsPagination } from './components/ChefsPagination';
 
 export default async function ChiefsPage({
   searchParams,
@@ -18,23 +18,23 @@ export default async function ChiefsPage({
     notFound();
   }
 
-  if (!data || data.chiefs.length === 0) {
+  if (!data || data.chefs.length === 0) {
     return (
       <div className='container mx-auto px-4 py-8'>
-        <p className='text-center text-2xl text-muted-foreground'>No chiefs found</p>
+        <p className='text-center text-2xl text-muted-foreground'>No chefs found</p>
       </div>
     );
   }
 
-  const { chiefs, totalPages, currentPage } = data;
+  const { chefs, totalPages, currentPage } = data;
 
   return (
     <main className='container mx-auto px-4 py-8'>
-      <h1 className='mb-8 text-center font-bold text-3xl'>Our Chiefs</h1>
+      <h1 className='mb-8 text-center font-bold text-3xl'>Our chefs</h1>
 
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-        {chiefs.map((chief) => (
-          <ChiefCard key={chief.id} {...chief} />
+        {chefs.map((chef) => (
+          <ChiefCard key={chef.id} {...chef} />
         ))}
       </div>
 

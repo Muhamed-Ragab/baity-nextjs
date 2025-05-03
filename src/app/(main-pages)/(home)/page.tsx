@@ -20,7 +20,7 @@ const Home = async () => {
         title='Best Sellers'
         data={bestSellers}
         Item={BestSellerCard}
-        viewAllLink='/chiefs'
+        viewAllLink='/chefs'
       />
       <CardsContainer
         title='New Arrival'
@@ -39,3 +39,4 @@ const Home = async () => {
 };
 
 export default Home;
+

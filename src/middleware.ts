@@ -25,8 +25,8 @@ export default async function middleware(req: NextRequest) {
   const { user } = session;
 
   if (pathname !== '/profile') {
-    if (user.role === 'chief' && !pathname.startsWith('/chief')) {
-      return NextResponse.redirect(new URL('/chief', url));
+    if (user.role === 'chef' && !pathname.startsWith('/chef')) {
+      return NextResponse.redirect(new URL('/chef', url));
     }
 
     if (user.role === 'admin' && !pathname.startsWith('/admin')) {
@@ -42,3 +42,4 @@ export const config = {
     '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|images|public).*)',
   ],
 };
+

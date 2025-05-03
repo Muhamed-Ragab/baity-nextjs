@@ -11,7 +11,7 @@ import { subscription } from '@/db/schema';
 export const createProduct = async (data: NewProduct) => {
   const [authError, auth] = await tryCatch(getAuth());
 
-  if (authError || auth.role !== 'chief' || !auth.stripeCustomerId) {
+  if (authError || auth.role !== 'chef' || !auth.stripeCustomerId) {
     throw new Error('Unauthorized');
   }
 
@@ -90,7 +90,7 @@ export const getProducts = async ({
   });
 
   const unbannedchiefProducts = dbProduct.filter(
-    (product) => product.user.role === 'chief' && !product.user.banned,
+    (product) => product.user.role === 'chef' && !product.user.banned,
   );
 
   const sortedByFeatured = unbannedchiefProducts.sort((a, b) =>
@@ -194,3 +194,4 @@ export const updateProductById = async (id: string, data: Partial<NewProduct>) =
 
   return result[0];
 };
+

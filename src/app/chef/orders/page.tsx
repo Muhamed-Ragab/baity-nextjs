@@ -183,7 +183,7 @@ export default function ChiefOrdersPage() {
                           <div className='flex gap-2'>
                             <Button
                               as={Link}
-                              href={`/chief/orders/${order.id}`}
+                              href={`/chef/orders/${order.id}`}
                               isIconOnly
                               variant='light'
                               aria-label='View order details'
@@ -241,3 +241,4 @@ export default function ChiefOrdersPage() {
     </main>
   );
 }
+

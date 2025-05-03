@@ -13,7 +13,7 @@ export const getSubscriptionAction = async () => {
 
   console.log(auth);
 
-  if (authError || auth.role !== 'chief' || !auth.stripeCustomerId) {
+  if (authError || auth.role !== 'chef' || !auth.stripeCustomerId) {
     return {
       success: false,
       message: authError?.message,
@@ -39,7 +39,7 @@ export const subscribeAction = async (planId: 'pro' | (string & {})) => {
     headers: await headers(),
     body: {
       plan: planId,
-      successUrl: `${process.env.BASE_URL}/chief`,
+      successUrl: `${process.env.BASE_URL}/chef`,
     },
   });
 
@@ -50,9 +50,10 @@ export const cancelSubscriptionAction = async () => {
   const { url } = await auth.api.cancelSubscription({
     headers: await headers(),
     body: {
-      returnUrl: `${process.env.BASE_URL}/chief`,
+      returnUrl: `${process.env.BASE_URL}/chef`,
     },
   });
 
   return { url };
 };
+

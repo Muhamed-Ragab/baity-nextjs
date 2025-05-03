@@ -27,7 +27,7 @@ export default function Header() {
     <header className='bg-white shadow-sm'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
-          <h1 className='font-bold text-2xl text-gray-900'>Baity Chief Dashboard</h1>
+          <h1 className='font-bold text-2xl text-gray-900'>Baity chef Dashboard</h1>
           <div className='flex items-center'>
             <Button
               type='button'
@@ -52,11 +52,11 @@ export default function Header() {
               <img
                 className='h-8 w-8 rounded-full'
                 src={auth?.image ?? '/default-avatar.png'}
-                alt='Chief'
+                alt='chef'
                 draggable='false'
               />
               <span className='ml-2 font-medium text-gray-700 text-sm'>
-                {auth?.name ?? 'Chief'}
+                {auth?.name ?? 'chef'}
               </span>
             </Link>
           </div>
@@ -65,3 +65,4 @@ export default function Header() {
     </header>
   );
 }
+

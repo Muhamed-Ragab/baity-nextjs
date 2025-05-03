@@ -31,7 +31,7 @@ export const getOrderById = async (id: string) => {
 
   const isOwner = result.product.userId === auth.id;
 
-  if (!isOwner && auth.role === 'chief') {
+  if (!isOwner && auth.role === 'chef') {
     return null;
   }
 
@@ -139,3 +139,4 @@ export const updateOrder = async (id: string, orderData: Partial<Order>) => {
 
   return orders[0];
 };
+

@@ -51,7 +51,7 @@ export default function CreateProductPage() {
       title: 'Product created successfully!',
       color: 'success',
     });
-    router.push('/chief/products');
+    router.push('/chef/products');
   };
 
   return (
@@ -139,3 +139,4 @@ export default function CreateProductPage() {
     </main>
   );
 }
+

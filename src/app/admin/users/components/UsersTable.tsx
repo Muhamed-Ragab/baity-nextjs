@@ -69,7 +69,7 @@ export default function UsersTable({ users, loading, onBanToggle, onRoleChange }
               >
                 <SelectItem key='user'>User</SelectItem>
                 <SelectItem key='admin'>Admin</SelectItem>
-                <SelectItem key='chief'>Chief</SelectItem>
+                <SelectItem key='chef'>chef</SelectItem>
                 {/* Add more roles as needed */}
               </Select>
             </TableCell>
@@ -79,3 +79,4 @@ export default function UsersTable({ users, loading, onBanToggle, onRoleChange }
     </Table>
   );
 }
+

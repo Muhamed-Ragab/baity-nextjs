@@ -32,7 +32,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       {user && (
         <section className='mb-8'>
           <h2 className='mb-2 font-semibold text-lg'>Seller</h2>
-          <Link href={`/chiefs/${user.id}`} className='font-semibold text-primary underline'>
+          <Link href={`/chefs/${user.id}`} className='font-semibold text-primary underline'>
             {user.name}
           </Link>
           <p className='text-gray-500 text-sm'>
@@ -70,3 +70,4 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
 };
 
 export default ProductInfo;
+

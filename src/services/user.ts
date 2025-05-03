@@ -76,7 +76,7 @@ export const getBestSellers = async (limit = 10) => {
         },
       },
     },
-    where: (user, { and, eq }) => and(eq(user.role, 'chief'), eq(user.banned, false)),
+    where: (user, { and, eq }) => and(eq(user.role, 'chef'), eq(user.banned, false)),
   });
 
   const usersSortedByTotalAmount = users
@@ -100,23 +100,23 @@ export const getBestSellers = async (limit = 10) => {
 export const getChiefs = async (page = 1, limit = 12) => {
   const offset = (page - 1) * limit;
 
-  const chiefs = await db.query.user.findMany({
+  const chefs = await db.query.user.findMany({
     limit,
     offset,
     orderBy: (user, { desc }) => [desc(user.createdAt)],
-    where: (user, { and, eq }) => and(eq(user.role, 'chief'), eq(user.banned, false)),
+    where: (user, { and, eq }) => and(eq(user.role, 'chef'), eq(user.banned, false)),
   });
 
   return {
-    chiefs,
-    totalPages: Math.ceil(chiefs.length / limit),
+    chefs,
+    totalPages: Math.ceil(chefs.length / limit),
     currentPage: page,
   };
 };
 
 export const getChiefById = async (id: string) => {
-  const chief = await db.query.user.findFirst({
-    where: (user, { and, eq }) => and(eq(user.id, id), eq(user.role, 'chief')),
+  const chef = await db.query.user.findFirst({
+    where: (user, { and, eq }) => and(eq(user.id, id), eq(user.role, 'chef')),
     with: {
       products: {
         orderBy: (product, { desc }) => [desc(product.createdAt)],
@@ -129,11 +129,11 @@ export const getChiefById = async (id: string) => {
     },
   });
 
-  if (!chief) {
-    throw new Error('Chief not found');
+  if (!chef) {
+    throw new Error('chef not found');
   }
 
-  const activeChiefProducts = chief.products.filter((product) => product.status === 'active');
+  const activeChiefProducts = chef.products.filter((product) => product.status === 'active');
 
   const paidOrders = activeChiefProducts.flatMap((product) =>
     product.orders.filter((order) => order.status === 'paid'),
@@ -150,7 +150,7 @@ export const getChiefById = async (id: string) => {
     }, 0) / activeChiefProducts.length || 0;
 
   return {
-    chief: { ...chief, products: activeChiefProducts },
+    chef: { ...chef, products: activeChiefProducts },
     totalOrders,
     rating,
   };
@@ -165,8 +165,9 @@ export const getChiefByProductId = async (productId: string) => {
   });
 
   if (!product) {
-    throw new Error('Chief not found');
+    throw new Error('chef not found');
   }
 
   return product.user;
 };
+

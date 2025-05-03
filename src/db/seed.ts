@@ -27,7 +27,7 @@ const createUser = async (index: number) => {
         email: faker.internet.email({ firstName: `test${index}` }),
         password: '123456aA',
         // @ts-ignore
-        role: faker.helpers.arrayElement(['chief', 'user']),
+        role: faker.helpers.arrayElement(['chef', 'user']),
         data: {
           phone: faker.phone.number(),
           emailVerified: faker.datatype.boolean(),
@@ -144,11 +144,11 @@ const createCustomUsers = async () => {
 
   await auth.api.createUser({
     body: {
-      name: 'Techno Zone - Chief',
+      name: 'Techno Zone - chef',
       email: 'technozone0191@gmail.com',
       password: '123456aA',
       // @ts-ignore
-      role: 'chief',
+      role: 'chef',
       data: {
         phone: faker.phone.number(),
         emailVerified: true,
@@ -156,7 +156,7 @@ const createCustomUsers = async () => {
       },
     },
   });
-  console.log('Chief user created: Techno Zone - Chief (technozone0191@gmail.com)');
+  console.log('chef user created: Techno Zone - chef (technozone0191@gmail.com)');
 
   await auth.api.createUser({
     body: {
@@ -231,12 +231,12 @@ const [users] = await Promise.all([
 ]);
 
 const usersByRole = Object.groupBy(users, (user) =>
-  user.role === 'user' ? 'users' : user.role === 'chief' ? 'chiefs' : 'admins',
+  user.role === 'user' ? 'users' : user.role === 'chef' ? 'chefs' : 'admins',
 );
 
 let products: Product[][] = [];
-if (usersByRole.chiefs) {
-  const productsPromises = usersByRole.chiefs.map(async (user) => {
+if (usersByRole.chefs) {
+  const productsPromises = usersByRole.chefs.map(async (user) => {
     const productsForUser = await createProducts(user);
     console.log(`Products created for user ${user.id}`);
     await delay(1000); // Delay after product creation
@@ -258,3 +258,4 @@ if (usersByRole.users) {
     }),
   );
 }
+

@@ -14,7 +14,7 @@ const SUBSCRIPTION_PLANS = [
     id: 'pro',
     name: 'Pro Plan',
     price: 499.99,
-    features: ['Chief badge', 'Advanced analytics', 'Priority support', 'Featured products'],
+    features: ['chef badge', 'Advanced analytics', 'Priority support', 'Featured products'],
     recommended: true,
   },
 ];
@@ -105,7 +105,7 @@ export default function ChiefSubscribePage() {
 
   return (
     <div className='container mx-auto max-w-5xl px-4 py-8'>
-      <h1 className='mb-8 font-bold text-3xl'>Chief Subscription Plans</h1>
+      <h1 className='mb-8 font-bold text-3xl'>chef Subscription Plans</h1>
 
       <p className='mb-8 text-gray-600'>
         Choose a subscription plan that best fits your business needs. Upgrade or downgrade anytime.
@@ -169,3 +169,4 @@ export default function ChiefSubscribePage() {
     </div>
   );
 }
+

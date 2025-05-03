@@ -10,7 +10,7 @@ export const user = pgTable('user', {
   updatedAt: timestamp('updated_at').notNull(),
   online: boolean('online').notNull().default(false),
   role: text('role', {
-    enum: ['admin', 'user', 'chief'],
+    enum: ['admin', 'user', 'chef'],
   })
     .notNull()
     .default('user'),
@@ -74,3 +74,4 @@ export const subscription = pgTable('subscription', {
   cancelAtPeriodEnd: boolean('cancel_at_period_end'),
   seats: integer('seats'),
 });
+

@@ -63,7 +63,7 @@ export default function ChiefProductsPage() {
 
         <Button
           as={Link}
-          href='/chief/products/new'
+          href='/chef/products/new'
           className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
           startContent={<FiPlus />}
         >
@@ -116,7 +116,7 @@ export default function ChiefProductsPage() {
               <p className='mb-4 text-gray-500'>No products found</p>
               <Button
                 as={Link}
-                href='/chief/products/new'
+                href='/chef/products/new'
                 className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
               >
                 Create Your First Product
@@ -164,7 +164,7 @@ export default function ChiefProductsPage() {
                         <div className='mt-4 flex gap-2'>
                           <Button
                             as={Link}
-                            href={`/chief/products/edit/${product.id}`}
+                            href={`/chef/products/edit/${product.id}`}
                             variant='flat'
                             color='primary'
                             startContent={<FiEdit />}
@@ -182,7 +182,7 @@ export default function ChiefProductsPage() {
                               {product.status === 'active' ? 'Set Inactive' : 'Set Active'}
                             </Button>
                           )}
-                          <Button as={Link} href={`/chief/products/${product.id}`} variant='flat'>
+                          <Button as={Link} href={`/chef/products/${product.id}`} variant='flat'>
                             View
                           </Button>
                         </div>
@@ -198,3 +198,4 @@ export default function ChiefProductsPage() {
     </main>
   );
 }
+

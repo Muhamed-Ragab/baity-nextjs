@@ -17,11 +17,11 @@ export async function MenubarTaps() {
       </Link>
       <Divider orientation='vertical' />
       <Link
-        href='/chiefs'
+        href='/chefs'
         color='foreground'
         className='cursor-pointer font-semibold text-black uppercase'
       >
-        Chiefs
+        chefs
       </Link>
       <Divider orientation='vertical' />
       <Link
@@ -47,3 +47,4 @@ export async function MenubarTaps() {
     </div>
   );
 }
+

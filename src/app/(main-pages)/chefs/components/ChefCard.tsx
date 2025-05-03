@@ -47,7 +47,7 @@ export const ChiefCard = ({ id, name, image, emailVerified, online }: User) => {
             className='mt-auto w-full bg-gradient-to-tr from-customBlue to-customLightBlue text-white shadow-sm'
             fullWidth
             as={Link}
-            href={`/chiefs/${id}`}
+            href={`/chefs/${id}`}
           >
             View Profile
           </Button>

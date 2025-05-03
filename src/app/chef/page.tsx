@@ -38,7 +38,7 @@ export default function ChiefDashboardPage() {
     );
   }
 
-  // Filter orders for this chief (in a real app, this would be done on the server)
+  // Filter orders for this chef (in a real app, this would be done on the server)
 
   // Calculate metrics
   const totalProducts = products.length;
@@ -76,7 +76,7 @@ export default function ChiefDashboardPage() {
         <h1 className='font-bold text-3xl'>Dashboard</h1>
         <Button
           as={Link}
-          href='/chief/subscribe'
+          href='/chef/subscribe'
           color='primary'
           className='flex items-center gap-2'
         >
@@ -178,7 +178,7 @@ export default function ChiefDashboardPage() {
         <CardBody className='p-6'>
           <div className='mb-4 flex items-center justify-between'>
             <h3 className='font-medium text-gray-900 text-lg'>Recent Orders</h3>
-            <Button as={Link} href='/chief/orders' variant='flat' color='primary'>
+            <Button as={Link} href='/chef/orders' variant='flat' color='primary'>
               View All
             </Button>
           </div>
@@ -257,3 +257,4 @@ const getStatusColor = (status: Order['status']) => {
       return 'bg-gray-100 text-gray-800';
   }
 };
+

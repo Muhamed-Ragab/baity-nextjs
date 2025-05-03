@@ -17,13 +17,13 @@ interface BuyProductProps {
 }
 
 export default function CheckoutButton({ order }: BuyProductProps) {
-  const { data: chief } = useRequest(getChiefByProductId, {
+  const { data: chef } = useRequest(getChiefByProductId, {
     refreshDeps: [order.productId],
     refreshOnWindowFocus: true,
     defaultParams: [order.productId],
     onSuccess: (data) => {
       if (!data.online) {
-        addToast({ title: 'Chief is Offline', color: 'danger' });
+        addToast({ title: 'chef is Offline', color: 'danger' });
         return;
       }
     },
@@ -32,8 +32,8 @@ export default function CheckoutButton({ order }: BuyProductProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBuyProduct = async () => {
-    if (!chief?.online) {
-      addToast({ title: 'Chief is Offline', color: 'danger' });
+    if (!chef?.online) {
+      addToast({ title: 'chef is Offline', color: 'danger' });
       return;
     }
 
@@ -54,14 +54,15 @@ export default function CheckoutButton({ order }: BuyProductProps) {
 
   return (
     <Button
-      color={chief?.online ? 'primary' : 'danger'}
-      variant={chief?.online ? 'solid' : 'flat'}
+      color={chef?.online ? 'primary' : 'danger'}
+      variant={chef?.online ? 'solid' : 'flat'}
       fullWidth
       onPress={handleBuyProduct}
-      isDisabled={isLoading || !chief?.online}
+      isDisabled={isLoading || !chef?.online}
       isLoading={isLoading}
     >
-      {chief?.online ? 'Buy Now' : 'Chief is Offline'}
+      {chef?.online ? 'Buy Now' : 'chef is Offline'}
     </Button>
   );
 }
+

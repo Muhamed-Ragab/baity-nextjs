@@ -16,7 +16,7 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
       <Card className='group border-none pt-1 pb-2' radius='md'>
         <CardBody className='flex aspect-[2/3] h-full flex-col gap-4 p-2'>
           <figure className='relative h-full w-full overflow-hidden'>
-            <Link href={`/chiefs/${id}`}>
+            <Link href={`/chefs/${id}`}>
               <Image
                 className='aspect-square size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'
                 src={image ?? ''}
@@ -39,7 +39,7 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
                 />
                 {online ? 'Online' : 'Offline'}
               </p>
-              <Link href={`/chiefs/${id}`} className='flex items-center gap-1'>
+              <Link href={`/chefs/${id}`} className='flex items-center gap-1'>
                 <h4 className='line-clamp-2 flex-1 font-semibold text-sm duration-250 hover:opacity-60 sm:text-base'>
                   {name}
                 </h4>
@@ -52,7 +52,7 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
             className='bg-gradient-to-tr from-customBlue to-customLightBlue text-white shadow-sm'
             fullWidth
             as={Link}
-            href={`/chiefs/${id}`}
+            href={`/chefs/${id}`}
           >
             View
           </Button>
@@ -61,3 +61,4 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
     </div>
   );
 };
+

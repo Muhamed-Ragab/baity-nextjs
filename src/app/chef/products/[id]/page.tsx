@@ -80,7 +80,7 @@ export default function ChiefProductDetailPage() {
               <div className='mt-6 flex gap-2'>
                 <Button
                   as='a'
-                  href={`/chief/products/edit/${product.id}`}
+                  href={`/chef/products/edit/${product.id}`}
                   variant='flat'
                   color='primary'
                 >

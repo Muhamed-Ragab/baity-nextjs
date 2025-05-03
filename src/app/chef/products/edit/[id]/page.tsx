@@ -75,7 +75,7 @@ export default function EditProductPage() {
       title: 'Product updated successfully!',
       color: 'success',
     });
-    router.push('/chief/products');
+    router.push('/chef/products');
   };
 
   return (
