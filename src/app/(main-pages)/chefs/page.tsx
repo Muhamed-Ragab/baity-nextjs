@@ -2,7 +2,7 @@ import { getChefs } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
 import { ChefCard } from './components/ChefCard';
-import { ChefsPagination } from './components/ChefsPagiantion';
+import { ChefsPagination } from './components/ChefsPagination';
 
 export default async function ChefsPage({
   searchParams,
