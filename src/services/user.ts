@@ -107,11 +107,13 @@ export const getChefs = async (page = 1, limit = 12) => {
     limit,
     offset,
     orderBy: (user, { desc }) => [desc(user.createdAt)],
-    where: (user, { and, eq }) => and(eq(user.role, 'chef'), eq(user.banned, false)),
+    where: (user, { and, eq }) => and(eq(user.role, 'chef')),
   });
 
+  const unbannedUsers = chefs.filter((user) => !user.banned);
+
   return {
-    chefs,
+    chefs: unbannedUsers,
     totalPages: Math.ceil(chefs.length / limit),
     currentPage: page,
   };
