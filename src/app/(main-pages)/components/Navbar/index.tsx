@@ -12,7 +12,7 @@ export const Navbar = async () => {
   return (
     <nav className='container flex items-center justify-between gap-8 pt-3'>
       <Link href='/' className='w-36'>
-        <Image alt='baity logo' src='/logo.png' fetchPriority='high' width={60} height={60} />
+        <Image alt='baity logo' src='/logo.png' priority width={60} height={60} />
       </Link>
 
       <div className='flex items-center gap-4'>

@@ -99,6 +99,7 @@ export default function ChefProductDetailPage() {
                     src={img}
                     alt={`Product image ${idx + 2}`}
                     className='h-24 w-24 rounded object-cover'
+                    loading='lazy'
                   />
                 ))}
               </div>

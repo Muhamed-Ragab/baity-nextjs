@@ -29,6 +29,8 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onView }) => {
                 src={product.images?.[0] ?? ''}
                 alt={product.name}
                 loading='lazy'
+                width={200}
+                height={200}
               />
             </Link>
             <figcaption className='px-1.5 pt-3'>

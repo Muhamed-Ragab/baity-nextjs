@@ -87,6 +87,7 @@ export default function OrderDetailsPage() {
                     src={order.product.images?.[0]}
                     alt={order.product.name}
                     className='h-full w-full object-cover'
+                    loading='lazy'
                   />
                 </div>
                 <div className='flex-1 p-4'>

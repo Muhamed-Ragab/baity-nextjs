@@ -24,7 +24,13 @@ export const ProductCardInDetails = ({ id, name, total, images, description }: P
       </div>
       <CardBody className='p-2'>
         <figure className='flex max-w-52 flex-col content-center items-center max-sm:max-w-72'>
-          <Image className='rounded-xl object-cover' src={images?.[0] ?? ''} alt={name} />
+          <Image
+            className='rounded-xl object-cover'
+            src={images?.[0] ?? ''}
+            alt={name}
+            width={200}
+            height={200}
+          />
 
           <figcaption className='px-1.5 pt-1'>
             <h4 className='line-clamp-3 font-semibold text-sm'>{name}</h4>

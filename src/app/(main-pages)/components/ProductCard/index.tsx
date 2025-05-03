@@ -24,7 +24,13 @@ export const ProductCard = ({ name, total, images }: ProductCardProps) => {
         <CardBody className='p-2'>
           <figure className='max-w-72 content-center items-center'>
             <Link href='product-details'>
-              <Image className='rounded-xl object-cover object-top' src={images[0]} alt={name} />
+              <Image
+                className='rounded-xl object-cover object-top'
+                src={images[0]}
+                alt={name}
+                width={200}
+                height={200}
+              />
             </Link>
             <figcaption className='px-1.5 pt-1'>
               <Link href='product-details'>

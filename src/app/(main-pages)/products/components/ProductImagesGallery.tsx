@@ -27,7 +27,12 @@ const ProductImagesGallery: React.FC<ProductImagesGalleryProps> = ({ images, nam
             onClick={() => setMainImage(src)}
             aria-label={`Show image ${i + 1}`}
           >
-            <Image src={src} alt={`${name} thumb ${i + 1}`} className='object-cover' />
+            <Image
+              src={src}
+              alt={`${name} thumb ${i + 1}`}
+              className='object-cover'
+              loading='lazy'
+            />
           </button>
         ))}
       </div>
@@ -38,7 +43,7 @@ const ProductImagesGallery: React.FC<ProductImagesGalleryProps> = ({ images, nam
         aria-label={`Show main image of ${name}`}
         className='relative size-80 flex-shrink-0 overflow-hidden rounded-xl shadow'
       >
-        <Image src={mainImage} alt={`${name} main image`} className='object-cover' />
+        <Image src={mainImage} alt={`${name} main image`} className='object-cover' loading='lazy' />
       </Link>
     </div>
   );

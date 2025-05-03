@@ -31,6 +31,8 @@ export const ChefCard = ({ id, name, image, emailVerified, online }: User) => {
                 src={image ?? ''}
                 alt={name}
                 loading='lazy'
+                width={200}
+                height={200}
               />
             </Link>
             <figcaption className='px-1.5 pt-3'>
