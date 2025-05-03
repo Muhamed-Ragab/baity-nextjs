@@ -25,18 +25,18 @@ export const ChefCard = ({ id, name, image, emailVerified, online }: User) => {
               />
               {online ? 'Online' : 'Offline'}
             </p>
-            <Link href={`/users/${id}`}>
+            <Link href={`/chefs/${id}`}>
               <Image
-                className='aspect-square size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'
+                className='size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'
                 src={image ?? ''}
                 alt={name}
                 loading='lazy'
-                width={200}
-                height={200}
+                width={270}
+                height={270}
               />
             </Link>
             <figcaption className='px-1.5 pt-3'>
-              <Link href={`/users/${id}`} className='flex items-center gap-1'>
+              <Link href={`/chefs/${id}`} className='flex items-center gap-1'>
                 <h4 className='line-clamp-2 flex-1 font-semibold text-sm duration-250 hover:opacity-60 sm:text-base'>
                   {name}
                 </h4>

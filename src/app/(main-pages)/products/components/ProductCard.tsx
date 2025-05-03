@@ -13,10 +13,6 @@ interface ProductCardProps {
 }
 
 export const ProductCard: FC<ProductCardProps> = ({ product, onView }) => {
-  const handleOnView = () => {
-    onView?.(product.id);
-  };
-
   return (
     <div className='relative overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
@@ -25,12 +21,10 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onView }) => {
           <figure className='relative h-full w-full overflow-hidden'>
             <Link href={`/products/${product.id}`}>
               <Image
-                className='aspect-square size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'
+                className='size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'
                 src={product.images?.[0] ?? ''}
                 alt={product.name}
                 loading='lazy'
-                width={200}
-                height={200}
               />
             </Link>
             <figcaption className='px-1.5 pt-3'>

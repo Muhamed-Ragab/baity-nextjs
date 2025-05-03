@@ -21,12 +21,12 @@ export const NewArrivalCard = ({ id, name, price, images }: NewArrivalProps) => 
                 src={images?.[0] ?? ''}
                 alt={name}
                 loading='lazy'
-                width={200}
-                height={200}
+                width={230}
+                height={230}
               />
             </Link>
             <figcaption className='px-1.5 pt-3'>
-              <Link href='product-details'>
+              <Link href={`/products/${id}`}>
                 <h4 className='line-clamp-3 font-semibold text-sm duration-250 hover:opacity-60'>
                   {name}
                 </h4>
