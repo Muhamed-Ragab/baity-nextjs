@@ -74,4 +74,3 @@ export const subscription = pgTable('subscription', {
   cancelAtPeriodEnd: boolean('cancel_at_period_end'),
   seats: integer('seats'),
 });
-

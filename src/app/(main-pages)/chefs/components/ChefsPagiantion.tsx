@@ -3,12 +3,12 @@
 import { Pagination } from '@heroui/react';
 import { useRouter } from 'next/navigation';
 
-interface ChiefsPaginationProps {
+interface ChefsPaginationProps {
   totalPages: number;
   currentPage: number;
 }
 
-export const ChiefsPagination = ({ totalPages, currentPage }: ChiefsPaginationProps) => {
+export const ChefsPagination = ({ totalPages, currentPage }: ChefsPaginationProps) => {
   const router = useRouter();
 
   return (

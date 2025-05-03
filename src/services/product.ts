@@ -1,12 +1,12 @@
 'use server';
 
 import { db } from '@/db';
+import { subscription } from '@/db/schema';
 import { product } from '@/db/schemas/product';
 import type { NewProduct, Product } from '@/types/product';
 import { tryCatch } from '@/utils/tryCatch';
 import { and, eq } from 'drizzle-orm';
 import { getAuth } from './user';
-import { subscription } from '@/db/schema';
 
 export const createProduct = async (data: NewProduct) => {
   const [authError, auth] = await tryCatch(getAuth());
@@ -89,11 +89,11 @@ export const getProducts = async ({
     ...(status !== 'all' && { where: eq(product.status, status) }),
   });
 
-  const unbannedchiefProducts = dbProduct.filter(
+  const unbannedchefProducts = dbProduct.filter(
     (product) => product.user.role === 'chef' && !product.user.banned,
   );
 
-  const sortedByFeatured = unbannedchiefProducts.sort((a, b) =>
+  const sortedByFeatured = unbannedchefProducts.sort((a, b) =>
     a.featured === b.featured ? 0 : a.featured ? -1 : 1,
   );
 
@@ -194,4 +194,3 @@ export const updateProductById = async (id: string, data: Partial<NewProduct>) =
 
   return result[0];
 };
-

@@ -47,4 +47,3 @@ export async function MenubarTaps() {
     </div>
   );
 }
-

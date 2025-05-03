@@ -97,7 +97,7 @@ export const getBestSellers = async (limit = 10) => {
   return sortedBySubscriptionStatus;
 };
 
-export const getChiefs = async (page = 1, limit = 12) => {
+export const getChefs = async (page = 1, limit = 12) => {
   const offset = (page - 1) * limit;
 
   const chefs = await db.query.user.findMany({
@@ -114,7 +114,7 @@ export const getChiefs = async (page = 1, limit = 12) => {
   };
 };
 
-export const getChiefById = async (id: string) => {
+export const getChefById = async (id: string) => {
   const chef = await db.query.user.findFirst({
     where: (user, { and, eq }) => and(eq(user.id, id), eq(user.role, 'chef')),
     with: {
@@ -133,30 +133,30 @@ export const getChiefById = async (id: string) => {
     throw new Error('chef not found');
   }
 
-  const activeChiefProducts = chef.products.filter((product) => product.status === 'active');
+  const activeChefProducts = chef.products.filter((product) => product.status === 'active');
 
-  const paidOrders = activeChiefProducts.flatMap((product) =>
+  const paidOrders = activeChefProducts.flatMap((product) =>
     product.orders.filter((order) => order.status === 'paid'),
   );
 
   const totalOrders = paidOrders.length;
 
   const rating =
-    activeChiefProducts.reduce((acc, product) => {
+    activeChefProducts.reduce((acc, product) => {
       const productRating =
         product.feedbacks.reduce((acc, feedback) => acc + feedback.rating, 0) /
           product.feedbacks.length || 0;
       return acc + productRating;
-    }, 0) / activeChiefProducts.length || 0;
+    }, 0) / activeChefProducts.length || 0;
 
   return {
-    chef: { ...chef, products: activeChiefProducts },
+    chef: { ...chef, products: activeChefProducts },
     totalOrders,
     rating,
   };
 };
 
-export const getChiefByProductId = async (productId: string) => {
+export const getChefByProductId = async (productId: string) => {
   const product = await db.query.product.findFirst({
     where: (product, { eq }) => eq(product.id, productId),
     with: {
@@ -170,4 +170,3 @@ export const getChiefByProductId = async (productId: string) => {
 
   return product.user;
 };
-

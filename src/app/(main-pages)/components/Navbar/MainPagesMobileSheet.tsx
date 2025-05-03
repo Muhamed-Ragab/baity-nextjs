@@ -65,4 +65,3 @@ const MainPagesMobileSheet = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 };
 
 export default MainPagesMobileSheet;
-

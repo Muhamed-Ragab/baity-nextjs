@@ -20,7 +20,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FiEdit, FiFilter, FiPlus } from 'react-icons/fi';
 
-export default function ChiefProductsPage() {
+export default function ChefProductsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(false);
@@ -198,4 +198,3 @@ export default function ChiefProductsPage() {
     </main>
   );
 }
-

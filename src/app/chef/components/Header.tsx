@@ -1,8 +1,8 @@
 'use client';
 
+import { Button, addToast } from '@/components/heroui';
 import { cn } from '@/lib/utils';
 import { getAuth, updateUser } from '@/services/user';
-import { addToast, Button } from '@/components/heroui';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
 
@@ -55,9 +55,7 @@ export default function Header() {
                 alt='chef'
                 draggable='false'
               />
-              <span className='ml-2 font-medium text-gray-700 text-sm'>
-                {auth?.name ?? 'chef'}
-              </span>
+              <span className='ml-2 font-medium text-gray-700 text-sm'>{auth?.name ?? 'chef'}</span>
             </Link>
           </div>
         </div>
@@ -65,4 +63,3 @@ export default function Header() {
     </header>
   );
 }
-

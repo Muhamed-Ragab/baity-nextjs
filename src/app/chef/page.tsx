@@ -26,7 +26,7 @@ import StatCard from './components/StatCard';
 // Mock data for demonstration - in a real app, this would come from API
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-export default function ChiefDashboardPage() {
+export default function ChefDashboardPage() {
   const { loading: productsLoading, data: products } = useRequest(getDashboardProducts);
   const { loading: ordersLoading, data: orders } = useRequest(getDashboardOrders);
 
@@ -257,4 +257,3 @@ const getStatusColor = (status: Order['status']) => {
       return 'bg-gray-100 text-gray-800';
   }
 };
-

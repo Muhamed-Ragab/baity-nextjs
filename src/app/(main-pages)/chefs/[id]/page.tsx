@@ -1,16 +1,16 @@
 import { Card } from '@/components/heroui';
 import { CardBody } from '@/components/heroui';
 import { Image } from '@/components/heroui';
-import { getChiefById } from '@/services/user';
+import { cn } from '@/lib/utils';
+import { getChefById } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
 import { MdEmail, MdPhone, MdShoppingBag, MdVerified } from 'react-icons/md';
 import { NewArrivalCard } from '../../(home)/components/Cards/NewArrival';
-import { cn } from '@/lib/utils';
 
-export default async function ChiefPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ChefPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [error, data] = await tryCatch(getChiefById(id));
+  const [error, data] = await tryCatch(getChefById(id));
 
   if (error || !data) {
     notFound();

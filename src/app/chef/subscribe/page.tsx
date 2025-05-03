@@ -3,10 +3,10 @@
 import { Button, Card, CardBody, Spinner } from '@/components/heroui';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
+import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
-import { getSubscriptionAction, subscribeAction, cancelSubscriptionAction } from './action';
-import { redirect } from 'next/navigation';
+import { cancelSubscriptionAction, getSubscriptionAction, subscribeAction } from './action';
 
 // Mock subscription plans - in a real app, these would come from an API
 const SUBSCRIPTION_PLANS = [
@@ -20,7 +20,7 @@ const SUBSCRIPTION_PLANS = [
 ];
 
 // Mock function to subscribe - in a real app, this would be an API call
-const subscribeToChiefPlan = async (planId: string) => {
+const subscribeToChefPlan = async (planId: string) => {
   const { url } = await subscribeAction(planId);
 
   if (url) {
@@ -36,7 +36,7 @@ const cancelSubscription = async () => {
   }
 };
 
-export default function ChiefSubscribePage() {
+export default function ChefSubscribePage() {
   const [selectedPlan, setSelectedPlan] = useState(SUBSCRIPTION_PLANS[0].id); // Default to Pro plan
 
   const { loading: subscribeLoading, data: subscriptionData } = useRequest(getSubscriptionAction);
@@ -44,7 +44,7 @@ export default function ChiefSubscribePage() {
     manual: true,
   });
   const { loading: subscribeRunLoading, runAsync: subscribeRunAsync } = useRequest(
-    subscribeToChiefPlan,
+    subscribeToChefPlan,
     {
       manual: true,
     },
@@ -169,4 +169,3 @@ export default function ChiefSubscribePage() {
     </div>
   );
 }
-

@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  addToast,
   Button,
   Card,
   CardBody,
@@ -18,6 +17,7 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
+  addToast,
 } from '@/components/heroui';
 import { getDashboardOrders, updateOrder } from '@/services/order';
 import type { Order } from '@/types/order';
@@ -43,7 +43,7 @@ const getStatusColor = (status: Order['status']) => {
   }
 };
 
-export default function ChiefOrdersPage() {
+export default function ChefOrdersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const router = useRouter();
@@ -241,4 +241,3 @@ export default function ChiefOrdersPage() {
     </main>
   );
 }
-

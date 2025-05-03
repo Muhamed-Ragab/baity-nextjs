@@ -61,4 +61,3 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
     </div>
   );
 };
-

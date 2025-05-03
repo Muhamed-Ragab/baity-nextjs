@@ -79,4 +79,3 @@ export default function UsersTable({ users, loading, onBanToggle, onRoleChange }
     </Table>
   );
 }
-

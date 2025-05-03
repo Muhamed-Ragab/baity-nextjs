@@ -3,9 +3,9 @@
 import { db } from '@/db';
 import { order, product } from '@/db/schema';
 import type { NewOrder, Order } from '@/types/order';
+import { tryCatch } from '@/utils/tryCatch';
 import { and, eq } from 'drizzle-orm';
 import { getAuth } from './user';
-import { tryCatch } from '@/utils/tryCatch';
 
 export const createOrder = async (orderData: NewOrder) => {
   const orders = await db.insert(order).values(orderData).returning();
@@ -93,7 +93,7 @@ export const getDashboardOrders = async (
   return paginatedOrders;
 };
 
-export const getChiefOrders = async (
+export const getChefOrders = async (
   { limit, offset }: { limit?: number; offset?: number } = { offset: 0 },
 ) => {
   const auth = await getAuth();
@@ -110,11 +110,11 @@ export const getChiefOrders = async (
     },
   });
 
-  const chiefOrders = orders.filter((order) => order.product.userId === auth.id);
+  const chefOrders = orders.filter((order) => order.product.userId === auth.id);
 
   return {
-    orders: chiefOrders,
-    total: limit ? Math.ceil(chiefOrders.length / limit) : chiefOrders.length,
+    orders: chefOrders,
+    total: limit ? Math.ceil(chefOrders.length / limit) : chefOrders.length,
   };
 };
 
@@ -139,4 +139,3 @@ export const updateOrder = async (id: string, orderData: Partial<Order>) => {
 
   return orders[0];
 };
-

@@ -7,7 +7,7 @@ import { Image } from '@heroui/react';
 import { useRequest } from 'ahooks';
 import { useParams, useRouter } from 'next/navigation';
 
-export default function ChiefProductDetailPage() {
+export default function ChefProductDetailPage() {
   const { id } = useParams() as { id: string };
   const router = useRouter();
   const { loading, data: product } = useRequest(getProductById, {

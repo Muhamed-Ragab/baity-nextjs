@@ -1,11 +1,11 @@
 'use client';
 
 import { Button, addToast } from '@/components/heroui';
+import { getChefByProductId } from '@/services/user';
+import { useRequest } from 'ahooks';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { checkoutAction } from '../action';
-import { useRequest } from 'ahooks';
-import { getChiefByProductId } from '@/services/user';
 
 interface BuyProductProps {
   order: {
@@ -17,7 +17,7 @@ interface BuyProductProps {
 }
 
 export default function CheckoutButton({ order }: BuyProductProps) {
-  const { data: chef } = useRequest(getChiefByProductId, {
+  const { data: chef } = useRequest(getChefByProductId, {
     refreshDeps: [order.productId],
     refreshOnWindowFocus: true,
     defaultParams: [order.productId],
@@ -65,4 +65,3 @@ export default function CheckoutButton({ order }: BuyProductProps) {
     </Button>
   );
 }
-

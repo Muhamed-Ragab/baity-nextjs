@@ -1,10 +1,10 @@
-import { getChiefs } from '@/services/user';
+import { getChefs } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
-import { ChiefCard } from './components/ChefCard';
-import { ChiefsPagination } from './components/ChefsPagination';
+import { ChefCard } from './components/ChefCard';
+import { ChefsPagination } from './components/ChefsPagiantion';
 
-export default async function ChiefsPage({
+export default async function ChefsPage({
   searchParams,
 }: {
   searchParams: Promise<{ page?: string }>;
@@ -12,7 +12,7 @@ export default async function ChiefsPage({
   const { page: paramsPage } = await searchParams;
 
   const page = paramsPage ? Number.parseInt(paramsPage) : 1;
-  const [error, data] = await tryCatch(getChiefs(page));
+  const [error, data] = await tryCatch(getChefs(page));
 
   if (error) {
     notFound();
@@ -34,11 +34,11 @@ export default async function ChiefsPage({
 
       <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
         {chefs.map((chef) => (
-          <ChiefCard key={chef.id} {...chef} />
+          <ChefCard key={chef.id} {...chef} />
         ))}
       </div>
 
-      <ChiefsPagination totalPages={totalPages} currentPage={currentPage} />
+      <ChefsPagination totalPages={totalPages} currentPage={currentPage} />
     </main>
   );
 }

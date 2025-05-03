@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import Header from './components/Header';
 
-export default async function ChiefLayout({
+export default async function ChefLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -46,4 +46,3 @@ export default async function ChiefLayout({
     </div>
   );
 }
-

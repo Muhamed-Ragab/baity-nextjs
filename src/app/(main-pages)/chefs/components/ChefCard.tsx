@@ -7,7 +7,7 @@ import { Button, Card, CardBody, Image } from '@heroui/react';
 import Link from 'next/link';
 import { MdVerified } from 'react-icons/md';
 
-export const ChiefCard = ({ id, name, image, emailVerified, online }: User) => {
+export const ChefCard = ({ id, name, image, emailVerified, online }: User) => {
   return (
     <div className='relative w-full overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
