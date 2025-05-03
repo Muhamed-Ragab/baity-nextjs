@@ -17,7 +17,7 @@ const Home = async () => {
     <main className='space-y-16 py-4'>
       <Hero />
       <CardsContainer
-        title='Best Sellers'
+        title='Best Chefs'
         data={bestSellers}
         Item={BestSellerCard}
         viewAllLink='/chefs'
