@@ -21,6 +21,8 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
                 className='aspect-square size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'
                 src={image ?? ''}
                 alt={name}
+                width={200}
+                height={200}
                 loading='lazy'
               />
             </Link>

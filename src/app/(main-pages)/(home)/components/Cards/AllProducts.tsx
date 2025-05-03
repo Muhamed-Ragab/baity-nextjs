@@ -20,6 +20,8 @@ export const AllProductsCard = ({ id, name, price, images }: AllProductsProps) =
                 className='aspect-square size-full rounded-xl object-cover transition-transform duration-500 group-hover:scale-105'
                 src={images?.[0] ?? ''}
                 alt={name}
+                width={200}
+                height={200}
                 loading='lazy'
               />
             </Link>

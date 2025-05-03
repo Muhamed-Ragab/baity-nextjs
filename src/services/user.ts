@@ -63,6 +63,7 @@ export const getBestSellers = async (limit = 10) => {
       stripeCustomerId: true,
       role: true,
       online: true,
+      banned: true,
     },
     with: {
       subscriptions: true,
@@ -76,17 +77,19 @@ export const getBestSellers = async (limit = 10) => {
         },
       },
     },
-    where: (user, { and, eq }) => and(eq(user.role, 'chef'), eq(user.banned, false)),
+    where: (user, { eq }) => eq(user.role, 'chef'),
   });
 
-  const usersSortedByTotalAmount = users
+  const unbannedUsers = users.filter((user) => !user.banned);
+
+  const usersSortedByTotalAmount = unbannedUsers
     .map((user) => {
       const totalAmount = user.orders.reduce((acc, order) => acc + order.total, 0);
       return { ...user, totalAmount };
     })
-    .sort((a, b) => b.totalAmount - a.totalAmount);
+    .toSorted((a, b) => b.totalAmount - a.totalAmount);
 
-  const sortedBySubscriptionStatus = usersSortedByTotalAmount.sort((a, b) =>
+  const sortedBySubscriptionStatus = usersSortedByTotalAmount.toSorted((a, b) =>
     a.subscriptions?.status === b.subscriptions?.status
       ? 0
       : a.subscriptions?.status === 'active'

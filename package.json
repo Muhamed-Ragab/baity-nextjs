@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build --turbopack",
+    "start": "next start --turbopack",
     "lint": "next lint",
     "format": "bun biome format --write .",
     "format:check": "bun biome check --fix",
@@ -71,8 +71,18 @@
     "tailwindcss": "3.4",
     "typescript": "^5.8.3"
   },
-  "trustedDependencies": ["@heroui/shared-utils", "esbuild", "sharp", "unrs-resolver"],
+  "trustedDependencies": [
+    "@heroui/shared-utils",
+    "esbuild",
+    "sharp",
+    "unrs-resolver"
+  ],
   "pnpm": {
-    "ignoredBuiltDependencies": ["@heroui/shared-utils", "esbuild", "sharp", "unrs-resolver"]
+    "ignoredBuiltDependencies": [
+      "@heroui/shared-utils",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }
