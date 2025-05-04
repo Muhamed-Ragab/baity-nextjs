@@ -3,6 +3,7 @@
 import { Card, CardBody, Input, Textarea, Button, addToast } from '@/components/heroui';
 import { sendContactEmail } from './actions';
 import { useRequest } from 'ahooks';
+import { useRouter } from 'next/navigation';
 
 export default function ContactUsPage() {
   const { loading, runAsync } = useRequest(sendContactEmail, {
@@ -30,6 +31,7 @@ export default function ContactUsPage() {
     });
   };
 
+  const router = useRouter();
   return (
     <main className='container flex min-h-screen w-full items-center justify-center'>
       <Card className='mx-auto w-full max-w-lg'>
@@ -39,15 +41,26 @@ export default function ContactUsPage() {
             <Input label='Name' name='name' isRequired />
             <Input label='Email' name='email' type='email' isRequired />
             <Textarea label='Message' name='message' isRequired minRows={4} />
-            <Button
-              type='submit'
-              color='primary'
-              fullWidth
-              isDisabled={loading}
-              isLoading={loading}
-            >
-              Send Message
-            </Button>
+            <div className='flex gap-2'>
+              <Button
+                type='button'
+                variant='flat'
+                color='default'
+                onPress={() => router.back()}
+                fullWidth
+              >
+                Back
+              </Button>
+              <Button
+                type='submit'
+                color='primary'
+                fullWidth
+                isDisabled={loading}
+                isLoading={loading}
+              >
+                Send Message
+              </Button>
+            </div>
           </form>
         </CardBody>
       </Card>
