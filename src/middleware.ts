@@ -2,6 +2,8 @@ import { type NextRequest, NextResponse } from 'next/server';
 
 import { authClient } from './lib/auth/client';
 
+const PUBLIC_ROUTES = ['/profile', '/contact'];
+
 export default async function middleware(req: NextRequest) {
   const { data: session } = await authClient.getSession({
     fetchOptions: {
@@ -14,6 +16,8 @@ export default async function middleware(req: NextRequest) {
     nextUrl: { pathname },
   } = req;
 
+  const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
+
   if (!session) {
     return NextResponse.next();
   }
@@ -24,7 +28,7 @@ export default async function middleware(req: NextRequest) {
 
   const { user } = session;
 
-  if (pathname !== '/profile') {
+  if (!isPublicRoute) {
     if (user.role === 'chef' && !pathname.startsWith('/chef')) {
       return NextResponse.redirect(new URL('/chef', url));
     }

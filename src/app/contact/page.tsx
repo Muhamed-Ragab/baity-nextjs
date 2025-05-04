@@ -6,6 +6,7 @@ import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
 
 export default function ContactUsPage() {
+  const router = useRouter();
   const { loading, runAsync } = useRequest(sendContactEmail, {
     manual: true,
   });
@@ -31,7 +32,6 @@ export default function ContactUsPage() {
     });
   };
 
-  const router = useRouter();
   return (
     <main className='container flex min-h-screen w-full items-center justify-center'>
       <Card className='mx-auto w-full max-w-lg'>

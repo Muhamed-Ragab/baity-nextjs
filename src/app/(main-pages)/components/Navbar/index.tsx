@@ -20,6 +20,10 @@ export const Navbar = async () => {
           <MainPagesMobileSheet isLoggedIn={!authError} />
         </div>
 
+        <Button variant='light' as={Link} href='/contact'>
+          Contact Us
+        </Button>
+
         {authError || !user ? (
           <Link href='/auth/login' className='max-sm:hidden'>
             <Button

@@ -28,7 +28,7 @@ export default function Header() {
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
           <h1 className='font-bold text-2xl text-gray-900'>Baity chef Dashboard</h1>
-          <div className='flex items-center'>
+          <div className='flex items-center gap-2'>
             <Button
               type='button'
               size='sm'
@@ -48,6 +48,11 @@ export default function Header() {
               />
               {auth?.online ? 'Online' : 'Offline'}
             </Button>
+
+            <Button variant='light' as={Link} href='/contact'>
+              Contact Us
+            </Button>
+
             <Link href='/profile' className='ml-4 flex items-center'>
               <img
                 className='h-8 w-8 rounded-full'
