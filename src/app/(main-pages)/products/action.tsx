@@ -1,10 +1,10 @@
-'use server';
+"use server";
 
-import { createOrder } from '@/services/order';
-import { getAuth } from '@/services/user';
-import { TAX_RATE } from '@/utils/calcTax';
-import { tryCatch } from '@/utils/tryCatch';
-import { z } from 'zod';
+import { createOrder } from "@/services/order";
+import { getAuth } from "@/services/user";
+import { TAX_RATE } from "@/utils/calcTax";
+import { tryCatch } from "@/utils/tryCatch";
+import { z } from "zod";
 
 const buyProductSchema = z.object({
   price: z.number(),
@@ -12,8 +12,8 @@ const buyProductSchema = z.object({
   quantity: z.number().positive().min(1).max(10).default(1),
   address: z
     .string()
-    .min(10, 'Address must be at least 10 characters long')
-    .max(255, 'Address must be at most 255 characters long'),
+    .min(10, "Addr ong")
+    .max(255, "Address must be at most 255 characters long"),
 });
 
 export const checkoutAction = async (data: unknown) => {
@@ -33,7 +33,7 @@ export const checkoutAction = async (data: unknown) => {
 
     return {
       success: false,
-      message: firstError.join(', '),
+      message: firstError.join(", "),
     };
   }
 
@@ -47,7 +47,7 @@ export const checkoutAction = async (data: unknown) => {
       tax: TAX_RATE,
       total: price * quantity * TAX_RATE,
       userId: auth.id,
-    }),
+    })
   );
 
   if (createOrderError) {
@@ -60,6 +60,6 @@ export const checkoutAction = async (data: unknown) => {
 
   return {
     success: true,
-    message: 'Checkout created',
+    message: "Checkout created",
   };
 };
