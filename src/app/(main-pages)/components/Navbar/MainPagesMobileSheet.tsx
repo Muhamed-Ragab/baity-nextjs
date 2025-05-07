@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Button } from '@heroui/react';
-import Link from 'next/link';
-import { FiMenu } from 'react-icons/fi';
+import { Button } from "@heroui/react";
+import Link from "next/link";
+import { FiMenu } from "react-icons/fi";
 
 import {
   Sheet,
@@ -11,52 +11,71 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
+} from "@/components/ui/sheet";
+import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
 const MainPagesMobileSheet = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+  const t = useTranslations("common");
+
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          className='space-x-2 rounded-xl bg-gradient-to-tr from-customBlue to-customLightBlue font-semibold text-md text-white'
+          className="space-x-2 rounded-xl bg-gradient-to-tr from-customBlue to-customLightBlue font-semibold text-md text-white"
           isIconOnly
         >
           <FiMenu size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent className='flex flex-col items-center justify-between'>
+      <SheetContent className="flex flex-col items-center justify-between">
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
         </SheetHeader>
-        <div className='mt-5 flex w-full flex-col gap-3'>
-          <Button variant='flat' className='font-semibold uppercase' as={Link} href='/chefs'>
+        <div className="mt-5 flex w-full flex-col gap-3">
+          <Button
+            variant="flat"
+            className="font-semibold uppercase"
+            as={Link}
+            href="/chefs"
+          >
             chefs
           </Button>
           <Button
-            variant='flat'
-            className='font-semibold uppercase'
+            variant="flat"
+            className="font-semibold uppercase"
             as={Link}
-            href={'/products/new-arrival'}
+            href={"/products/new-arrival"}
           >
             new arrival
           </Button>
-          <Button variant='flat' className='font-semibold uppercase' as={Link} href={'/products'}>
+          <Button
+            variant="flat"
+            className="font-semibold uppercase"
+            as={Link}
+            href={"/products"}
+          >
             all products
           </Button>
-          <Button variant='flat' className='font-semibold uppercase' as={Link} href={'/contact-us'}>
+          <Button
+            variant="flat"
+            className="font-semibold uppercase"
+            as={Link}
+            href={"/contact-us"}
+          >
             contact us
           </Button>
         </div>
-        <SheetFooter className='w-full'>
+        <SheetFooter className="w-full">
           <Button
-            variant='flat'
-            className='font-semibold uppercase'
+            variant="flat"
+            className="font-semibold uppercase"
             as={Link}
-            href={isLoggedIn ? '/profile' : '/auth/login'}
+            href={isLoggedIn ? "/profile" : "/auth/login"}
             fullWidth
-            color={isLoggedIn ? 'default' : 'primary'}
+            color={isLoggedIn ? "default" : "primary"}
           >
-            {isLoggedIn ? 'Profile' : 'Login'}
+            {isLoggedIn ? "Profile" : "Login"}
           </Button>
         </SheetFooter>
       </SheetContent>

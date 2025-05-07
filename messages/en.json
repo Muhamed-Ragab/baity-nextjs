@@ -1,17 +1,77 @@
 {
   "layout": {
-    "contact-us": "Contact us",
-    "login": "Login"
+    "contact-us": "Contact us -khara",
+    "login": "Login -khara"
   },
   "home": {
-    "title": "Hello world!"
+    "title": "Hello world! -khara"
   },
   "orders": {
-    "not-found": "No orders found"
+    "not-found": "No orders found -khara"
+  },
+  "titles": {
+    "best-chefs": "Best Chefs -khara",
+    "new-arrivals": "New Arrivals -khara",
+    "all-products": "All Products -khara"
+  },
+  "cards": {
+    "view": "View -khara",
+    "add-to-cart": "Add to Cart -khara"
+  },
+  "status": {
+    "pending": "Pending -khara",
+    "completed": "Completed -khara",
+    "cancelled": "Cancelled -khara",
+    "delivered": "Delivered -khara",
+    "online": "Online -khara",
+    "offline": "Offline -khara"
   },
   "common": {
-    "buttons": {
-      "view": "View"
+    "links": {
+      "home": "Home -khara",
+      "chefs": "Chefs -khara",
+      "new-arrivals": "New Arrivals -khara",
+      "products": "All Products -khara",
+      "login": "Login -khara",
+      "orders": "Orders -khara",
+      "view-all": "View All -khara"
+    }
+  },
+
+  "auth2": {
+    "login-title": "Login to Your Account -khara",
+    "login-with-google": "Login with Google -khara",
+    "or": "OR -khara",
+    "email": "Email -khara",
+    "password": "Password -khara",
+    "remember-me": "Remember me -khara",
+    "forgot-password": "Forgot Password? -khara",
+    "login-button": "Log in -khara",
+    "no-account": "Don't have an account? -khara",
+    "register": "Register -khara"
+  },
+  "auth": {
+    "shared": {
+      "email": "Email -khara",
+      "password": "Password -khara",
+      "name": "Name -khara",
+      "phone": "Phone -khara"
+    },
+    "login": {
+      "title": "Login to Your Account -khara",
+      "login-with-google": "Login with Google -khara",
+      "or": "OR -khara",
+      "remember-me": "Remember me -khara",
+      "forgot-password": "Forgot Password? -khara",
+      "button": "Log in -khara",
+      "no-account": "Don't have an account? -khara",
+      "register": "Register -khara"
+    },
+    "register": {
+      "title": "Register to Your Account -khara",
+      "button": "Register -khara",
+      "have-account": "Already have an account? -khara",
+      "login": "Login -khara"
     }
   }
 }
