@@ -19,6 +19,7 @@ import { getOrders } from '@/services/order';
 import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useState } from 'react';
 import { FiCalendar, FiEye, FiFilter, FiPackage } from 'react-icons/fi';
@@ -28,6 +29,7 @@ export default function OrdersPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedTab, setSelectedTab] = useState<string | number | null>('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const t = useTranslations('orders');
 
   const limit = 10;
 
@@ -47,7 +49,7 @@ export default function OrdersPage() {
     return (
       <div className='py-12 text-center'>
         <FiPackage className='mx-auto mb-4 text-5xl text-gray-300' />
-        <h2 className='mb-2 font-semibold text-xl'>No orders found</h2>
+        <h2 className='mb-2 font-semibold text-xl'>{t('not-found')}</h2>
         <p className='mb-6 text-gray-500'>
           {searchQuery || statusFilter !== 'all'
             ? 'Try adjusting your filters to see more results'

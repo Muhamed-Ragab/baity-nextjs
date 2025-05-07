@@ -5,6 +5,7 @@ import { BestSellerCard } from './components/Cards/BestSeller';
 import { NewArrivalCard } from './components/Cards/NewArrival';
 import { CardsContainer } from './components/CardsContainer';
 import { Hero } from './components/Hero';
+import { getTranslations } from 'next-intl/server';
 
 const Home = async () => {
   const [bestSellers, newArrival, allProducts] = await Promise.all([
@@ -12,6 +13,7 @@ const Home = async () => {
     getNewArrival({ limit: 10 }),
     getProducts({ limit: 10, status: 'active' }),
   ]);
+  // const t = await getTranslations('home');
 
   return (
     <main className='space-y-16 py-4'>

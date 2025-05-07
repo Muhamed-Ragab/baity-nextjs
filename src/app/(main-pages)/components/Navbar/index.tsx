@@ -5,9 +5,12 @@ import Link from 'next/link';
 import { MdOutlineShoppingBag } from 'react-icons/md';
 import MainPagesMobileSheet from './MainPagesMobileSheet';
 import { Image } from '@/components/heroui';
+import { getLocale, setLocale } from '@/services/locale';
+import { IoLanguageSharp } from 'react-icons/io5';
 
 export const Navbar = async () => {
   const [authError, user] = await tryCatch(getAuth());
+  const locale = await getLocale();
 
   return (
     <nav className='container flex items-center justify-between gap-8 pt-3'>
@@ -19,6 +22,18 @@ export const Navbar = async () => {
         <div className='sm:hidden'>
           <MainPagesMobileSheet isLoggedIn={!authError} />
         </div>
+
+        <Button
+          variant='faded'
+          size='sm'
+          onPress={async () => {
+            'use server';
+            await setLocale(locale === 'en' ? 'ar' : 'en');
+          }}
+        >
+          <IoLanguageSharp />
+          {locale}
+        </Button>
 
         <Button variant='light' as={Link} href='/contact'>
           Contact Us

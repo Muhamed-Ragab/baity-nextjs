@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import { authClient } from './lib/auth/client';
+import { getLocale } from './services/locale';
 
 const PUBLIC_ROUTES = ['/profile', '/contact'];
 
@@ -15,6 +16,10 @@ export default async function middleware(req: NextRequest) {
     url,
     nextUrl: { pathname },
   } = req;
+
+  // set current locale
+  const locale = await getLocale();
+  req.headers.set('x-next-locale', locale);
 
   const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
 

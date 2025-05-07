@@ -1,0 +1,17 @@
+{
+  "layout": {
+    "contact-us": "Contact us",
+    "login": "Login"
+  },
+  "home": {
+    "title": "Hello world!"
+  },
+  "orders": {
+    "not-found": "No orders found"
+  },
+  "common": {
+    "buttons": {
+      "view": "View"
+    }
+  }
+}
