@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { AuthContainer } from "../components/AuthContainer";
 import { RegisterForm } from "./components/RegisterForm";
-import { register } from "module";
 
 const Register = async () => {
   const t = await getTranslations("auth");

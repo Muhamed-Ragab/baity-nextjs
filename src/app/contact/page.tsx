@@ -4,8 +4,10 @@ import { Card, CardBody, Input, Textarea, Button, addToast } from '@/components/
 import { sendContactEmail } from './actions';
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function ContactUsPage() {
+  const t = useTranslations('contact-us');
   const router = useRouter();
   const { loading, runAsync } = useRequest(sendContactEmail, {
     manual: true,
@@ -26,8 +28,8 @@ export default function ContactUsPage() {
       return;
     }
     addToast({
-      title: 'Success',
-      description: 'Your message has been sent!',
+      title: t('success-message'),
+      description: t('success-message-description'),
       color: 'success',
     });
   };
@@ -36,11 +38,11 @@ export default function ContactUsPage() {
     <main className='container flex min-h-screen w-full items-center justify-center'>
       <Card className='mx-auto w-full max-w-lg'>
         <CardBody>
-          <h1 className='mb-6 text-center font-bold text-3xl'>Contact Us</h1>
+          <h1 className='mb-6 text-center font-bold text-3xl'>{t('title')}</h1>
           <form className='space-y-4' onSubmit={handleSubmit}>
-            <Input label='Name' name='name' isRequired />
-            <Input label='Email' name='email' type='email' isRequired />
-            <Textarea label='Message' name='message' isRequired minRows={4} />
+            <Input label={t('name')} name='name' isRequired />
+            <Input label={t('email')} name='email' type='email' isRequired />
+            <Textarea label={t('message')} name='message' isRequired minRows={4} />
             <div className='flex gap-2'>
               <Button
                 type='button'
@@ -49,7 +51,7 @@ export default function ContactUsPage() {
                 onPress={() => router.back()}
                 fullWidth
               >
-                Back
+                {t('back')}
               </Button>
               <Button
                 type='submit'
@@ -58,7 +60,7 @@ export default function ContactUsPage() {
                 isDisabled={loading}
                 isLoading={loading}
               >
-                Send Message
+                {t('send-message')}
               </Button>
             </div>
           </form>

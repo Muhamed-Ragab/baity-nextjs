@@ -1,37 +1,43 @@
-'use client';
+"use client";
 
-import { Button, addToast } from '@/components/heroui';
-import { useRequest } from 'ahooks';
-import { MdVerified } from 'react-icons/md';
-import { sendVerificationEmail } from '../action';
+import { Button, addToast } from "@/components/heroui";
+import { useRequest } from "ahooks";
+import { MdVerified } from "react-icons/md";
+import { sendVerificationEmail } from "../action";
+import { useTranslations } from "next-intl";
 
 export const VerifyEmail = ({ emailVerified }: { emailVerified: boolean }) => {
+  const t = useTranslations("auth");
   const { loading, run } = useRequest(sendVerificationEmail, {
     manual: true,
     onSuccess: () => {
-      addToast({ title: 'Email sent successfully', color: 'success' });
+      addToast({ title: "Email sent successfully", color: "success" });
     },
     onError: (error) => {
-      addToast({ title: 'Error sending email', description: error.message, color: 'danger' });
+      addToast({
+        title: "Error sending email",
+        description: error.message,
+        color: "danger",
+      });
     },
   });
 
   return (
     <Button
-      type='button'
+      type="button"
       fullWidth
-      variant={emailVerified ? 'flat' : 'solid'}
-      color={emailVerified ? 'success' : 'secondary'}
+      variant={emailVerified ? "flat" : "solid"}
+      color={emailVerified ? "success" : "secondary"}
       onPress={run}
       isDisabled={emailVerified || loading}
       isLoading={loading}
     >
       {emailVerified ? (
         <>
-          Email verified <MdVerified />
+          {t("profile.email-verified")} <MdVerified />
         </>
       ) : (
-        'Verify email'
+        t("profile.verify-email")
       )}
     </Button>
   );

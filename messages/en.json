@@ -37,25 +37,14 @@
       "view-all": "View All -khara"
     }
   },
-
-  "auth2": {
-    "login-title": "Login to Your Account -khara",
-    "login-with-google": "Login with Google -khara",
-    "or": "OR -khara",
-    "email": "Email -khara",
-    "password": "Password -khara",
-    "remember-me": "Remember me -khara",
-    "forgot-password": "Forgot Password? -khara",
-    "login-button": "Log in -khara",
-    "no-account": "Don't have an account? -khara",
-    "register": "Register -khara"
-  },
   "auth": {
     "shared": {
       "email": "Email -khara",
       "password": "Password -khara",
+      "confirm-password": "Confirm Password -khara",
       "name": "Name -khara",
-      "phone": "Phone -khara"
+      "phone": "Phone -khara",
+      "back-button": "Back -khara"
     },
     "login": {
       "title": "Login to Your Account -khara",
@@ -72,6 +61,41 @@
       "button": "Register -khara",
       "have-account": "Already have an account? -khara",
       "login": "Login -khara"
+    },
+    "forgot-password": {
+      "title": "Email Verification -khara",
+      "button": "Send Email Code -khara"
+    },
+    "reset-password": {
+      "title": "Reset Password -khara",
+      "button": "Reset -khara"
+    },
+    "messages": {
+      "email-verification-toast": "Email sent successfully -khara",
+      "password-reset-toast": "Password reset successfully -khara",
+      "description": "Check your email -khara",
+      "password-reset": "Password reset link sent to your email address -khara",
+      "email-updated": "Email updated successfully -khara",
+      "email-description": "Please check your email to verify your new email address. -khara",
+      "password-updated": "Password updated successfully -khara",
+      "profile-updated": "Profile updated successfully -khara",
+      "profile-updated-successfully": "Your profile has been updated successfully. -khara"
+    },
+    "profile": {
+      "sign-out": "Sign Out -khara",
+      "update-profile": "Update Profile -khara",
+      "email-verified": "Email verified -khara",
+      "verify-email": "Email not verified -khara"
     }
+  },
+  "contact-us": {
+    "title": "Contact Us -khara",
+    "name": "Name -khara",
+    "email": "Email -khara",
+    "message": "Message -khara",
+    "back": "Back -khara",
+    "send-message": "Send message -khara",
+    "success-message": "Your message has been sent successfully. -khara",
+    "success-message-description": "We will get back to you soon. -khara"
   }
 }
