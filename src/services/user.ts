@@ -3,18 +3,20 @@
 import { db } from '@/db';
 import { user } from '@/db/schema';
 import { auth } from '@/lib/auth';
+import { getTranslations } from '@/lib/translates';
 import type { NewUser } from '@/types/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { eq } from 'drizzle-orm';
 import { headers } from 'next/headers';
 
 export const getAuth = async () => {
+  const t = await getTranslations('auth');
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
   if (!session) {
-    throw new Error('Unauthorized');
+    throw new Error(t('shared.unauthorized'));
   }
 
   const dbUser = await db.query.user.findFirst({

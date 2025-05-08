@@ -7,8 +7,10 @@ import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
 import { MdEmail, MdPhone, MdShoppingBag, MdVerified } from 'react-icons/md';
 import { NewArrivalCard } from '../../(home)/components/Cards/NewArrival';
+import { getTranslations } from '@/lib/translates';
 
 export default async function ChefPage({ params }: { params: Promise<{ id: string }> }) {
+  const t = await getTranslations('chefs');
   const { id } = await params;
   const [error, data] = await tryCatch(getChefById(id));
 
@@ -51,7 +53,7 @@ export default async function ChefPage({ params }: { params: Promise<{ id: strin
                       chef.online ? 'bg-green-400' : 'bg-red-400',
                     )}
                   />
-                  {chef.online ? 'Online' : 'Offline'}
+                  {chef.online ? t('card.online') : t('card.offline')}
                 </p>
               </div>
             </CardBody>
@@ -59,7 +61,7 @@ export default async function ChefPage({ params }: { params: Promise<{ id: strin
 
           <Card>
             <CardBody className='space-y-4'>
-              <h2 className='font-semibold text-xl'>Contact Information</h2>
+              <h2 className='font-semibold text-xl'>{t('contact-information')}</h2>
               <div className='space-y-3'>
                 <div className='flex items-center gap-3 text-muted-foreground'>
                   <MdEmail className='text-xl' />
@@ -75,22 +77,22 @@ export default async function ChefPage({ params }: { params: Promise<{ id: strin
 
           <Card>
             <CardBody className='space-y-4'>
-              <h2 className='font-semibold text-xl'>Statistics</h2>
+              <h2 className='font-semibold text-xl'>{t('statistics')}</h2>
               <div className='grid grid-cols-3 items-center gap-4'>
                 <div className='space-y-1 rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-900'>
                   <MdShoppingBag className='mx-auto text-2xl text-blue-500' />
                   <p className='font-bold text-2xl'>{chef.products?.length ?? 0}</p>
-                  <p className='text-muted-foreground text-sm'>Products</p>
+                  <p className='text-muted-foreground text-sm'>{t('products')}</p>
                 </div>
                 <div className='space-y-1 rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-900'>
                   <span className='mx-auto text-3xl text-blue-500'>★</span>
                   <p className='font-bold text-2xl'>{(rating ?? 0).toFixed(1) ?? 0}</p>
-                  <p className='text-muted-foreground text-sm'>Rating</p>
+                  <p className='text-muted-foreground text-sm'>{t('rating')}</p>
                 </div>
                 <div className='space-y-1 rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-900'>
                   <MdShoppingBag className='mx-auto text-2xl text-blue-500' />
                   <p className='font-bold text-2xl'>{totalOrders ?? 0}</p>
-                  <p className='text-muted-foreground text-sm'>Total Orders</p>
+                  <p className='text-muted-foreground text-sm'>{t('total-orders')}</p>
                 </div>
               </div>
             </CardBody>
@@ -99,16 +101,14 @@ export default async function ChefPage({ params }: { params: Promise<{ id: strin
 
         {/* Products Section */}
         <div className='space-y-6'>
-          <h2 className='font-bold text-2xl'>Products</h2>
+          <h2 className='font-bold text-2xl'>{t('products')}</h2>
 
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
             {chef.products?.map((product) => (
               <NewArrivalCard key={product.id} {...product} />
             ))}
             {chef.products?.length === 0 && (
-              <p className='col-span-full text-center text-muted-foreground'>
-                No products available
-              </p>
+              <p className='col-span-full text-center text-muted-foreground'>{t('no-products')}</p>
             )}
           </div>
         </div>

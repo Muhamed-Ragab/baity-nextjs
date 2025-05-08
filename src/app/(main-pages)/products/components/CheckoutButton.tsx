@@ -6,6 +6,7 @@ import { useRequest } from 'ahooks';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { checkoutAction } from '../action';
+import { useTranslations } from '@/lib/translates';
 
 interface BuyProductProps {
   order: {
@@ -17,13 +18,14 @@ interface BuyProductProps {
 }
 
 export default function CheckoutButton({ order }: BuyProductProps) {
+  const t = useTranslations('products');
   const { data: chef } = useRequest(getChefByProductId, {
     refreshDeps: [order.productId],
     refreshOnWindowFocus: true,
     defaultParams: [order.productId],
     onSuccess: (data) => {
       if (!data.online) {
-        addToast({ title: 'chef is Offline', color: 'danger' });
+        addToast({ title: t('chef-offline-toast'), color: 'danger' });
         return;
       }
     },
@@ -58,7 +60,7 @@ export default function CheckoutButton({ order }: BuyProductProps) {
       isDisabled={checkoutLoading || !chef?.online}
       isLoading={checkoutLoading}
     >
-      {chef?.online ? 'Buy Now' : 'chef is Offline'}
+      {chef?.online ? t('buy-button') : t('buy-button-offline')}
     </Button>
   );
 }

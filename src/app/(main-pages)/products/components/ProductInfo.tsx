@@ -6,6 +6,7 @@ import { getCurrency } from '@/utils/price';
 import Link from 'next/link';
 import { useState } from 'react';
 import CheckoutButton from './CheckoutButton';
+import { useTranslations } from '@/lib/translates';
 
 type ProductInfoProps = Awaited<ReturnType<typeof getProductById>> & {
   totalOrders: number;
@@ -19,6 +20,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
   user,
   totalOrders,
 }) => {
+  const t = useTranslations('products');
   const [quantity, setQuantity] = useState(1);
   const [address, setAddress] = useState('');
 
@@ -31,24 +33,24 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
       </section>
       {user && (
         <section className='mb-8'>
-          <h2 className='mb-2 font-semibold text-lg'>Seller</h2>
+          <h2 className='mb-2 font-semibold text-lg'>{t('seller')}</h2>
           <Link href={`/chefs/${user.id}`} className='font-semibold text-primary underline'>
             {user.name}
           </Link>
           <p className='text-gray-500 text-sm'>
-            Email: <span className='font-semibold'>{user.email}</span>
+            {t('lables.email')}: <span className='font-semibold'>{user.email}</span>
           </p>
         </section>
       )}
       <section className='mb-8'>
-        <h2 className='mb-2 font-semibold text-lg'>Sales Info</h2>
+        <h2 className='mb-2 font-semibold text-lg'>{t('sales-info')}</h2>
         <p className='text-gray-500 text-sm'>
-          Total Orders: <span className='font-semibold'>{totalOrders}</span>
+          {t('total-orders')}: <span className='font-semibold'>{totalOrders}</span>
         </p>
       </section>
 
       <NumberInput
-        label='Quantity'
+        label={t('lables.quantity')}
         minValue={1}
         maxValue={10}
         value={quantity}
@@ -57,7 +59,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         className='mb-4'
       />
       <Input
-        label='Address'
+        label={t('lables.address')}
         placeholder='e.g., 123 Main St, Minya, Egypt'
         value={address}
         onValueChange={setAddress}

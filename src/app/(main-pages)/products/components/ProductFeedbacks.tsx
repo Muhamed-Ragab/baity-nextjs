@@ -8,6 +8,7 @@ import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AddFeedbackForm } from './AddFeedbackForm';
+import { useTranslations } from '@/lib/translates';
 
 interface ProductFeedbacksProps {
   feedbacks: Awaited<ReturnType<typeof getProductById>>['feedbacks'];
@@ -22,6 +23,7 @@ const ProductFeedbacks: React.FC<ProductFeedbacksProps> = ({
   productId,
   canAddFeedback,
 }) => {
+  const t = useTranslations('products');
   const router = useRouter();
   const [isAddingFeedback, setIsAddingFeedback] = useState(false);
   const { loading, runAsync } = useRequest(createFeedback, {
@@ -45,7 +47,7 @@ const ProductFeedbacks: React.FC<ProductFeedbacksProps> = ({
 
     setIsAddingFeedback(false);
     if (err) {
-      console.error('Error submitting feedback:', err);
+      console.error(t('feedback.error-submitting-feedback:'), err);
       return;
     }
 
@@ -55,14 +57,14 @@ const ProductFeedbacks: React.FC<ProductFeedbacksProps> = ({
   return (
     <section className='container mx-auto mt-10 max-w-3xl'>
       <div className='mb-4 flex items-center justify-between'>
-        <h2 className='font-semibold text-2xl'>Feedbacks</h2>
+        <h2 className='font-semibold text-2xl'>{t('feedback.title')}</h2>
         {canAddFeedback && userId && (
           <Button
             variant='shadow'
             onPress={() => setIsAddingFeedback(true)}
             className='rounded-lg bg-primary px-4 py-2 text-white hover:bg-primary/90'
           >
-            Add Feedback
+            {t('feedback.add-feedback')}
           </Button>
         )}
       </div>
@@ -82,13 +84,13 @@ const ProductFeedbacks: React.FC<ProductFeedbacksProps> = ({
             className='min-w-[220px] max-w-xs flex-1 rounded-lg bg-gray-50 p-4 shadow'
           >
             <div className='mb-1 flex items-center gap-2'>
-              <span className='font-semibold text-primary'>Rating:</span>
+              <span className='font-semibold text-primary'>{t('lables.rating')}:</span>
               <span className='font-bold'>{fb.rating} / 5</span>
             </div>
             <p className='text-gray-700'>{fb.comment}</p>
             {fb.user && (
               <p className='mt-2 text-gray-500 text-xs'>
-                By: <span className='font-semibold'>{fb.user.name}</span>
+                {t('feedback.by')}: <span className='font-semibold'>{fb.user.name}</span>
               </p>
             )}
           </div>

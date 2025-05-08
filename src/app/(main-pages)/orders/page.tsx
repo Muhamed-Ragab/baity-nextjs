@@ -19,7 +19,8 @@ import { getOrders } from '@/services/order';
 import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
-import { useTranslations } from 'next-intl';
+import { useTranslations } from '@/lib/translates';
+
 import Link from 'next/link';
 import { useState } from 'react';
 import { FiCalendar, FiEye, FiFilter, FiPackage } from 'react-icons/fi';
@@ -110,24 +111,24 @@ export default function OrdersPage() {
   return (
     <main className='container mx-auto px-4 py-8'>
       <div className='mb-8'>
-        <h1 className='mb-2 font-bold text-3xl'>My Orders</h1>
-        <p className='text-gray-600'>Track and manage your orders</p>
+        <h1 className='mb-2 font-bold text-3xl'>{t('title')}</h1>
+        <p className='text-gray-600'>{t('description')}</p>
       </div>
 
       <Tabs selectedKey={selectedTab} onSelectionChange={setSelectedTab} className='mb-6'>
-        <Tab key='all' title='All Orders' />
-        <Tab key='pending' title='Pending' />
-        <Tab key='approved' title='Approved' />
-        <Tab key='shipped' title='Shipped' />
-        <Tab key='paid' title='Paid' />
-        <Tab key='cancelled' title='Cancelled' />
+        <Tab key='all' title={t('tabs.all-orders')} />
+        <Tab key='pending' title={t('tabs.pending')} />
+        <Tab key='approved' title={t('tabs.approved')} />
+        <Tab key='shipped' title={t('tabs.shipped')} />
+        <Tab key='paid' title={t('tabs.paid')} />
+        <Tab key='cancelled' title={t('tabs.cancelled')} />
       </Tabs>
 
       <Card className='mb-8'>
         <CardBody className='p-4'>
           <div className='flex flex-col items-center gap-4 sm:flex-row'>
             <Input
-              placeholder='Search by order ID or product...'
+              placeholder={t('search-lable')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               startContent={<span className='text-gray-400'>🔍</span>}
@@ -137,19 +138,19 @@ export default function OrdersPage() {
             <Dropdown>
               <DropdownTrigger>
                 <Button variant='flat' startContent={<FiFilter />}>
-                  {statusFilter === 'all' ? 'All Status' : getStatusText(statusFilter)}
+                  {statusFilter === 'all' ? t('tabs.all-status') : getStatusText(statusFilter)}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
                 aria-label='Status filter'
                 onAction={(key) => setStatusFilter(key as string)}
               >
-                <DropdownItem key='all'>All Status</DropdownItem>
-                <DropdownItem key='pending'>Pending</DropdownItem>
-                <DropdownItem key='approved'>Approved</DropdownItem>
-                <DropdownItem key='shipped'>Shipped</DropdownItem>
-                <DropdownItem key='paid'>Paid</DropdownItem>
-                <DropdownItem key='cancelled'>Cancelled</DropdownItem>
+                <DropdownItem key='all'>{t('tabs.all-orders')}</DropdownItem>
+                <DropdownItem key='pending'>{t('tabs.pending')}</DropdownItem>
+                <DropdownItem key='approved'>{t('tabs.approved')}</DropdownItem>
+                <DropdownItem key='shipped'>{t('tabs.shipped')}</DropdownItem>
+                <DropdownItem key='paid'>{t('tabs.paid')}</DropdownItem>
+                <DropdownItem key='cancelled'>{t('tabs.cancelled')}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
