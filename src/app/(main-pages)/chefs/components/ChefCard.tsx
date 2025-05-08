@@ -1,6 +1,7 @@
 'use client';
 
 import { Spotlight } from '@/app/(main-pages)/components/motion/spotlight';
+import { useTranslations } from '@/lib/translates';
 import { cn } from '@/lib/utils';
 import type { User } from '@/types/user';
 import { Button, Card, CardBody, Image } from '@heroui/react';
@@ -8,6 +9,7 @@ import Link from 'next/link';
 import { MdVerified } from 'react-icons/md';
 
 export const ChefCard = ({ id, name, image, emailVerified, online }: User) => {
+  const t = useTranslations('chefs');
   return (
     <div className='relative w-full overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
@@ -23,7 +25,7 @@ export const ChefCard = ({ id, name, image, emailVerified, online }: User) => {
               <span
                 className={cn('mr-1 h-2 w-2 rounded-full', online ? 'bg-green-400' : 'bg-red-400')}
               />
-              {online ? 'Online' : 'Offline'}
+              {online ? t('card.online') : t('card.offline')}
             </p>
             <Link href={`/chefs/${id}`}>
               <Image
@@ -51,7 +53,7 @@ export const ChefCard = ({ id, name, image, emailVerified, online }: User) => {
             as={Link}
             href={`/chefs/${id}`}
           >
-            View Profile
+            {t('view-profile')}
           </Button>
         </CardBody>
       </Card>

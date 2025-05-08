@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, CardBody, Image, Spinner } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getOrderById } from '@/services/order';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
@@ -9,6 +10,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { FiArrowLeft, FiCalendar, FiCheck, FiClock, FiPackage, FiUser } from 'react-icons/fi';
 
 export default function OrderDetailsPage() {
+  const t = useTranslations('orders');
   const router = useRouter();
   const { id } = useParams() as { id: string };
 
@@ -29,13 +31,15 @@ export default function OrderDetailsPage() {
   if (!order) {
     return (
       <div className='flex min-h-[60vh] items-center justify-center'>
-        <p className='font-semibold text-2xl'>Order not found</p>
+        <p className='font-semibold text-2xl'>{t('statuses.order-not-found')}</p>
       </div>
     );
   }
 
   const statuses =
-    order.status === 'cancelled' ? ['cancelled'] : ['pending', 'shipped', 'paid', 'approved'];
+    order.status === t('statuses.cancelled')
+      ? [t('statuses.cancelled')]
+      : [t('statuses.pending'), t('statuses.shipped'), t('statuses.paid'), t('statuses.approved')];
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -81,7 +85,7 @@ export default function OrderDetailsPage() {
         onPress={() => router.back()}
         className='mb-6'
       >
-        Back to Orders
+        {t('buttons.back-to-orders')}
       </Button>
 
       <div className='mb-8 flex flex-col items-start justify-between md:flex-row md:items-center'>
@@ -104,7 +108,7 @@ export default function OrderDetailsPage() {
 
       <Card className='mb-8'>
         <CardBody className='p-6'>
-          <h2 className='mb-6 font-semibold text-xl'>Order Status</h2>
+          <h2 className='mb-6 font-semibold text-xl'>{t('order-status')}</h2>
 
           {/* Custom Timeline Implementation */}
           <div className='relative'>
@@ -175,7 +179,7 @@ export default function OrderDetailsPage() {
           <Card className='mb-6'>
             <CardBody>
               <h2 className='mb-4 flex items-center font-semibold text-xl'>
-                <FiPackage className='mr-2' /> Order Items
+                <FiPackage className='mr-2' /> {t('order-items')}
               </h2>
 
               <div className='space-y-6'>
@@ -193,7 +197,9 @@ export default function OrderDetailsPage() {
                   <div className='flex-1 p-4'>
                     <h3 className='font-medium text-lg'>{order.product.name}</h3>
                     <p className='mb-1 text-gray-500'>By {order.product.user.name}</p>
-                    <p className='mb-2 text-gray-500'>Quantity: {order.quantity}</p>
+                    <p className='mb-2 text-gray-500'>
+                      {t('quantity')}: {order.quantity}
+                    </p>
                     <p className='font-medium'>
                       {getCurrency((order.product.price * order.quantity) / order.quantity)} each
                     </p>
@@ -211,12 +217,12 @@ export default function OrderDetailsPage() {
           <Card>
             <CardBody>
               <h2 className='mb-4 flex items-center font-semibold text-xl'>
-                <FiUser className='mr-2' /> Payment Information
+                <FiUser className='mr-2' /> {t('payment-information')}
               </h2>
 
               <div>
-                <p className='font-medium'>Payment Method</p>
-                <p className='text-gray-600'>On Delivery</p>
+                <p className='font-medium'>{t('payment-method')}</p>
+                <p className='text-gray-600'>{t('on-delivery')}</p>
               </div>
             </CardBody>
           </Card>
@@ -229,7 +235,7 @@ export default function OrderDetailsPage() {
           className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
           href='/'
         >
-          Continue Shopping
+          {t('buttons.continue-shopping')}
         </Button>
       </div>
     </main>

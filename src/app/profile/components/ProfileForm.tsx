@@ -2,8 +2,9 @@
 
 import { Button, Card, Form, Image, Input, addToast } from '@/components/heroui';
 
+import { useTranslations } from '@/lib/translates';
 import type { User } from '@/types/user';
-import { useTranslations } from 'next-intl';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';

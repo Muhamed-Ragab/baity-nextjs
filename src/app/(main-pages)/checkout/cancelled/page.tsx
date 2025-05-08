@@ -1,9 +1,12 @@
 import { Button } from '@/components/ui/button';
+import { getTranslations } from '@/lib/translates';
 import { XCircle } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
-const CheckoutCancelled = () => {
+const CheckoutCancelled = async () => {
+  const t = await getTranslations('checkout');
+
   return (
     <div className='flex min-h-[60vh] items-center justify-center'>
       <div className='mx-auto max-w-md space-y-6 p-6 text-center'>
@@ -11,17 +14,14 @@ const CheckoutCancelled = () => {
           <XCircle className='h-24 w-24 text-red-500' />
         </div>
 
-        <h1 className='font-bold text-3xl text-gray-900'>Order Cancelled</h1>
+        <h1 className='font-bold text-3xl text-gray-900'>{t('cancelled.title')}</h1>
 
-        <p className='text-gray-600'>
-          Your checkout process has been cancelled. If this was a mistake, you can always try again
-          by returning to your shopping cart.
-        </p>
+        <p className='text-gray-600'>{t('cancelled.description')}</p>
 
         <div className='flex justify-center pt-4'>
           <Link href='/'>
             <Button variant='default' className='flex items-center gap-2'>
-              Continue Shopping
+              {t('common.continue-shopping-button')}
             </Button>
           </Link>
         </div>

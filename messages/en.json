@@ -7,7 +7,39 @@
     "title": "Hello world! -khara"
   },
   "orders": {
-    "not-found": "No orders found -khara"
+    "not-found": "No orders found -khara",
+    "title": "My Orders -khara",
+    "description": "Track and manage your orders -khara",
+    "no-orders": "No orders found -khara",
+    "order-id": "Order ID -khara",
+    "search-lable": "Search by order ID or product... -khara",
+    "order-status": "Order Status -khara",
+    "payment-information": "Payment Information -khara",
+    "on-delivery": "On Delivery -khara",
+    "order-items": "Order Items -khara",
+    "payment-method": "Payment Method -khara",
+    "quantity": "Quantity -khara",
+    "tabs": {
+      "all-orders": "All Orders -khara",
+      "pending": "Pending -khara",
+      "approved": "Approved -khara",
+      "cancelled": "Cancelled -khara",
+      "shipped": "Shipped -khara",
+      "paid": "Paid -khara",
+      "all-status": "All Status -khara"
+    },
+    "statuses": {
+      "pending": "Pending -khara",
+      "approved": "Approved -khara",
+      "cancelled": "Cancelled -khara",
+      "shipped": "Shipped -khara",
+      "paid": "Paid -khara",
+      "order-not-found": "Order not found -khara"
+    },
+    "buttons": {
+      "back-to-orders": "Back to Orders -khara",
+      "continue-shopping": "Continue Shopping -khara"
+    }
   },
   "titles": {
     "best-chefs": "Best Chefs -khara",
@@ -44,7 +76,8 @@
       "confirm-password": "Confirm Password -khara",
       "name": "Name -khara",
       "phone": "Phone -khara",
-      "back-button": "Back -khara"
+      "back-button": "Back -khara",
+      "unauthorized": "Unauthorized -khara"
     },
     "login": {
       "title": "Login to Your Account -khara",
@@ -98,5 +131,61 @@
     "success-message": "Your message has been sent successfully. -khara",
     "success-message-description": "We will get back to you soon. -khara",
     "error-message": "Something went wrong. Please try again later. -khara"
+  },
+  "products": {
+    "lables": {
+      "email": "Email -khara",
+      "quantity": "Quantity -khara",
+      "address": "Address -khara",
+      "comment": "Comment -khara",
+      "rating": "Rating -khara"
+    },
+    "feedback": {
+      "title": "Feedback -khara",
+      "by": "By -khara",
+      "add-feedback": "Add Feedback -khara",
+      "write-feedback": "Write your feedback here -khara",
+      "error-submitting-feedback:": "Error submitting feedback: -khara",
+      "submit-button": "Submit -khara",
+      "reset-button": "Cancel -khara"
+    },
+    "seller": "Seller -khara",
+    "sales-info": "Sales Info -khara",
+    "total-orders": "Total Orders -khara",
+    "all-products": "All Products -khara",
+    "page-not-found": "Page not found -khara",
+    "filter": "Filter -khara",
+    "buy-button": "Buy Now -khara",
+    "buy-button-offline": "Chef is offline -khara",
+    "chef-offline-toast": "Chef is offline -khara",
+    "new-arrivals": "New Arrivals -khara",
+    "no-products": "No products found -khara"
+  },
+  "checkout": {
+    "common": { "continue-shopping-button": "Continue Shopping -khara" },
+    "success": {
+      "title": "Order Successful! -khara",
+      "description": "Thank you for your purchase. Your order has been successfully processed. You will receive a confirmation email shortly. -khara",
+      "view-orders-button": "View Orders -khara"
+    },
+    "cancelled": {
+      "title": "Order Cancelled! -khara",
+      "description": "Your checkout process has been cancelled. If this was a mistake, you can always try again by returning to your shopping cart. -khara"
+    }
+  },
+  "chefs": {
+    "title": "Our Chefs -khara",
+    "no-chefs": "No chefs found -khara",
+    "view-profile": "View Profile -khara",
+    "contact-information": "Contact Information -khara",
+    "statistics": "Statistics -khara",
+    "products": "Products -khara",
+    "no-products": "No products available -khara",
+    "rating": "Rating -khara",
+    "total-orders": "Total Orders -khara",
+    "card": {
+      "online": "Online -khara",
+      "offline": "Offline -khara"
+    }
   }
 }

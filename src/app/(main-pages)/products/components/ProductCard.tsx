@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, CardBody, Image } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import type { Product } from '@/types/product';
 import Link from 'next/link';
 import type { FC } from 'react';
@@ -13,6 +14,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: FC<ProductCardProps> = ({ product, onView }) => {
+  const t = useTranslations('cards');
   return (
     <div className='relative overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
@@ -46,7 +48,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onView }) => {
             as={Link}
             href={`/products/${product.id}`}
           >
-            View
+            {t('view')}
           </Button>
         </CardBody>
       </Card>
