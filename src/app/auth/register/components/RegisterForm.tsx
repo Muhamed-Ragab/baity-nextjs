@@ -2,12 +2,14 @@
 
 import { Button, Form, Input, addToast } from '@/components/heroui';
 import { PasswordInput } from '@/components/shared/PasswordInput';
+import { useTranslations } from '@/lib/translates';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { registerAction } from '../action';
 
 export const RegisterForm = () => {
+  const t = useTranslations('auth');
   const { handleSubmit, control, formState } = useForm();
   const [error, setError] = useState<Record<string, string[]> | null>(null);
 
@@ -48,22 +50,24 @@ export const RegisterForm = () => {
       <Controller
         control={control}
         name='email'
-        render={({ field }) => <Input label='Email' type='email' fullWidth {...field} />}
+        render={({ field }) => (
+          <Input label={t('shared.email')} type='email' fullWidth {...field} />
+        )}
       />
       <Controller
         control={control}
         name='password'
-        render={({ field }) => <PasswordInput fullWidth {...field} />}
+        render={({ field }) => <PasswordInput label={t('shared.password')} fullWidth {...field} />}
       />
       <Controller
         control={control}
         name='name'
-        render={({ field }) => <Input label='Name' fullWidth {...field} />}
+        render={({ field }) => <Input label={t('shared.name')} fullWidth {...field} />}
       />
       <Controller
         control={control}
         name='phone'
-        render={({ field }) => <Input label='Phone' fullWidth {...field} />}
+        render={({ field }) => <Input label={t('shared.phone')} fullWidth {...field} />}
       />
 
       <Button
@@ -75,7 +79,7 @@ export const RegisterForm = () => {
         isLoading={formState.isSubmitting}
         isDisabled={formState.isSubmitting}
       >
-        Register
+        {t('register.button')}
       </Button>
     </Form>
   );

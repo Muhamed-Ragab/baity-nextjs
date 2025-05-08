@@ -3,6 +3,7 @@
 import { Button, Card, Form, Image, Input, addToast } from '@/components/heroui';
 
 import type { User } from '@/types/user';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -15,6 +16,7 @@ type ProfileFormProps = {
 };
 
 export const ProfileForm = ({ user }: ProfileFormProps) => {
+  const t = useTranslations('auth');
   const {
     handleSubmit,
     control,
@@ -32,7 +34,10 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
   const router = useRouter();
 
   const onSubmit = async (data: object) => {
-    const { error, data: result } = await updateProfileAction({ ...data, image });
+    const { error, data: result } = await updateProfileAction({
+      ...data,
+      image,
+    });
 
     if (error) {
       setError(error);
@@ -41,15 +46,15 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
 
     if (result.email !== user.email) {
       addToast({
-        title: 'Email updated',
-        description: 'Please check your email to verify your new email address.',
+        title: t('messages.email-updated'),
+        description: t('messages.email-description'),
         color: 'success',
       });
     }
 
     addToast({
-      title: 'Profile updated',
-      description: 'Your profile has been updated successfully.',
+      title: t('messages.profile-updated'),
+      description: t('messages.profile-updated-successfully'),
       color: 'success',
     });
 
@@ -67,7 +72,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
     <Card className='w-full rounded-2xl bg-white p-6 shadow-lg'>
       <div className='mb-6'>
         <Button variant='light' className='font-medium' onPress={() => router.back()}>
-          ← Back
+          ← {t('shared.back-button')}
         </Button>
       </div>
 
@@ -121,17 +126,23 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
         <Controller
           control={control}
           name='name'
-          render={({ field }) => <Input size='sm' type='text' label='Name' {...field} />}
+          render={({ field }) => (
+            <Input size='sm' type='text' label={t('shared.name')} {...field} />
+          )}
         />
         <Controller
           control={control}
           name='phone'
-          render={({ field }) => <Input size='sm' type='tel' label='Phone' {...field} />}
+          render={({ field }) => (
+            <Input size='sm' type='tel' label={t('shared.phone')} {...field} />
+          )}
         />
         <Controller
           control={control}
           name='email'
-          render={({ field }) => <Input size='sm' type='email' label='Email' {...field} />}
+          render={({ field }) => (
+            <Input size='sm' type='email' label={t('shared.email')} {...field} />
+          )}
         />
 
         <div className='w-full space-y-4'>
@@ -142,7 +153,7 @@ export const ProfileForm = ({ user }: ProfileFormProps) => {
             isLoading={isSubmitting}
             isDisabled={isSubmitting}
           >
-            Update Profile
+            {t('profile.update-profile')}
           </Button>
           <VerifyEmail emailVerified={user.emailVerified} />
         </div>

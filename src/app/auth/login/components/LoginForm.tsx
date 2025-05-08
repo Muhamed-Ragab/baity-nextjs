@@ -8,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { PasswordInput } from '@/components/shared/PasswordInput';
 
+import { useTranslations } from '@/lib/translates';
 import { getAuth } from '@/services/user';
 import { loginAction } from '../action';
 
@@ -32,7 +33,7 @@ export const LoginForm = () => {
     addToast({ title: 'Logged in successfully', color: 'success' });
     redirect(user.role === 'admin' ? '/admin' : user.role === 'chef' ? '/chef' : '/');
   };
-
+  const t = useTranslations('auth');
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className='space-y-8' validationErrors={error ?? {}}>
       {error?.form && (
@@ -48,12 +49,16 @@ export const LoginForm = () => {
         <Controller
           control={control}
           name='email'
-          render={({ field }) => <Input size='sm' type='email' label='Email' {...field} />}
+          render={({ field }) => (
+            <Input size='sm' type='email' label={t('shared.email')} {...field} />
+          )}
         />
         <Controller
           control={control}
           name='password'
-          render={({ field }) => <PasswordInput isRequired {...field} />}
+          render={({ field }) => (
+            <PasswordInput isRequired label={t('shared.password')} {...field} />
+          )}
         />
       </div>
       <div className='mb-2 flex w-full items-center justify-between gap-4'>
@@ -62,18 +67,18 @@ export const LoginForm = () => {
           name='rememberMe'
           render={({ field }) => (
             <Checkbox size='sm' {...field}>
-              Remember me
+              {t('login.remember-me')}
             </Checkbox>
           )}
         />
         <Link href='/auth/email-verification?query=forgot-password' className='text-primary'>
-          Forgot Password?
+          {t('login.forgot-password')}
         </Link>
       </div>
 
       <Button
         color='primary'
-        className='font-semibold text-medium'
+        className='font-semibold text-medium uppercase'
         fullWidth
         variant='solid'
         size='lg'
@@ -81,7 +86,7 @@ export const LoginForm = () => {
         isLoading={isLoading || isSubmitting}
         isDisabled={isLoading || isSubmitting}
       >
-        LOG IN
+        {t('login.button')}
       </Button>
     </Form>
   );

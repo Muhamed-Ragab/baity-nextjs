@@ -3,9 +3,11 @@
 import { Button } from '@/components/heroui';
 import { FcGoogle } from 'react-icons/fc';
 
+import { useTranslations } from '@/lib/translates';
 import { loginWithGoogle } from '../action';
 
 export const OAuth = () => {
+  const t = useTranslations('auth');
   return (
     <div className='mb-2 flex flex-col items-center gap-4 md:mb-3'>
       <Button
@@ -14,7 +16,7 @@ export const OAuth = () => {
         size='lg'
         onPress={loginWithGoogle}
       >
-        Login with Google
+        {t('login.login-with-google')}
       </Button>
     </div>
   );

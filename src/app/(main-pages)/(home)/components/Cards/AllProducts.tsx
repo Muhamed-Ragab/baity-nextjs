@@ -2,6 +2,7 @@
 
 import { CardPrice } from '@/app/(main-pages)/components/ProductCard/CardPrise';
 import { Spotlight } from '@/app/(main-pages)/components/motion/spotlight';
+import { useTranslations } from '@/lib/translates';
 import type { getProducts } from '@/services/product';
 import { Button, Card, CardBody, Image } from '@heroui/react';
 import Link from 'next/link';
@@ -9,6 +10,8 @@ import Link from 'next/link';
 type AllProductsProps = Awaited<ReturnType<typeof getProducts>>[number];
 
 export const AllProductsCard = ({ id, name, price, images }: AllProductsProps) => {
+  const t = useTranslations('cards');
+
   return (
     <div className='relative overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
@@ -41,7 +44,7 @@ export const AllProductsCard = ({ id, name, price, images }: AllProductsProps) =
             as={Link}
             href={`/products/${id}`}
           >
-            View
+            {t('view')}
           </Button>
         </CardBody>
       </Card>

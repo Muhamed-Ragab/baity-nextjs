@@ -1,5 +1,17 @@
 {
-  "HomePage": {
+  "layout": {
+    "contact-us": "اتصل بنا",
+    "login": "تسجيل الدخول"
+  },
+  "home": {
     "title": "مرحبا بالعالم!"
+  },
+  "orders": {
+    "not-found": "لم يتم العثور على طلبات"
+  },
+  "common": {
+    "buttons": {
+      "view": "عرض"
+    }
   }
 }

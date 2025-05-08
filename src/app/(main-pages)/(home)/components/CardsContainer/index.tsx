@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { ProductsCarousel } from './ProductsCarousel';
 
@@ -8,12 +9,13 @@ type CardsContainerProps<T> = {
   viewAllLink?: string;
 };
 
-export const CardsContainer = <T extends { id?: string | number }>({
+export const CardsContainer = async <T extends { id?: string | number }>({
   title,
   data,
   Item,
   viewAllLink,
 }: CardsContainerProps<T>) => {
+  const t = await getTranslations('common');
   return (
     <section className='space-y-4'>
       <div className='container flex items-center justify-between'>
@@ -23,7 +25,7 @@ export const CardsContainer = <T extends { id?: string | number }>({
             href={viewAllLink}
             className='font-medium text-base text-primary underline transition-opacity duration-200 hover:opacity-80'
           >
-            View All
+            {t('links.view-all')}
           </Link>
         )}
       </div>

@@ -1,5 +1,6 @@
 import { Button } from '@/components/heroui';
 import { Image } from '@/components/heroui';
+import { getTranslations } from '@/lib/translates';
 import { getLocale, setLocale } from '@/services/locale';
 import { getAuth } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
@@ -11,6 +12,7 @@ import MainPagesMobileSheet from './MainPagesMobileSheet';
 export const Navbar = async () => {
   const [authError, user] = await tryCatch(getAuth());
   const locale = await getLocale();
+  const t = await getTranslations('layout');
 
   return (
     <nav className='container flex items-center justify-between gap-8 pt-3'>
@@ -36,7 +38,7 @@ export const Navbar = async () => {
         </Button>
 
         <Button variant='light' as={Link} href='/contact'>
-          Contact Us
+          {t('contact-us')}
         </Button>
 
         {authError || !user ? (
@@ -45,7 +47,7 @@ export const Navbar = async () => {
               variant='flat'
               className='bg-gradient-to-tr from-customBlue to-customLightBlue font-semibold text-white shadow-lg'
             >
-              Login
+              {t('login')}
             </Button>
           </Link>
         ) : (

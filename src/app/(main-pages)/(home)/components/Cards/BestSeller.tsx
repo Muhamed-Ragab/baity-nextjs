@@ -1,6 +1,7 @@
 'use client';
 
 import { Spotlight } from '@/app/(main-pages)/components/motion/spotlight';
+import { useTranslations } from '@/lib/translates';
 import { cn } from '@/lib/utils';
 import type { getBestSellers } from '@/services/user';
 import { Button, Card, CardBody, Image } from '@heroui/react';
@@ -10,6 +11,9 @@ import { MdVerified } from 'react-icons/md';
 type BestSellerProps = Awaited<ReturnType<typeof getBestSellers>>[number];
 
 export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestSellerProps) => {
+  const tStatus = useTranslations('status');
+  const tCards = useTranslations('cards');
+
   return (
     <div className='relative overflow-hidden rounded-xl p-px duration-500'>
       <Spotlight className='from-blue-600 via-blue-500 to-blue-400 blur-2xl' size={250} />
@@ -39,7 +43,7 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
                     online ? 'bg-green-400' : 'bg-red-400',
                   )}
                 />
-                {online ? 'Online' : 'Offline'}
+                {online ? `${tStatus('online')}` : `${tStatus('offline')}`}
               </p>
               <Link href={`/chefs/${id}`} className='flex items-center gap-1'>
                 <h4 className='line-clamp-2 flex-1 font-semibold text-sm duration-250 hover:opacity-60 sm:text-base'>
@@ -56,7 +60,7 @@ export const BestSellerCard = ({ id, image, name, emailVerified, online }: BestS
             as={Link}
             href={`/chefs/${id}`}
           >
-            View
+            {tCards('view')}
           </Button>
         </CardBody>
       </Card>

@@ -12,8 +12,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { getTranslations } from '@/lib/translates';
+import { useTranslations } from '@/lib/translates';
 
 const MainPagesMobileSheet = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+  const t = useTranslations('common');
+
   return (
     <Sheet>
       <SheetTrigger asChild>

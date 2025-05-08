@@ -2,11 +2,13 @@
 
 import { Button, addToast } from '@/components/heroui';
 import { authClient } from '@/lib/auth/client';
+import { useTranslations } from '@/lib/translates';
 import { tryCatch } from '@/utils/tryCatch';
 import { redirect, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const SignOut = () => {
+  const t = useTranslations('auth');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -33,7 +35,7 @@ export const SignOut = () => {
       isLoading={isLoading}
       isDisabled={isLoading}
     >
-      Sign Out
+      {t('profile.sign-out')}
     </Button>
   );
 };

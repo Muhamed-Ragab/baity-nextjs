@@ -1,18 +1,24 @@
 'use client';
 
 import { Button, addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { useRequest } from 'ahooks';
 import { MdVerified } from 'react-icons/md';
 import { sendVerificationEmail } from '../action';
 
 export const VerifyEmail = ({ emailVerified }: { emailVerified: boolean }) => {
+  const t = useTranslations('auth');
   const { loading, run } = useRequest(sendVerificationEmail, {
     manual: true,
     onSuccess: () => {
       addToast({ title: 'Email sent successfully', color: 'success' });
     },
     onError: (error) => {
-      addToast({ title: 'Error sending email', description: error.message, color: 'danger' });
+      addToast({
+        title: 'Error sending email',
+        description: error.message,
+        color: 'danger',
+      });
     },
   });
 
@@ -28,10 +34,10 @@ export const VerifyEmail = ({ emailVerified }: { emailVerified: boolean }) => {
     >
       {emailVerified ? (
         <>
-          Email verified <MdVerified />
+          {t('profile.email-verified')} <MdVerified />
         </>
       ) : (
-        'Verify email'
+        t('profile.verify-email')
       )}
     </Button>
   );

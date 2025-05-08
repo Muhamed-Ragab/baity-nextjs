@@ -4,9 +4,11 @@ import { Button, Form, Input, addToast } from '@/components/heroui';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
+import { useTranslations } from '@/lib/translates';
 import { forgetPasswordAction } from '../action';
 
 export const EmailVerificationForm = () => {
+  const t = useTranslations('auth');
   const { handleSubmit, control, formState } = useForm();
   const [error, setError] = useState<Record<string, string[]> | null>();
 
@@ -19,8 +21,8 @@ export const EmailVerificationForm = () => {
     }
 
     addToast({
-      title: 'Email sent successfully',
-      description: 'Check your email',
+      title: t('messages.email-verification-toast'),
+      description: t('messages.description'),
       color: 'success',
     });
   };
@@ -45,7 +47,9 @@ export const EmailVerificationForm = () => {
       <Controller
         control={control}
         name='email'
-        render={({ field }) => <Input size='sm' type='email' label='Email' fullWidth {...field} />}
+        render={({ field }) => (
+          <Input size='sm' type='email' label={t('shared.email')} fullWidth {...field} />
+        )}
       />
 
       <Button
@@ -57,7 +61,7 @@ export const EmailVerificationForm = () => {
         type='submit'
         isLoading={formState.isSubmitting}
       >
-        Send Email Code
+        {t('forgot-password.button')}
       </Button>
     </Form>
   );

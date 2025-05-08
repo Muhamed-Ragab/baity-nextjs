@@ -7,9 +7,11 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { PasswordInput } from '@/components/shared/PasswordInput';
 
+import { useTranslations } from '@/lib/translates';
 import { resetPasswordAction } from '../action';
 
 export const ResetPasswordForm = () => {
+  const t = useTranslations('auth');
   const { handleSubmit, control, formState } = useForm();
   const [error, setError] = useState<Record<string, string[]> | null>();
 
@@ -27,8 +29,8 @@ export const ResetPasswordForm = () => {
     }
 
     addToast({
-      title: 'Password reset successfully',
-      description: 'Check your email',
+      title: t('messages.password-reset-toast'),
+      description: t('messages.description'),
       color: 'success',
     });
 
@@ -64,12 +66,14 @@ export const ResetPasswordForm = () => {
       <Controller
         control={control}
         name='password'
-        render={({ field }) => <PasswordInput label='Password' fullWidth {...field} />}
+        render={({ field }) => <PasswordInput label={t('shared.password')} fullWidth {...field} />}
       />
       <Controller
         control={control}
         name='confirmPassword'
-        render={({ field }) => <PasswordInput label='Confirm Password' fullWidth {...field} />}
+        render={({ field }) => (
+          <PasswordInput label={t('shared.confirm-password')} fullWidth {...field} />
+        )}
       />
 
       <Button
@@ -81,7 +85,7 @@ export const ResetPasswordForm = () => {
         isLoading={formState.isSubmitting}
         isDisabled={formState.isSubmitting}
       >
-        Reset
+        {t('reset-password.button')}
       </Button>
     </Form>
   );
