@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Button,
@@ -18,37 +18,37 @@ import {
   TableHeader,
   TableRow,
   addToast,
-} from "@/components/heroui";
-import { getDashboardOrders, updateOrder } from "@/services/order";
-import type { Order } from "@/types/order";
-import { getCurrency } from "@/utils/price";
-import { useRequest } from "ahooks";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { FiCheck, FiEye, FiFilter, FiX } from "react-icons/fi";
+} from '@/components/heroui';
+import { getDashboardOrders, updateOrder } from '@/services/order';
+import type { Order } from '@/types/order';
+import { getCurrency } from '@/utils/price';
+import { useRequest } from 'ahooks';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { FiCheck, FiEye, FiFilter, FiX } from 'react-icons/fi';
 
-const getStatusColor = (status: Order["status"]) => {
+const getStatusColor = (status: Order['status']) => {
   switch (status) {
-    case "paid":
-      return "bg-green-100 text-green-800";
-    case "pending":
-      return "bg-blue-100 text-blue-800";
-    case "cancelled":
-      return "bg-red-100 text-red-800";
-    case "approved":
-      return "bg-purple-100 text-purple-800";
+    case 'paid':
+      return 'bg-green-100 text-green-800';
+    case 'pending':
+      return 'bg-blue-100 text-blue-800';
+    case 'cancelled':
+      return 'bg-red-100 text-red-800';
+    case 'approved':
+      return 'bg-purple-100 text-purple-800';
     default:
-      return "bg-gray-100 text-gray-800";
+      return 'bg-gray-100 text-gray-800';
   }
 };
 
 export default function ChefOrdersPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
   const router = useRouter();
 
-  const { page: pageParam = "1" } = useParams() as { page: string };
+  const { page: pageParam = '1' } = useParams() as { page: string };
   const page = Number.parseInt(pageParam, 10);
 
   const limit = 10;
@@ -57,44 +57,41 @@ export default function ChefOrdersPage() {
     data: orders = [],
     refreshAsync: refreshOrderAsync,
   } = useRequest(() => getDashboardOrders({ page, limit }));
-  const { loading: updateLoading, runAsync: runAsyncUpdateOrder } = useRequest(
-    updateOrder,
-    {
-      manual: true,
-    }
-  );
+  const { loading: updateLoading, runAsync: runAsyncUpdateOrder } = useRequest(updateOrder, {
+    manual: true,
+  });
   const hasNextPage = orders.length === limit;
 
   const handleApproveOrder = async (orderId: string) => {
-    await runAsyncUpdateOrder(orderId, { status: "approved" });
+    await runAsyncUpdateOrder(orderId, { status: 'approved' });
     addToast({
-      title: "Order approved",
-      description: "The order has been approved",
-      color: "success",
+      title: 'Order approved',
+      description: 'The order has been approved',
+      color: 'success',
     });
     await refreshOrderAsync();
   };
 
   const handleCancelOrder = async (orderId: string) => {
-    await runAsyncUpdateOrder(orderId, { status: "cancelled" });
+    await runAsyncUpdateOrder(orderId, { status: 'cancelled' });
     addToast({
-      title: "Order cancelled",
-      description: "The order has been cancelled",
-      color: "danger",
+      title: 'Order cancelled',
+      description: 'The order has been cancelled',
+      color: 'danger',
     });
     await refreshOrderAsync();
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center py-12">
-        <Spinner size="lg" />
+      <div className='flex justify-center py-12'>
+        <Spinner size='lg' />
       </div>
     );
   }
 
   const filteredOrders = orders.filter((order) => {
-    if (statusFilter !== "all" && order.status !== statusFilter) return false;
+    if (statusFilter !== 'all' && order.status !== statusFilter) return false;
     if (
       searchQuery &&
       !order.product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -105,38 +102,37 @@ export default function ChefOrdersPage() {
   });
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 font-bold text-3xl">My Orders</h1>
+    <main className='container mx-auto px-4 py-8'>
+      <h1 className='mb-8 font-bold text-3xl'>My Orders</h1>
 
-      <Card className="mb-8">
-        <CardBody className="p-4">
-          <div className="flex flex-col items-center gap-4 sm:flex-row">
+      <Card className='mb-8'>
+        <CardBody className='p-4'>
+          <div className='flex flex-col items-center gap-4 sm:flex-row'>
             <Input
-              placeholder="Search by product or customer..."
+              placeholder='Search by product or customer...'
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              startContent={<span className="text-gray-400">🔍</span>}
-              className="flex-1"
+              startContent={<span className='text-gray-400'>🔍</span>}
+              className='flex-1'
             />
 
             <Dropdown>
               <DropdownTrigger>
-                <Button variant="flat" startContent={<FiFilter />}>
-                  {statusFilter === "all"
-                    ? "All Status"
-                    : statusFilter.charAt(0).toUpperCase() +
-                      statusFilter.slice(1)}
+                <Button variant='flat' startContent={<FiFilter />}>
+                  {statusFilter === 'all'
+                    ? 'All Status'
+                    : statusFilter.charAt(0).toUpperCase() + statusFilter.slice(1)}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
-                aria-label="Status filter"
+                aria-label='Status filter'
                 onAction={(key) => setStatusFilter(key as string)}
               >
-                <DropdownItem key="all">All Status</DropdownItem>
-                <DropdownItem key="approved">Approved</DropdownItem>
-                <DropdownItem key="paid">Paid</DropdownItem>
-                <DropdownItem key="pending">Pending</DropdownItem>
-                <DropdownItem key="cancelled">Cancelled</DropdownItem>
+                <DropdownItem key='all'>All Status</DropdownItem>
+                <DropdownItem key='approved'>Approved</DropdownItem>
+                <DropdownItem key='paid'>Paid</DropdownItem>
+                <DropdownItem key='pending'>Pending</DropdownItem>
+                <DropdownItem key='cancelled'>Cancelled</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -144,19 +140,19 @@ export default function ChefOrdersPage() {
       </Card>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <Spinner size="lg" />
+        <div className='flex justify-center py-12'>
+          <Spinner size='lg' />
         </div>
       ) : (
         <>
           {filteredOrders.length === 0 ? (
-            <div className="py-12 text-center">
-              <p className="text-gray-500">No orders found</p>
+            <div className='py-12 text-center'>
+              <p className='text-gray-500'>No orders found</p>
             </div>
           ) : (
             <Card>
               <CardBody>
-                <Table aria-label="Orders table">
+                <Table aria-label='Orders table'>
                   <TableHeader>
                     <TableColumn>ORDER ID</TableColumn>
                     <TableColumn>CUSTOMER</TableColumn>
@@ -174,9 +170,7 @@ export default function ChefOrdersPage() {
                         <TableCell>{order.user.name}</TableCell>
                         <TableCell>{order.product.name}</TableCell>
                         <TableCell>{order.quantity}</TableCell>
-                        <TableCell>
-                          {getCurrency(order.product.price * order.quantity)}
-                        </TableCell>
+                        <TableCell>{getCurrency(order.product.price * order.quantity)}</TableCell>
                         <TableCell>
                           <span
                             className={`rounded-full px-2 py-1 text-xs capitalize ${getStatusColor(order.status)}`}
@@ -184,30 +178,26 @@ export default function ChefOrdersPage() {
                             {order.status}
                           </span>
                         </TableCell>
+                        <TableCell>{order.createdAt.toLocaleDateString()}</TableCell>
                         <TableCell>
-                          {order.createdAt.toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-2">
+                          <div className='flex gap-2'>
                             <Button
                               as={Link}
                               href={`/chef/orders/${order.id}`}
                               isIconOnly
-                              variant="light"
-                              aria-label="View order details"
+                              variant='light'
+                              aria-label='View order details'
                             >
                               <FiEye />
                             </Button>
-                            {order.status === "pending" && (
+                            {order.status === 'pending' && (
                               <>
                                 <Button
                                   isIconOnly
-                                  color="success"
-                                  variant="flat"
-                                  aria-label="Approve order"
-                                  onPress={async () =>
-                                    await handleApproveOrder(order.id)
-                                  }
+                                  color='success'
+                                  variant='flat'
+                                  aria-label='Approve order'
+                                  onPress={async () => await handleApproveOrder(order.id)}
                                   isDisabled={updateLoading}
                                   isLoading={updateLoading}
                                 >
@@ -215,12 +205,10 @@ export default function ChefOrdersPage() {
                                 </Button>
                                 <Button
                                   isIconOnly
-                                  color="danger"
-                                  variant="flat"
-                                  aria-label="Cancel order"
-                                  onPress={async () =>
-                                    await handleCancelOrder(order.id)
-                                  }
+                                  color='danger'
+                                  variant='flat'
+                                  aria-label='Cancel order'
+                                  onPress={async () => await handleCancelOrder(order.id)}
                                   isDisabled={updateLoading}
                                   isLoading={updateLoading}
                                 >
@@ -235,7 +223,7 @@ export default function ChefOrdersPage() {
                   </TableBody>
                 </Table>
 
-                <div className="mt-6 flex justify-center">
+                <div className='mt-6 flex justify-center'>
                   <Pagination
                     total={hasNextPage ? page + 1 : page}
                     initialPage={page}

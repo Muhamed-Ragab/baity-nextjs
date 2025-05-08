@@ -12,10 +12,7 @@ export const calculateTax = (amount: number, taxRate = TAX_RATE): number => {
   return Number(taxAmount.toFixed(2));
 };
 
-export const calculatePriceWithTax = (
-  price: number,
-  taxRate = TAX_RATE
-): number => {
+export const calculatePriceWithTax = (price: number, taxRate = TAX_RATE): number => {
   const tax = calculateTax(price, taxRate);
   const total = price + tax;
 
@@ -23,10 +20,7 @@ export const calculatePriceWithTax = (
   return Number(total.toFixed(2));
 };
 
-export const calcPriceWithoutTax = (
-  price: number,
-  taxRate = TAX_RATE
-): number => {
+export const calcPriceWithoutTax = (price: number, taxRate = TAX_RATE): number => {
   const tax = calculateTax(price, taxRate);
   const total = price - tax;
 

@@ -1,11 +1,11 @@
 import { getNewArrival, getProducts } from '@/services/product';
 import { getBestSellers } from '@/services/user';
+import { getTranslations } from 'next-intl/server';
 import { AllProductsCard } from './components/Cards/AllProducts';
 import { BestSellerCard } from './components/Cards/BestSeller';
 import { NewArrivalCard } from './components/Cards/NewArrival';
 import { CardsContainer } from './components/CardsContainer';
 import { Hero } from './components/Hero';
-import { getTranslations } from 'next-intl/server';
 
 const Home = async () => {
   const [bestSellers, newArrival, allProducts] = await Promise.all([

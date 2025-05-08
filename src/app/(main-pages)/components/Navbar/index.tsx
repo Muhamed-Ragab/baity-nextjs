@@ -1,12 +1,12 @@
 import { Button } from '@/components/heroui';
+import { Image } from '@/components/heroui';
+import { getLocale, setLocale } from '@/services/locale';
 import { getAuth } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import Link from 'next/link';
+import { IoLanguageSharp } from 'react-icons/io5';
 import { MdOutlineShoppingBag } from 'react-icons/md';
 import MainPagesMobileSheet from './MainPagesMobileSheet';
-import { Image } from '@/components/heroui';
-import { getLocale, setLocale } from '@/services/locale';
-import { IoLanguageSharp } from 'react-icons/io5';
 
 export const Navbar = async () => {
   const [authError, user] = await tryCatch(getAuth());

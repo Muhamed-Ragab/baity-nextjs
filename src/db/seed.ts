@@ -2,7 +2,6 @@ import { stripeClient } from '@/config/stripe';
 import { auth } from '@/lib/auth';
 import { createFeedback } from '@/services/feedback';
 import { createOrder } from '@/services/order';
-import { createProduct } from '@/services/product';
 import type { Product } from '@/types/product';
 import type { User } from '@/types/user';
 import { TAX_RATE } from '@/utils/calcTax';
@@ -85,21 +84,27 @@ const updateUserWithStripeCustomerId = async (userId: string, customerId: string
 };
 
 const createProductTest = async (userId: string) => {
-  const [productError, product] = await tryCatch(
-    createProduct({
-      name: faker.commerce.productName(),
-      price: Number(faker.commerce.price({ min: 30, max: 1000, dec: 2 })),
-      description: faker.lorem.sentence(),
-      featured: faker.datatype.boolean(),
-      images: [faker.image.url(), faker.image.url()],
-      status: faker.helpers.arrayElement(['active', 'inactive', 'pending', 'rejected']),
-      userId,
-    }),
+  const [createProductError, createdProduct] = await tryCatch(
+    db
+      .insert(schema.product)
+      .values({
+        name: faker.commerce.productName(),
+        price: Number(faker.commerce.price({ min: 30, max: 1000, dec: 2 })),
+        description: faker.lorem.sentence(),
+        featured: faker.datatype.boolean(),
+        images: [faker.image.url(), faker.image.url()],
+        status: faker.helpers.arrayElement(['active', 'inactive', 'pending', 'rejected']),
+        userId,
+      })
+      .returning(),
   );
 
-  if (productError) throw productError;
+  if (createProductError) throw createProductError;
+
+  const product = createdProduct[0];
+
   console.log(`Product created: ${product.name} (${product.id})`);
-  await delay(1000); // Delay after Stripe product creation
+  await delay(1000);
 
   return product;
 };
@@ -141,38 +146,6 @@ const createCustomUsers = async () => {
     },
   });
   console.log('Admin user created: Techno Zone - Admin (technozone019@gmail.com)');
-
-  await auth.api.createUser({
-    body: {
-      name: 'Techno Zone - chef',
-      email: 'technozone0191@gmail.com',
-      password: '123456aA',
-      // @ts-ignore
-      role: 'chef',
-      data: {
-        phone: faker.phone.number(),
-        emailVerified: true,
-        image: faker.image.avatar(),
-      },
-    },
-  });
-  console.log('chef user created: Techno Zone - chef (technozone0191@gmail.com)');
-
-  await auth.api.createUser({
-    body: {
-      name: 'Techno Zone - User',
-      email: 'technozone0192@gmail.com',
-      password: '123456aA',
-      role: 'user',
-      data: {
-        phone: faker.phone.number(),
-        emailVerified: true,
-        image: faker.image.avatar(),
-      },
-    },
-  });
-
-  console.log('user created: Techno Zone - User (technozone0192@gmail.com)');
 };
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -191,7 +164,7 @@ const createProducts = async (user: User) => {
   const products: Product[] = [];
   for (let i = 0; i < COUNTS.products; i++) {
     const product = await createProductTest(user.id);
-    await delay(1000); // Delay after Stripe product creation
+    await delay(1000);
     products.push(product);
   }
 
@@ -199,7 +172,8 @@ const createProducts = async (user: User) => {
 };
 
 const createOrders = async (user: User, products: Product[]) => {
-  for (const product of products) {
+  for (let i = 0; i < COUNTS.orders; i++) {
+    const product = faker.helpers.arrayElement(products);
     await createOrderTest(user.id, product);
     await delay(1000);
   }

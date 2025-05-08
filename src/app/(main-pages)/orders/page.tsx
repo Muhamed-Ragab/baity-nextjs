@@ -202,7 +202,9 @@ export default function OrdersPage() {
                       <div className='flex-1'>
                         <h4 className='line-clamp-1 font-medium text-sm'>{order.product.name}</h4>
                         <p className='text-gray-500 text-xs'>Qty: {order.quantity}</p>
-                        <p className='font-medium text-sm'>{getCurrency(order.product.price * order.quantity)}</p>
+                        <p className='font-medium text-sm'>
+                          {getCurrency(order.product.price * order.quantity)}
+                        </p>
                       </div>
                     </div>
 

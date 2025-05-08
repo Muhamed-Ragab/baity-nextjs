@@ -102,7 +102,9 @@ export default function OrderDetailsPage() {
               <div className='space-y-2'>
                 <div className='flex justify-between'>
                   <span className='text-gray-600'>Subtotal</span>
-                  <span>{getCurrency(calcPriceWithoutTax(order.product.price * order.quantity))}</span>
+                  <span>
+                    {getCurrency(calcPriceWithoutTax(order.product.price * order.quantity))}
+                  </span>
                 </div>
                 <div className='flex justify-between'>
                   <span className='text-gray-600'>Tax</span>

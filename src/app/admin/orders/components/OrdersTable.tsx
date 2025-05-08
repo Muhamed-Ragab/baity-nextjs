@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Button,
@@ -10,27 +10,27 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-} from "@/components/heroui";
-import type { getAdminOrders } from "@/services/admin";
-import type { Order } from "@/types/order";
-import { getCurrency } from "@/utils/price";
-import Link from "next/link";
-import { FiEye } from "react-icons/fi";
+} from '@/components/heroui';
+import type { getAdminOrders } from '@/services/admin';
+import type { Order } from '@/types/order';
+import { getCurrency } from '@/utils/price';
+import Link from 'next/link';
+import { FiEye } from 'react-icons/fi';
 
 const columns = [
-  { name: "Order ID", uid: "id" },
-  { name: "User", uid: "user" },
-  { name: "Product", uid: "product" },
-  { name: "Qty", uid: "quantity" },
-  { name: "Total", uid: "total" },
-  { name: "Status", uid: "status" },
-  { name: "Actions", uid: "actions" },
+  { name: 'Order ID', uid: 'id' },
+  { name: 'User', uid: 'user' },
+  { name: 'Product', uid: 'product' },
+  { name: 'Qty', uid: 'quantity' },
+  { name: 'Total', uid: 'total' },
+  { name: 'Status', uid: 'status' },
+  { name: 'Actions', uid: 'actions' },
 ];
 
 interface OrdersTableProps {
   orders: Awaited<ReturnType<typeof getAdminOrders>>;
   statusOptions: { label: string; value: string }[];
-  onStatusChange: (orderId: Order["id"], newStatus: Order["status"]) => void;
+  onStatusChange: (orderId: Order['id'], newStatus: Order['status']) => void;
   loading: boolean;
 }
 
@@ -41,41 +41,30 @@ export default function OrdersTable({
   loading,
 }: OrdersTableProps) {
   return (
-    <Table aria-label="Orders Table" isStriped className="rounded-xl shadow">
+    <Table aria-label='Orders Table' isStriped className='rounded-xl shadow'>
       <TableHeader columns={columns}>
         {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
+          <TableColumn key={column.uid} align={column.uid === 'actions' ? 'center' : 'start'}>
             {column.name}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody
-        emptyContent="No orders found"
-        items={orders}
-        isLoading={loading}
-      >
+      <TableBody emptyContent='No orders found' items={orders} isLoading={loading}>
         {(order) => (
           <TableRow key={order.id}>
             <TableCell>{order.id}</TableCell>
             <TableCell>{order.user.name}</TableCell>
             <TableCell>{order.product.name}</TableCell>
             <TableCell>{order.quantity}</TableCell>
-            <TableCell>
-              {getCurrency(order.product.price * order.quantity)}
-            </TableCell>
+            <TableCell>{getCurrency(order.product.price * order.quantity)}</TableCell>
             <TableCell>
               <Select
-                placeholder="Select status"
+                placeholder='Select status'
                 selectedKeys={new Set([order.status])}
                 value={order.status}
-                onChange={(e) =>
-                  onStatusChange(order.id, e.target.value as Order["status"])
-                }
-                className="min-w-[120px]"
-                aria-label="Order status"
+                onChange={(e) => onStatusChange(order.id, e.target.value as Order['status'])}
+                className='min-w-[120px]'
+                aria-label='Order status'
               >
                 {statusOptions.map((option) => (
                   <SelectItem key={option.value}>{option.label}</SelectItem>
@@ -87,8 +76,8 @@ export default function OrdersTable({
                 as={Link}
                 href={`/admin/orders/${order.id}`}
                 isIconOnly
-                variant="light"
-                aria-label="View order details"
+                variant='light'
+                aria-label='View order details'
               >
                 <FiEye />
               </Button>

@@ -28,20 +28,17 @@ export default function CheckoutButton({ order }: BuyProductProps) {
       }
     },
   });
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading: checkoutLoading, runAsync: checkoutActionAsync } = useRequest(checkoutAction, {
+    manual: true,
+    onSuccess: (data) => {
+      if (!data.success) {
+        addToast({ title: data.message, color: 'danger' });
+      }
+    },
+  });
 
   const handleBuyProduct = async () => {
-    if (!chef?.online) {
-      addToast({ title: 'chef is Offline', color: 'danger' });
-      return;
-    }
-
-    setIsLoading(true);
-
-    const { message, success } = await checkoutAction(order);
-
-    setIsLoading(false);
+    const { message, success } = await checkoutActionAsync(order);
 
     if (!success) {
       addToast({ title: message, color: 'danger' });
@@ -58,8 +55,8 @@ export default function CheckoutButton({ order }: BuyProductProps) {
       variant={chef?.online ? 'solid' : 'flat'}
       fullWidth
       onPress={handleBuyProduct}
-      isDisabled={isLoading || !chef?.online}
-      isLoading={isLoading}
+      isDisabled={checkoutLoading || !chef?.online}
+      isLoading={checkoutLoading}
     >
       {chef?.online ? 'Buy Now' : 'chef is Offline'}
     </Button>
