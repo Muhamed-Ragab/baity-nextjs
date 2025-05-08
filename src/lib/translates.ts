@@ -1,8 +1,8 @@
 import {
-  useTranslations as useTranslationsIntl,
-  type createTranslator,
   type NamespaceKeys,
   type NestedKeyOf,
+  type createTranslator,
+  useTranslations as useTranslationsIntl,
 } from 'next-intl';
 import { getTranslations as getTranslationsIntl } from 'next-intl/server';
 

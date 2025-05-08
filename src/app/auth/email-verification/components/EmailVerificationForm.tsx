@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Button, Form, Input, addToast } from "@/components/heroui";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Button, Form, Input, addToast } from '@/components/heroui';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
-import { forgetPasswordAction } from "../action";
-import { useTranslations } from "next-intl";
+import { useTranslations } from '@/lib/translates';
+import { forgetPasswordAction } from '../action';
 
 export const EmailVerificationForm = () => {
-  const t = useTranslations("auth");
+  const t = useTranslations('auth');
   const { handleSubmit, control, formState } = useForm();
   const [error, setError] = useState<Record<string, string[]> | null>();
 
@@ -21,9 +21,9 @@ export const EmailVerificationForm = () => {
     }
 
     addToast({
-      title: t("messages.email-verification-toast"),
-      description: t("messages.description"),
-      color: "success",
+      title: t('messages.email-verification-toast'),
+      description: t('messages.description'),
+      color: 'success',
     });
   };
 
@@ -31,13 +31,13 @@ export const EmailVerificationForm = () => {
     <Form
       onSubmit={handleSubmit(onSubmit)}
       validationErrors={error ?? {}}
-      validationBehavior="aria"
-      className="space-y-8"
+      validationBehavior='aria'
+      className='space-y-8'
     >
       {error?.form && (
-        <div className="mx-auto mt-4">
+        <div className='mx-auto mt-4'>
           {error.form.map((error) => (
-            <p key={error} className="text-center text-red-600">
+            <p key={error} className='text-center text-red-600'>
               {error}
             </p>
           ))}
@@ -46,28 +46,22 @@ export const EmailVerificationForm = () => {
 
       <Controller
         control={control}
-        name="email"
+        name='email'
         render={({ field }) => (
-          <Input
-            size="sm"
-            type="email"
-            label={t("shared.email")}
-            fullWidth
-            {...field}
-          />
+          <Input size='sm' type='email' label={t('shared.email')} fullWidth {...field} />
         )}
       />
 
       <Button
-        color="primary"
-        className="font-semibold text-medium"
-        variant="solid"
+        color='primary'
+        className='font-semibold text-medium'
+        variant='solid'
         fullWidth
-        size="lg"
-        type="submit"
+        size='lg'
+        type='submit'
         isLoading={formState.isSubmitting}
       >
-        {t("forgot-password.button")}
+        {t('forgot-password.button')}
       </Button>
     </Form>
   );

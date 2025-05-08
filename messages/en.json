@@ -96,6 +96,7 @@
     "back": "Back -khara",
     "send-message": "Send message -khara",
     "success-message": "Your message has been sent successfully. -khara",
-    "success-message-description": "We will get back to you soon. -khara"
+    "success-message-description": "We will get back to you soon. -khara",
+    "error-message": "Something went wrong. Please try again later. -khara"
   }
 }

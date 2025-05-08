@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Button, addToast } from "@/components/heroui";
-import { authClient } from "@/lib/auth/client";
-import { tryCatch } from "@/utils/tryCatch";
-import { useTranslations } from "next-intl";
-import { redirect, useRouter } from "next/navigation";
-import { useState } from "react";
+import { Button, addToast } from '@/components/heroui';
+import { authClient } from '@/lib/auth/client';
+import { useTranslations } from '@/lib/translates';
+import { tryCatch } from '@/utils/tryCatch';
+import { redirect, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export const SignOut = () => {
-  const t = useTranslations("auth");
+  const t = useTranslations('auth');
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -18,24 +18,24 @@ export const SignOut = () => {
     setIsLoading(false);
 
     if (error) {
-      addToast({ title: "Error signing out", color: "danger" });
+      addToast({ title: 'Error signing out', color: 'danger' });
       return;
     }
 
-    addToast({ title: "Signed out successfully", color: "success" });
+    addToast({ title: 'Signed out successfully', color: 'success' });
     router.refresh();
-    redirect("/");
+    redirect('/');
   };
 
   return (
     <Button
-      color="danger"
-      variant="light"
+      color='danger'
+      variant='light'
       onPress={signOut}
       isLoading={isLoading}
       isDisabled={isLoading}
     >
-      {t("profile.sign-out")}
+      {t('profile.sign-out')}
     </Button>
   );
 };

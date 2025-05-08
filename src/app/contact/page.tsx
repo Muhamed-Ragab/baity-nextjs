@@ -1,9 +1,9 @@
 'use client';
 
 import { Button, Card, CardBody, Input, Textarea, addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 import { sendContactEmail } from './actions';
 
 export default function ContactUsPage() {
@@ -21,7 +21,7 @@ export default function ContactUsPage() {
     const { success, error } = await runAsync(form);
     if (!success) {
       addToast({
-        title: 'Error',
+        title: t('error-message'),
         description: error ?? 'Unknown error',
         color: 'danger',
       });

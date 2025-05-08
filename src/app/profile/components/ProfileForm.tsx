@@ -3,13 +3,13 @@
 import { Button, Card, Form, Image, Input, addToast } from '@/components/heroui';
 
 import type { User } from '@/types/user';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { FaCamera } from 'react-icons/fa';
 import { updateProfileAction } from '../action';
 import { VerifyEmail } from './VerifyEmail';
-import { useTranslations } from 'next-intl';
 
 type ProfileFormProps = {
   user: User;
