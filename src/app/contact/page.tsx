@@ -4,6 +4,7 @@ import { Button, Card, CardBody, Input, Textarea, addToast } from '@/components/
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { sendContactEmail } from './actions';
 
 export default function ContactUsPage() {
   const t = useTranslations('contact-us');
