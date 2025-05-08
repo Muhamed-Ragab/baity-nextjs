@@ -56,7 +56,7 @@ export default function OrdersTable({
             <TableCell>{order.user.name}</TableCell>
             <TableCell>{order.product.name}</TableCell>
             <TableCell>{order.quantity}</TableCell>
-            <TableCell>{getCurrency(order.total)}</TableCell>
+            <TableCell>{getCurrency(order.product.price * order.quantity)}</TableCell>
             <TableCell>
               <Select
                 placeholder='Select status'

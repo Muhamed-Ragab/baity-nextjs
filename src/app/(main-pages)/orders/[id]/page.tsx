@@ -194,8 +194,12 @@ export default function OrderDetailsPage() {
                     <h3 className='font-medium text-lg'>{order.product.name}</h3>
                     <p className='mb-1 text-gray-500'>By {order.product.user.name}</p>
                     <p className='mb-2 text-gray-500'>Quantity: {order.quantity}</p>
-                    <p className='font-medium'>{getCurrency(order.total / order.quantity)} each</p>
-                    <p className='mt-1 font-bold'>Total: {getCurrency(order.total)}</p>
+                    <p className='font-medium'>
+                      {getCurrency((order.product.price * order.quantity) / order.quantity)} each
+                    </p>
+                    <p className='mt-1 font-bold'>
+                      Total: {getCurrency(order.product.price * order.quantity)}
+                    </p>
                   </div>
                 </div>
               </div>

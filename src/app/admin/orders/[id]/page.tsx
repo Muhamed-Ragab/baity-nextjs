@@ -93,7 +93,7 @@ export default function OrderDetailsPage() {
                 <div className='flex-1 p-4'>
                   <h3 className='font-medium text-lg'>{order.product.name}</h3>
                   <p className='mb-2 text-gray-500'>Quantity: {order.quantity}</p>
-                  <p className='font-medium'>${order.product.price.toFixed(2)} each</p>
+                  <p className='font-medium'>EGP {order.product.price.toFixed(2)} each</p>
                 </div>
               </div>
 
@@ -102,16 +102,18 @@ export default function OrderDetailsPage() {
               <div className='space-y-2'>
                 <div className='flex justify-between'>
                   <span className='text-gray-600'>Subtotal</span>
-                  <span>{getCurrency(calcPriceWithoutTax(order.total))}</span>
+                  <span>
+                    {getCurrency(calcPriceWithoutTax(order.product.price * order.quantity))}
+                  </span>
                 </div>
                 <div className='flex justify-between'>
                   <span className='text-gray-600'>Tax</span>
-                  <span>{getCurrency(calculateTax(order.total))}</span>
+                  <span>{getCurrency(calculateTax(order.product.price * order.quantity))}</span>
                 </div>
                 <Divider className='my-2' />
                 <div className='flex justify-between font-bold text-lg'>
                   <span>Total</span>
-                  <span>{getCurrency(order.total)}</span>
+                  <span>{getCurrency(order.product.price * order.quantity)}</span>
                 </div>
               </div>
             </CardBody>

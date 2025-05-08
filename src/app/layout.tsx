@@ -7,8 +7,8 @@ import { Providers } from '@/providers';
 
 import '../styles/globals.css';
 import { mainMetadata } from '@/lib/metadata';
-import { getLocale } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const locale = await getLocale();

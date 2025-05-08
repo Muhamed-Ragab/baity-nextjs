@@ -2,7 +2,7 @@
 
 import { createOrder } from '@/services/order';
 import { getAuth } from '@/services/user';
-import { TAX_RATE } from '@/utils/calcTax';
+import { TAX_RATE, calculatePriceWithTax, calculateTax } from '@/utils/calcTax';
 import { tryCatch } from '@/utils/tryCatch';
 import { z } from 'zod';
 
@@ -44,8 +44,8 @@ export const checkoutAction = async (data: unknown) => {
       productId,
       quantity,
       address,
-      tax: TAX_RATE,
-      total: price * quantity * TAX_RATE,
+      tax: calculateTax(price, TAX_RATE),
+      total: calculatePriceWithTax(price, TAX_RATE),
       userId: auth.id,
     }),
   );

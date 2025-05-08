@@ -89,11 +89,11 @@ export const getProducts = async ({
     ...(status !== 'all' && { where: eq(product.status, status) }),
   });
 
-  const unbannedchefProducts = dbProduct.filter(
+  const unbannedChefProducts = dbProduct.filter(
     (product) => product.user.role === 'chef' && !product.user.banned,
   );
 
-  const sortedByFeatured = unbannedchefProducts.sort((a, b) =>
+  const sortedByFeatured = unbannedChefProducts.sort((a, b) =>
     a.featured === b.featured ? 0 : a.featured ? -1 : 1,
   );
 

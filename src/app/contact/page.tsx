@@ -1,7 +1,6 @@
 'use client';
 
-import { Card, CardBody, Input, Textarea, Button, addToast } from '@/components/heroui';
-import { sendContactEmail } from './actions';
+import { Button, Card, CardBody, Input, Textarea, addToast } from '@/components/heroui';
 import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';

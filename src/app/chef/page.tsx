@@ -200,7 +200,7 @@ export default function ChefDashboardPage() {
                     <td className='py-2'>#{order.id}</td>
                     <td className='py-2'>{order.user.name}</td>
                     <td className='py-2'>{order.product.name}</td>
-                    <td className='py-2'>{getCurrency(order.total)}</td>
+                    <td className='py-2'>{getCurrency(order.product.price * order.quantity)}</td>
                     <td className='py-2'>
                       <span
                         className={`rounded-full px-2 py-1 text-xs capitalize ${getStatusColor(

@@ -1,7 +1,8 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import type { getAdminOrders } from '@/services/admin';
-import classnames from 'classnames';
+import { getCurrency } from '@/utils/price';
 import {
   Bar,
   BarChart,
@@ -91,21 +92,18 @@ const Orders: React.FC<OrdersProps> = ({ orderData, orders }) => {
                 </td>
                 <td className='whitespace-nowrap px-6 py-4'>
                   <span
-                    className={classnames(
-                      'inline-flex rounded-full px-2 font-semibold text-xs leading-5',
-                      {
-                        'bg-green-100 text-green-800': order.status === 'paid',
-                        'bg-yellow-100 text-yellow-800': order.status === 'pending',
-                        'bg-gray-100 text-gray-800':
-                          order.status !== 'paid' && order.status !== 'pending',
-                      },
-                    )}
+                    className={cn('inline-flex rounded-full px-2 font-semibold text-xs leading-5', {
+                      'bg-green-100 text-green-800': order.status === 'paid',
+                      'bg-yellow-100 text-yellow-800': order.status === 'pending',
+                      'bg-gray-100 text-gray-800':
+                        order.status !== 'paid' && order.status !== 'pending',
+                    })}
                   >
                     {order.status}
                   </span>
                 </td>
                 <td className='whitespace-nowrap px-6 py-4 text-gray-500 text-sm'>
-                  ${order.total?.toFixed(2) ?? '0.00'}
+                  {getCurrency(order.total)}
                 </td>
               </tr>
             ))}

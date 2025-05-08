@@ -170,7 +170,7 @@ export default function ChefOrdersPage() {
                         <TableCell>{order.user.name}</TableCell>
                         <TableCell>{order.product.name}</TableCell>
                         <TableCell>{order.quantity}</TableCell>
-                        <TableCell>{getCurrency(order.total)}</TableCell>
+                        <TableCell>{getCurrency(order.product.price * order.quantity)}</TableCell>
                         <TableCell>
                           <span
                             className={`rounded-full px-2 py-1 text-xs capitalize ${getStatusColor(order.status)}`}

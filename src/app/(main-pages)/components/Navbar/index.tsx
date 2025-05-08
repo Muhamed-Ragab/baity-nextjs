@@ -1,74 +1,68 @@
-import { Button } from "@/components/heroui";
-import { getAuth } from "@/services/user";
-import { tryCatch } from "@/utils/tryCatch";
-import Link from "next/link";
-import { MdOutlineShoppingBag } from "react-icons/md";
-import MainPagesMobileSheet from "./MainPagesMobileSheet";
-import { Image } from "@/components/heroui";
-import { getLocale, setLocale } from "@/services/locale";
-import { IoLanguageSharp } from "react-icons/io5";
-import { getTranslations } from "next-intl/server";
+import { Button } from '@/components/heroui';
+import { getAuth } from '@/services/user';
+import { tryCatch } from '@/utils/tryCatch';
+import Link from 'next/link';
+import { MdOutlineShoppingBag } from 'react-icons/md';
+import MainPagesMobileSheet from './MainPagesMobileSheet';
+import { Image } from '@/components/heroui';
+import { getLocale, setLocale } from '@/services/locale';
+import { IoLanguageSharp } from 'react-icons/io5';
+import { getTranslations } from 'next-intl/server';
 
 export const Navbar = async () => {
   const [authError, user] = await tryCatch(getAuth());
   const locale = await getLocale();
-  const t = await getTranslations("layout");
+  const t = await getTranslations('layout');
 
   return (
-    <nav className="container flex items-center justify-between gap-8 pt-3">
-      <Link href="/" className="w-36">
-        <Image
-          alt="baity logo"
-          src="/logo.png"
-          fetchPriority="high"
-          width={60}
-          height={60}
-        />
+    <nav className='container flex items-center justify-between gap-8 pt-3'>
+      <Link href='/' className='w-36'>
+        <Image alt='baity logo' src='/logo.png' fetchPriority='high' width={60} height={60} />
       </Link>
 
-      <div className="flex items-center gap-4">
-        <div className="sm:hidden">
+      <div className='flex items-center gap-4'>
+        <div className='sm:hidden'>
           <MainPagesMobileSheet isLoggedIn={!authError} />
         </div>
 
         <Button
-          variant="faded"
-          size="sm"
+          variant='faded'
+          size='sm'
           onPress={async () => {
-            "use server";
-            await setLocale(locale === "en" ? "ar" : "en");
+            'use server';
+            await setLocale(locale === 'en' ? 'ar' : 'en');
           }}
         >
           <IoLanguageSharp />
           {locale}
         </Button>
 
-        <Button variant="light" as={Link} href="/contact">
-          {t("contact-us")}
+        <Button variant='light' as={Link} href='/contact'>
+          {t('contact-us')}
         </Button>
 
         {authError || !user ? (
-          <Link href="/auth/login" className="max-sm:hidden">
+          <Link href='/auth/login' className='max-sm:hidden'>
             <Button
-              variant="flat"
-              className="bg-gradient-to-tr from-customBlue to-customLightBlue font-semibold text-white shadow-lg"
+              variant='flat'
+              className='bg-gradient-to-tr from-customBlue to-customLightBlue font-semibold text-white shadow-lg'
             >
-              {t("login")}
+              {t('login')}
             </Button>
           </Link>
         ) : (
           <>
-            <Link href="/orders" className="max-sm:hidden">
+            <Link href='/orders' className='max-sm:hidden'>
               <MdOutlineShoppingBag size={24} />
             </Link>
-            <Link href="/profile" className="max-sm:hidden">
+            <Link href='/profile' className='max-sm:hidden'>
               <Image
-                src={user.image || "/default-avatar.png"}
-                alt={user.name || "User"}
+                src={user.image || '/default-avatar.png'}
+                alt={user.name || 'User'}
                 width={40}
                 height={40}
-                fetchPriority="high"
-                className="h-10 max-h-10 min-h-10 w-10 min-w-10 max-w-10 rounded-full border-2 border-primary object-cover shadow"
+                fetchPriority='high'
+                className='h-10 max-h-10 min-h-10 w-10 min-w-10 max-w-10 rounded-full border-2 border-primary object-cover shadow'
               />
             </Link>
           </>
