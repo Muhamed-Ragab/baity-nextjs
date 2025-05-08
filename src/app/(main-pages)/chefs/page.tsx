@@ -1,9 +1,9 @@
+import { getTranslations } from '@/lib/translates';
 import { getChefs } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
 import { ChefCard } from './components/ChefCard';
 import { ChefsPagination } from './components/ChefsPagination';
-import { getTranslations } from '@/lib/translates';
 
 export default async function ChefsPage({
   searchParams,

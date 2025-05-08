@@ -1,13 +1,13 @@
 import { Card } from '@/components/heroui';
 import { CardBody } from '@/components/heroui';
 import { Image } from '@/components/heroui';
+import { getTranslations } from '@/lib/translates';
 import { cn } from '@/lib/utils';
 import { getChefById } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { notFound } from 'next/navigation';
 import { MdEmail, MdPhone, MdShoppingBag, MdVerified } from 'react-icons/md';
 import { NewArrivalCard } from '../../(home)/components/Cards/NewArrival';
-import { getTranslations } from '@/lib/translates';
 
 export default async function ChefPage({ params }: { params: Promise<{ id: string }> }) {
   const t = await getTranslations('chefs');

@@ -1,6 +1,6 @@
+import { getTranslations } from '@/lib/translates';
 import { getNewArrival } from '@/services/product';
 import ProductCard from '../components/ProductCard';
-import { getTranslations } from '@/lib/translates';
 
 export default async function NewArrivalsPage() {
   const products = await getNewArrival();

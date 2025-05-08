@@ -1,12 +1,12 @@
 'use client';
 
 import { Button, addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getChefByProductId } from '@/services/user';
 import { useRequest } from 'ahooks';
 import { redirect } from 'next/navigation';
 import { useState } from 'react';
 import { checkoutAction } from '../action';
-import { useTranslations } from '@/lib/translates';
 
 interface BuyProductProps {
   order: {

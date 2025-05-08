@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { createFeedback } from '@/services/feedback';
 import type { getProductById } from '@/services/product';
 import { tryCatch } from '@/utils/tryCatch';
@@ -8,7 +9,6 @@ import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { AddFeedbackForm } from './AddFeedbackForm';
-import { useTranslations } from '@/lib/translates';
 
 interface ProductFeedbacksProps {
   feedbacks: Awaited<ReturnType<typeof getProductById>>['feedbacks'];

@@ -1,12 +1,12 @@
 'use client';
 
 import { Button, Card, CardBody, Image } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import type { Product } from '@/types/product';
 import Link from 'next/link';
 import type { FC } from 'react';
 import { CardPrice } from '../../components/ProductCard/CardPrise';
 import { Spotlight } from '../../components/motion/spotlight';
-import { useTranslations } from '@/lib/translates';
 
 interface ProductCardProps {
   product: Product;

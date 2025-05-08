@@ -1,12 +1,12 @@
 'use client';
 
 import { Input, NumberInput } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import type { getProductById } from '@/services/product';
 import { getCurrency } from '@/utils/price';
 import Link from 'next/link';
 import { useState } from 'react';
 import CheckoutButton from './CheckoutButton';
-import { useTranslations } from '@/lib/translates';
 
 type ProductInfoProps = Awaited<ReturnType<typeof getProductById>> & {
   totalOrders: number;

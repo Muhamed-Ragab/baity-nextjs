@@ -1,7 +1,7 @@
+import { getTranslations } from '@/lib/translates';
 import { getProducts } from '@/services/product';
 import Pagination from './components/Pagination';
 import ProductCard from './components/ProductCard';
-import { getTranslations } from '@/lib/translates';
 
 export default async function ProductsPage({
   searchParams,

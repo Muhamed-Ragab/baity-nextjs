@@ -15,11 +15,11 @@ import {
   Tab,
   Tabs,
 } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getOrders } from '@/services/order';
 import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
-import { useTranslations } from '@/lib/translates';
 
 import Link from 'next/link';
 import { useState } from 'react';
