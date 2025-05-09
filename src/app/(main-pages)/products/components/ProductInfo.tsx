@@ -1,6 +1,6 @@
 'use client';
 
-import { Input, NumberInput } from '@/components/heroui';
+import { Chip, Input, NumberInput } from '@/components/heroui';
 import { useTranslations } from '@/lib/translates';
 import type { getProductById } from '@/services/product';
 import { getCurrency } from '@/utils/price';
@@ -19,6 +19,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
   description,
   user,
   totalOrders,
+  status,
 }) => {
   const t = useTranslations('products');
   const [quantity, setQuantity] = useState(1);
@@ -66,7 +67,19 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         isRequired
         className='mb-4'
       />
-      <CheckoutButton order={{ price, productId: id, quantity, address }} />
+      {status === 'active' ? (
+        <>
+          <Chip className='mb-3' radius='sm' color='success'>
+            Available
+          </Chip>
+
+          <CheckoutButton order={{ price, productId: id, quantity, address }} />
+        </>
+      ) : (
+        <Chip className='mb-3' color='danger'>
+          Not Available
+        </Chip>
+      )}
     </section>
   );
 };
