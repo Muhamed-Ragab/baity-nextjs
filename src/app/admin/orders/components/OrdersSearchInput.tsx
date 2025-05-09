@@ -1,4 +1,5 @@
 import { Input } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 
 interface OrdersSearchInputProps {
   value: string;
@@ -6,9 +7,10 @@ interface OrdersSearchInputProps {
 }
 
 export default function OrdersSearchInput({ value, onChange }: OrdersSearchInputProps) {
+  const t = useTranslations('admin');
   return (
     <Input
-      placeholder='Search by order ID, user or product...'
+      placeholder={t('orders.search.placeholder')}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className='w-80'

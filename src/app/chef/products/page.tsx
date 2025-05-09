@@ -12,6 +12,7 @@ import {
   Spinner,
 } from '@/components/heroui';
 import { addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getDashboardProducts, updateProductStatus } from '@/services/product';
 import { getCurrency } from '@/utils/price';
 import { Image } from '@heroui/react';
@@ -21,6 +22,7 @@ import { useState } from 'react';
 import { FiEdit, FiFilter, FiPlus } from 'react-icons/fi';
 
 export default function ChefProductsPage() {
+  const t = useTranslations('chefs-profile');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +61,7 @@ export default function ChefProductsPage() {
   return (
     <main className='container mx-auto px-4 py-8'>
       <div className='mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center'>
-        <h1 className='font-bold text-3xl'>My Products</h1>
+        <h1 className='font-bold text-3xl'>{t('Products-page.title')}</h1>
 
         <Button
           as={Link}
@@ -67,7 +69,7 @@ export default function ChefProductsPage() {
           className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
           startContent={<FiPlus />}
         >
-          Add New Product
+          {t('Products-page.add-new-product-button')}
         </Button>
       </div>
 
@@ -75,7 +77,7 @@ export default function ChefProductsPage() {
         <CardBody className='p-4'>
           <div className='flex flex-col items-center gap-4 sm:flex-row'>
             <Input
-              placeholder='Search products...'
+              placeholder={t('Products-page.search-placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               startContent={<span className='text-gray-400'>🔍</span>}
@@ -86,19 +88,19 @@ export default function ChefProductsPage() {
               <DropdownTrigger>
                 <Button variant='flat' startContent={<FiFilter />}>
                   {statusFilter === 'all'
-                    ? 'All Status'
+                    ? t('dropdown.all-status')
                     : statusFilter === 'active'
-                      ? 'Active'
-                      : 'Inactive'}
+                      ? t('dropdown.active')
+                      : t('dropdown.inactive')}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
                 aria-label='Status filter'
                 onAction={(key) => setStatusFilter(key as string)}
               >
-                <DropdownItem key='all'>All Status</DropdownItem>
-                <DropdownItem key='active'>Active</DropdownItem>
-                <DropdownItem key='inactive'>Inactive</DropdownItem>
+                <DropdownItem key='all'>{t('dropdown.all-status')}</DropdownItem>
+                <DropdownItem key='active'>{t('dropdown.active')}</DropdownItem>
+                <DropdownItem key='inactive'>{t('dropdown.inactive')}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -113,13 +115,13 @@ export default function ChefProductsPage() {
         <>
           {filteredProducts.length === 0 ? (
             <div className='py-12 text-center'>
-              <p className='mb-4 text-gray-500'>No products found</p>
+              <p className='mb-4 text-gray-500'>{t('Products-page.no-products')}</p>
               <Button
                 as={Link}
                 href='/chef/products/new'
                 className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
               >
-                Create Your First Product
+                {t('Products-page.create-your-first-product-button')}
               </Button>
             </div>
           ) : (
@@ -154,11 +156,11 @@ export default function ChefProductsPage() {
                             </span>
                           </div>
                           <p className='mb-2 text-gray-500'>
-                            Created on {product.createdAt.toLocaleDateString()}
+                            {t('Products-page.created-on')} {product.createdAt.toLocaleDateString()}
                           </p>
                           <p className='font-medium text-lg'>{getCurrency(product.price)}</p>
                           <p className='mt-1 text-gray-500 text-sm'>
-                            {product.orders.length} orders received
+                            {product.orders.length} {t('Products-page.orders-received')}
                           </p>
                         </div>
                         <div className='mt-4 flex gap-2'>
@@ -169,7 +171,7 @@ export default function ChefProductsPage() {
                             color='primary'
                             startContent={<FiEdit />}
                           >
-                            Edit
+                            {t('Products-page.edit-button')}
                           </Button>
                           {product.status !== 'pending' && product.status !== 'rejected' && (
                             <Button
@@ -179,11 +181,13 @@ export default function ChefProductsPage() {
                               onPress={() => handleChangeStatus(product.id, product.status)}
                               isLoading={isLoading}
                             >
-                              {product.status === 'active' ? 'Set Inactive' : 'Set Active'}
+                              {product.status === 'active'
+                                ? t('Products-page.set-inactive')
+                                : t('Products-page.set-active')}
                             </Button>
                           )}
                           <Button as={Link} href={`/chef/products/${product.id}`} variant='flat'>
-                            View
+                            {t('Products-page.view-button')}
                           </Button>
                         </div>
                       </div>

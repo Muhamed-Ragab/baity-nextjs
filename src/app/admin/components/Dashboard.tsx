@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from '@/lib/translates';
 import { getCurrency } from '@/utils/price';
 import type React from 'react';
 import {
@@ -37,14 +38,16 @@ const Dashboard: React.FC<DashboardProps> = ({
   userData,
   totalRevenue,
 }) => {
+  const t = useTranslations('admin');
+
   return (
     <div>
-      <h2 className='mb-6 font-semibold text-gray-800 text-xl'>Overview</h2>
+      <h2 className='mb-6 font-semibold text-gray-800 text-xl'>{t('dashboard.overview')}</h2>
 
       {/* Stats Cards */}
       <div className='mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'>
         <StatCard
-          title='Total Products'
+          title={t('dashboard.total-products')}
           value={productData.reduce((sum, item) => sum + item.count, 0)}
           icon={
             <svg
@@ -68,7 +71,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         />
 
         <StatCard
-          title='Total Orders'
+          title={t('dashboard.total-orders')}
           value={orderData.reduce((sum, item) => sum + item.orders, 0)}
           icon={
             <svg
@@ -92,7 +95,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         />
 
         <StatCard
-          title='Total Users'
+          title={t('dashboard.total-users')}
           value={userData.total}
           icon={
             <svg
@@ -116,7 +119,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         />
 
         <StatCard
-          title='Revenue'
+          title={t('dashboard.revenue')}
           value={getCurrency(totalRevenue)}
           icon={
             <svg
@@ -143,7 +146,9 @@ const Dashboard: React.FC<DashboardProps> = ({
       {/* Charts */}
       <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>
         <div className='rounded-lg bg-white p-6 shadow-md'>
-          <h3 className='mb-4 font-medium text-gray-900 text-lg'>Monthly Orders</h3>
+          <h3 className='mb-4 font-medium text-gray-900 text-lg'>
+            {t('dashboard.charts.monthly-orders')}
+          </h3>
           <div className='h-80'>
             <ResponsiveContainer width='100%' height='100%'>
               <BarChart data={orderData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -159,7 +164,9 @@ const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         <div className='rounded-lg bg-white p-6 shadow-md'>
-          <h3 className='mb-4 font-medium text-gray-900 text-lg'>Product Status</h3>
+          <h3 className='mb-4 font-medium text-gray-900 text-lg'>
+            {t('dashboard.charts.product-status')}
+          </h3>
           <div className='h-80'>
             <ResponsiveContainer width='100%' height='100%'>
               <PieChart>

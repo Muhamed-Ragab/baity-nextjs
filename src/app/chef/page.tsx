@@ -1,6 +1,7 @@
 'use client';
 
 import { type ButtonProps, Card, CardBody, Spinner } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getDashboardOrders } from '@/services/order';
 import { getDashboardProducts } from '@/services/product';
 import type { Order } from '@/types/order';
@@ -27,6 +28,7 @@ import StatCard from './components/StatCard';
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function ChefDashboardPage() {
+  const t = useTranslations('chefs-profile');
   const { loading: productsLoading, data: products } = useRequest(getDashboardProducts);
   const { loading: ordersLoading, data: orders } = useRequest(getDashboardOrders);
 
@@ -73,7 +75,7 @@ export default function ChefDashboardPage() {
   return (
     <div className='container mx-auto'>
       <div className='mb-8 flex items-center justify-between'>
-        <h1 className='font-bold text-3xl'>Dashboard</h1>
+        <h1 className='font-bold text-3xl'>{t('dashboard.title')}</h1>
         <Button
           as={Link}
           href='/chef/subscribe'
@@ -81,28 +83,28 @@ export default function ChefDashboardPage() {
           className='flex items-center gap-2'
         >
           <FiCreditCard className='h-4 w-4' />
-          Manage Subscription
+          {t('manage-subscription')}
         </Button>
       </div>
 
       {/* Stats Cards */}
       <div className='mb-8 grid grid-cols-1 gap-6 md:grid-cols-3'>
         <StatCard
-          title='Total Products'
+          title={t('dashboard.total-products')}
           value={totalProducts}
           icon={<FiBox className='h-6 w-6 text-white' />}
           color='bg-blue-500'
         />
 
         <StatCard
-          title='Total Orders'
+          title={t('dashboard.total-orders')}
           value={totalOrders}
           icon={<FiShoppingBag className='h-6 w-6 text-white' />}
           color='bg-green-500'
         />
 
         <StatCard
-          title='Revenue'
+          title={t('dashboard.revenue')}
           value={getCurrency(totalRevenue)}
           icon={
             // biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
@@ -129,7 +131,9 @@ export default function ChefDashboardPage() {
       <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>
         <Card className='shadow-md'>
           <CardBody className='p-6'>
-            <h3 className='mb-4 font-medium text-gray-900 text-lg'>Recent Orders</h3>
+            <h3 className='mb-4 font-medium text-gray-900 text-lg'>
+              {t('dashboard.recent-orders')}
+            </h3>
             <div className='h-80'>
               <ResponsiveContainer width='100%' height='100%'>
                 <BarChart data={ordersData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -147,7 +151,9 @@ export default function ChefDashboardPage() {
 
         <Card className='shadow-md'>
           <CardBody className='p-6'>
-            <h3 className='mb-4 font-medium text-gray-900 text-lg'>Product Status</h3>
+            <h3 className='mb-4 font-medium text-gray-900 text-lg'>
+              {t('dashboard.product-status')}
+            </h3>
             <div className='h-80'>
               <ResponsiveContainer width='100%' height='100%'>
                 <PieChart>
@@ -177,21 +183,21 @@ export default function ChefDashboardPage() {
       <Card className='mt-8 shadow-md'>
         <CardBody className='p-6'>
           <div className='mb-4 flex items-center justify-between'>
-            <h3 className='font-medium text-gray-900 text-lg'>Recent Orders</h3>
+            <h3 className='font-medium text-gray-900 text-lg'>{t('dashboard.recent-orders')}</h3>
             <Button as={Link} href='/chef/orders' variant='flat' color='primary'>
-              View All
+              {t('dashboard.view-all')}
             </Button>
           </div>
           <div className='overflow-x-auto'>
             <table className='w-full'>
               <thead>
                 <tr className='border-b'>
-                  <th className='py-2 text-left'>Order ID</th>
-                  <th className='py-2 text-left'>Customer</th>
-                  <th className='py-2 text-left'>Product</th>
-                  <th className='py-2 text-left'>Total</th>
-                  <th className='py-2 text-left'>Status</th>
-                  <th className='py-2 text-left'>Date</th>
+                  <th className='py-2 text-left'>{t('dashboard.order-id')}</th>
+                  <th className='py-2 text-left'>{t('dashboard.customer')}</th>
+                  <th className='py-2 text-left'>{t('dashboard.product')}</th>
+                  <th className='py-2 text-left'>{t('dashboard.total')}</th>
+                  <th className='py-2 text-left'>{t('dashboard.status')}</th>
+                  <th className='py-2 text-left'>{t('dashboard.date')}</th>
                 </tr>
               </thead>
               <tbody>

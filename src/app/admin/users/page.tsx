@@ -2,6 +2,7 @@
 
 import { Spinner } from '@/components/heroui';
 import { authClient } from '@/lib/auth/client';
+import { useTranslations } from '@/lib/translates';
 import { getUsers } from '@/services/user';
 import { useRequest } from 'ahooks';
 import { useMemo, useState } from 'react';
@@ -10,6 +11,7 @@ import UsersSearchInput from './components/UsersSearchInput';
 import UsersTable from './components/UsersTable';
 
 export default function AdminUsersPage() {
+  const t = useTranslations('admin');
   const { loading, data, refresh } = useRequest(getUsers);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -65,7 +67,7 @@ export default function AdminUsersPage() {
 
   return (
     <div className='mx-auto max-w-6xl'>
-      <h1 className='mb-8 font-bold text-3xl'>Manage Users</h1>
+      <h1 className='mb-8 font-bold text-3xl'>{t('users.title')}</h1>
       <div className='mb-4 flex items-center gap-4'>
         <UsersSearchInput value={search} onChange={onChangeSearch} />
       </div>

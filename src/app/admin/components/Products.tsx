@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from '@/lib/translates';
 import { getCurrency } from '@/utils/price';
 
 interface ProductsProps {
@@ -7,6 +8,8 @@ interface ProductsProps {
 }
 
 const Products: React.FC<ProductsProps> = ({ productData }) => {
+  const t = useTranslations('admin');
+
   return (
     <div>
       <div className='overflow-hidden rounded-lg bg-white shadow-md'>
@@ -17,25 +20,25 @@ const Products: React.FC<ProductsProps> = ({ productData }) => {
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Category
+                {t('products.table.name')}
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Count
+                {t('orders.table.count')}
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Price
+                {t('products.table.price')}
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Status
+                {t('products.table.status')}
               </th>
             </tr>
           </thead>
