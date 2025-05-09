@@ -23,10 +23,20 @@ import { FiEdit, FiFilter, FiPlus } from 'react-icons/fi';
 export default function ChefProductsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Fetch products from backend
   const { loading, data: products = [], refreshAsync } = useRequest(getDashboardProducts);
+  const { loading: updateLoading, runAsync: runAsyncUpdateOrder } = useRequest(
+    updateProductStatus,
+    {
+      manual: true,
+      onSuccess: async ({ status }) => {
+        addToast({ title: `Product marked as ${status}`, color: 'success' });
+
+        await refreshAsync();
+      },
+      onError: () => addToast({ title: 'Failed to update status', color: 'danger' }),
+    },
+  );
 
   if (loading) {
     return (
@@ -44,16 +54,8 @@ export default function ChefProductsPage() {
   });
 
   const handleChangeStatus = async (id: string, currentStatus: string) => {
-    setIsLoading(true);
-    try {
-      const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
-      await updateProductStatus(id, newStatus);
-      addToast({ title: `Product marked as ${newStatus}`, color: 'success' });
-      await refreshAsync();
-    } catch (error) {
-      addToast({ title: 'Failed to update status', color: 'danger' });
-    }
-    setIsLoading(false);
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+    await runAsyncUpdateOrder(id, newStatus);
   };
 
   return (
@@ -105,7 +107,7 @@ export default function ChefProductsPage() {
         </CardBody>
       </Card>
 
-      {isLoading ? (
+      {updateLoading ? (
         <div className='flex justify-center py-12'>
           <Spinner size='lg' />
         </div>
@@ -177,7 +179,7 @@ export default function ChefProductsPage() {
                               color={product.status === 'active' ? 'warning' : 'success'}
                               startContent={<FiFilter />}
                               onPress={() => handleChangeStatus(product.id, product.status)}
-                              isLoading={isLoading}
+                              isLoading={updateLoading}
                             >
                               {product.status === 'active' ? 'Set Inactive' : 'Set Active'}
                             </Button>
