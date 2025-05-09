@@ -18,11 +18,11 @@ export const SignOut = () => {
     setIsLoading(false);
 
     if (error) {
-      addToast({ title: 'Error signing out', color: 'danger' });
+      addToast({ title: t('messages.error-signing-out'), color: 'danger' });
       return;
     }
 
-    addToast({ title: 'Signed out successfully', color: 'success' });
+    addToast({ title: t('messages.signed-out-successfully'), color: 'success' });
     router.refresh();
     redirect('/');
   };

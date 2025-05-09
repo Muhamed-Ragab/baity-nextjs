@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import type { User } from '@/types/user';
 
 interface UsersTableProps {
@@ -19,21 +20,23 @@ interface UsersTableProps {
   onRoleChange: (userId: string, newRole: string) => Promise<void>;
 }
 
-const columns = [
-  { name: 'User ID', uid: 'id' },
-  { name: 'Name', uid: 'name' },
-  { name: 'Email', uid: 'email' },
-  { name: 'Status', uid: 'status' },
-  { name: 'Actions', uid: 'actions' },
-];
-
 export default function UsersTable({ users, loading, onBanToggle, onRoleChange }: UsersTableProps) {
+  const t = useTranslations('admin');
+
+  const columns = [
+    { name: 'User ID', uid: 'id' },
+    { name: t('shared.name'), uid: 'name' },
+    { name: t('shared.email'), uid: 'email' },
+    { name: t('common.status'), uid: 'status' },
+    { name: t('common.actions'), uid: 'actions' },
+  ];
+
   return (
     <Table aria-label='Users Table' isStriped className='rounded-xl shadow'>
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.uid}>{column.name}</TableColumn>}
       </TableHeader>
-      <TableBody emptyContent='No users found' items={users} isLoading={loading}>
+      <TableBody emptyContent={t('common.no-data-found')} items={users} isLoading={loading}>
         {(user) => (
           <TableRow key={user.id}>
             <TableCell>{user.id}</TableCell>
@@ -47,14 +50,14 @@ export default function UsersTable({ users, loading, onBanToggle, onRoleChange }
                     checked={!!user.banned}
                     onChange={async () => await onBanToggle(user.id)}
                   >
-                    Active
+                    {t('users.status.active')}
                   </Radio>
                   <Radio
                     value='2'
                     checked={!user.banned}
                     onChange={async () => await onBanToggle(user.id)}
                   >
-                    Inactive
+                    {t('users.status.inactive')}
                   </Radio>
                 </div>
               </RadioGroup>
@@ -67,10 +70,9 @@ export default function UsersTable({ users, loading, onBanToggle, onRoleChange }
                 className='min-w-[120px]'
                 aria-label='Change user role'
               >
-                <SelectItem key='user'>User</SelectItem>
-                <SelectItem key='admin'>Admin</SelectItem>
-                <SelectItem key='chef'>chef</SelectItem>
-                {/* Add more roles as needed */}
+                <SelectItem key='user'>{t('users.roles.user')}</SelectItem>
+                <SelectItem key='admin'>{t('users.roles.admin')}</SelectItem>
+                <SelectItem key='chef'>{t('users.roles.chef')}</SelectItem>
               </Select>
             </TableCell>
           </TableRow>

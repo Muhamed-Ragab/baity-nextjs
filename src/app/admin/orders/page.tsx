@@ -1,6 +1,7 @@
 'use client';
 
 import { Spinner, addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getAdminOrders, updateOrderStatusAction } from '@/services/admin';
 import type { Order } from '@/types/order';
 import { tryCatch } from '@/utils/tryCatch';
@@ -11,15 +12,17 @@ import OrdersPagination from './components/OrdersPagination';
 import OrdersSearchInput from './components/OrdersSearchInput';
 import OrdersTable from './components/OrdersTable';
 
-const statusOptions = [
-  { label: 'Pending', value: 'pending' },
-  { label: 'Paid', value: 'paid' },
-  { label: 'Approved', value: 'approved' },
-  { label: 'Shipped', value: 'shipped' },
-  { label: 'Cancelled', value: 'cancelled' },
-];
-
 export default function AdminOrdersPage() {
+  const t = useTranslations('admin');
+
+  const statusOptions = [
+    { label: t('orders.status.pending'), value: 'pending' },
+    { label: t('orders.status.paid'), value: 'paid' },
+    { label: t('orders.status.approved'), value: 'approved' },
+    { label: t('orders.status.shipped'), value: 'shipped' },
+    { label: t('orders.status.cancelled'), value: 'cancelled' },
+  ];
+
   const { loading, data: orders = [], refresh } = useRequest(getAdminOrders);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -46,7 +49,7 @@ export default function AdminOrdersPage() {
     const [err] = await tryCatch(updateOrderStatusAction({ orderId, status: newStatus }));
 
     if (err) {
-      addToast({ title: err.message || 'Failed to update', color: 'danger' });
+      addToast({ title: err.message || t('common.failed-to-update'), color: 'danger' });
       return;
     }
 
@@ -54,7 +57,7 @@ export default function AdminOrdersPage() {
       refresh();
     });
 
-    addToast({ title: 'Status updated', color: 'success' });
+    addToast({ title: t('products.status.updated'), color: 'success' });
   };
 
   const onChangeSearch = (value: string) => {
@@ -72,7 +75,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div className='mx-auto max-w-6xl'>
-      <h1 className='mb-8 font-bold text-3xl'>Manage Orders</h1>
+      <h1 className='mb-8 font-bold text-3xl'>{t('orders.title')}</h1>
       <div className='mb-4 flex items-center gap-4'>
         <OrdersSearchInput value={search} onChange={onChangeSearch} />
       </div>

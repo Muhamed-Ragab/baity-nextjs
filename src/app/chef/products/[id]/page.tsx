@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, CardBody, Spinner } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { Image } from '@/components/heroui';
 import { getProductById } from '@/services/product';
 import { getCurrency } from '@/utils/price';
@@ -8,6 +9,7 @@ import { useRequest } from 'ahooks';
 import { useParams, useRouter } from 'next/navigation';
 
 export default function ChefProductDetailPage() {
+  const t = useTranslations('chefs-profile');
   const { id } = useParams() as { id: string };
   const router = useRouter();
   const { loading, data: product } = useRequest(getProductById, {
@@ -26,8 +28,8 @@ export default function ChefProductDetailPage() {
   if (!product) {
     return (
       <div className='py-12 text-center'>
-        <p className='mb-4 text-gray-500'>Product not found.</p>
-        <Button onPress={() => router.back()}>Back</Button>
+        <p className='mb-4 text-gray-500'>{t('Products-page.product-not-found')}</p>
+        <Button onPress={() => router.back()}>{t('Products-page.back-button')}</Button>
       </div>
     );
   }
@@ -35,7 +37,7 @@ export default function ChefProductDetailPage() {
   return (
     <main className='container mx-auto px-4 py-8'>
       <Button variant='flat' onPress={() => router.back()} className='mb-6'>
-        Back
+        {t('Products-page.back-button')}
       </Button>
       <Card className='mx-auto max-w-3xl'>
         <CardBody className='p-6'>
@@ -64,15 +66,15 @@ export default function ChefProductDetailPage() {
               </span>
               <p className='mb-4 text-gray-700'>{product.description}</p>
               <div className='mb-4'>
-                <span className='font-semibold'>Price: </span>
+                <span className='font-semibold'>{t('price')}: </span>
                 <span>{getCurrency(product.price)}</span>
               </div>
               <div className='mb-4'>
-                <span className='font-semibold'>Orders: </span>
+                <span className='font-semibold'>{t('orders')}: </span>
                 <span>{product.orders?.length || 0}</span>
               </div>
               <div className='mb-4'>
-                <span className='font-semibold'>Created at: </span>
+                <span className='font-semibold'>{t('Products-page.created-on')}: </span>
                 <span>
                   {product.createdAt ? new Date(product.createdAt).toLocaleDateString() : '-'}
                 </span>
@@ -84,14 +86,14 @@ export default function ChefProductDetailPage() {
                   variant='flat'
                   color='primary'
                 >
-                  Edit
+                  {t('Products-page.edit-button')}
                 </Button>
               </div>
             </div>
           </div>
           {(product.images?.length ?? 0) > 1 && (
             <div className='mt-8'>
-              <h2 className='mb-2 font-semibold'>More Images</h2>
+              <h2 className='mb-2 font-semibold'>{t('Products-page.more-images')}</h2>
               <div className='flex flex-wrap gap-2'>
                 {product.images?.slice(1).map((img, idx) => (
                   <Image

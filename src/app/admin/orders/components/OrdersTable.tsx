@@ -11,21 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import type { getAdminOrders } from '@/services/admin';
 import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
 import Link from 'next/link';
 import { FiEye } from 'react-icons/fi';
-
-const columns = [
-  { name: 'Order ID', uid: 'id' },
-  { name: 'User', uid: 'user' },
-  { name: 'Product', uid: 'product' },
-  { name: 'Qty', uid: 'quantity' },
-  { name: 'Total', uid: 'total' },
-  { name: 'Status', uid: 'status' },
-  { name: 'Actions', uid: 'actions' },
-];
 
 interface OrdersTableProps {
   orders: Awaited<ReturnType<typeof getAdminOrders>>;
@@ -40,6 +31,16 @@ export default function OrdersTable({
   onStatusChange,
   loading,
 }: OrdersTableProps) {
+  const t = useTranslations('admin');
+  const columns = [
+    { name: t('orders.table.order-id'), uid: 'id' },
+    { name: t('orders.table.user'), uid: 'user' },
+    { name: t('orders.table.product'), uid: 'product' },
+    { name: t('orders.table.quantity'), uid: 'quantity' },
+    { name: t('orders.table.total'), uid: 'total' },
+    { name: t('orders.table.status'), uid: 'status' },
+    { name: t('common.actions'), uid: 'actions' },
+  ];
   return (
     <Table aria-label='Orders Table' isStriped className='rounded-xl shadow'>
       <TableHeader columns={columns}>

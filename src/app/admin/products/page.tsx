@@ -1,6 +1,7 @@
 'use client';
 
 import { Spinner, addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getAdminProducts, updateProductStatusAction } from '@/services/admin';
 import type { Product } from '@/types/product';
 import { tryCatch } from '@/utils/tryCatch';
@@ -15,9 +16,13 @@ const statusOptions = [
   { label: 'Inactive', value: 'inactive' },
   { label: 'Pending', value: 'pending' },
   { label: 'Rejected', value: 'rejected' },
-];
+].map((option) => ({
+  ...option,
+  label: option.value.charAt(0).toUpperCase() + option.value.slice(1),
+}));
 
 export default function AdminProductsPage() {
+  const t = useTranslations('admin');
   const { loading, data, refresh } = useRequest(getAdminProducts);
   const [search, setSearch] = useState('');
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
@@ -42,13 +47,13 @@ export default function AdminProductsPage() {
   const handleStatusChange = async (productId: Product['id'], newStatus: Product['status']) => {
     const [err] = await tryCatch(updateProductStatusAction({ productId, status: newStatus }));
     if (err) {
-      addToast({ title: err.message || 'Failed to update', color: 'danger' });
+      addToast({ title: err.message || t('common.no-data-found'), color: 'danger' });
       return;
     }
     startTransition(() => {
       refresh();
     });
-    addToast({ title: 'Status updated', color: 'success' });
+    addToast({ title: t('products.status.updated'), color: 'success' });
   };
 
   const onChangeSearch = (value: string) => {
@@ -66,7 +71,7 @@ export default function AdminProductsPage() {
 
   return (
     <div className='mx-auto max-w-6xl'>
-      <h1 className='mb-8 font-bold text-3xl'>Manage Products</h1>
+      <h1 className='mb-8 font-bold text-3xl'>{t('products.title')}</h1>
       <div className='mb-4 flex items-center gap-4'>
         <ProductsSearchInput value={search} onChange={onChangeSearch} />
       </div>

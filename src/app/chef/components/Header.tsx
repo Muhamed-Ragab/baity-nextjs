@@ -1,20 +1,22 @@
 'use client';
 
 import { Button, addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { cn } from '@/lib/utils';
 import { getAuth, updateUser } from '@/services/user';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
 
 export default function Header() {
+  const t = useTranslations('chefs-profile');
   const { loading: authLoading, data: auth, refreshAsync } = useRequest(getAuth);
   const { loading: updateUserLoading, runAsync: updateUserAsync } = useRequest(updateUser, {
     manual: true,
     onSuccess: async () => await refreshAsync(),
     onError: () =>
       addToast({
-        title: 'Error',
-        description: 'Something went wrong',
+        title: t('messages.error'),
+        description: t('messages.error-description'),
         color: 'danger',
       }),
   });
@@ -27,7 +29,7 @@ export default function Header() {
     <header className='bg-white shadow-sm'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 items-center justify-between'>
-          <h1 className='font-bold text-2xl text-gray-900'>Baity chef Dashboard</h1>
+          <h1 className='font-bold text-2xl text-gray-900'>{t('title')}</h1>
           <div className='flex items-center gap-2'>
             <Button
               type='button'
@@ -46,11 +48,11 @@ export default function Header() {
                   auth?.online ? 'bg-green-400' : 'bg-red-400',
                 )}
               />
-              {auth?.online ? 'Online' : 'Offline'}
+              {auth?.online ? t('online') : t('offline')}
             </Button>
 
             <Button variant='light' as={Link} href='/contact'>
-              Contact Us
+              {t('contact-us')}
             </Button>
 
             <Link href='/profile' className='ml-4 flex items-center'>

@@ -19,6 +19,7 @@ import {
   TableRow,
   addToast,
 } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getDashboardOrders, updateOrder } from '@/services/order';
 import type { Order } from '@/types/order';
 import { getCurrency } from '@/utils/price';
@@ -44,6 +45,7 @@ const getStatusColor = (status: Order['status']) => {
 };
 
 export default function ChefOrdersPage() {
+  const t = useTranslations('chefs-profile');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const router = useRouter();
@@ -65,8 +67,8 @@ export default function ChefOrdersPage() {
   const handleApproveOrder = async (orderId: string) => {
     await runAsyncUpdateOrder(orderId, { status: 'approved' });
     addToast({
-      title: 'Order approved',
-      description: 'The order has been approved',
+      title: t('messages.order-approved'),
+      description: t('messages.order-approved-description'),
       color: 'success',
     });
     await refreshOrderAsync();
@@ -75,8 +77,8 @@ export default function ChefOrdersPage() {
   const handleCancelOrder = async (orderId: string) => {
     await runAsyncUpdateOrder(orderId, { status: 'cancelled' });
     addToast({
-      title: 'Order cancelled',
-      description: 'The order has been cancelled',
+      title: t('messages.order-cancelled'),
+      description: t('messages.order-cancelled-description'),
       color: 'danger',
     });
     await refreshOrderAsync();
@@ -103,13 +105,13 @@ export default function ChefOrdersPage() {
 
   return (
     <main className='container mx-auto px-4 py-8'>
-      <h1 className='mb-8 font-bold text-3xl'>My Orders</h1>
+      <h1 className='mb-8 font-bold text-3xl'>{t('orders-page.title')}</h1>
 
       <Card className='mb-8'>
         <CardBody className='p-4'>
           <div className='flex flex-col items-center gap-4 sm:flex-row'>
             <Input
-              placeholder='Search by product or customer...'
+              placeholder={t('orders-page.search-placeholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               startContent={<span className='text-gray-400'>🔍</span>}
@@ -120,7 +122,7 @@ export default function ChefOrdersPage() {
               <DropdownTrigger>
                 <Button variant='flat' startContent={<FiFilter />}>
                   {statusFilter === 'all'
-                    ? 'All Status'
+                    ? t('dropdown.all-status')
                     : statusFilter.charAt(0).toUpperCase() + statusFilter.slice(1)}
                 </Button>
               </DropdownTrigger>
@@ -128,11 +130,11 @@ export default function ChefOrdersPage() {
                 aria-label='Status filter'
                 onAction={(key) => setStatusFilter(key as string)}
               >
-                <DropdownItem key='all'>All Status</DropdownItem>
-                <DropdownItem key='approved'>Approved</DropdownItem>
-                <DropdownItem key='paid'>Paid</DropdownItem>
-                <DropdownItem key='pending'>Pending</DropdownItem>
-                <DropdownItem key='cancelled'>Cancelled</DropdownItem>
+                <DropdownItem key='all'>{t('dropdown.all-status')}</DropdownItem>
+                <DropdownItem key='approved'>{t('dropdown.approved')}</DropdownItem>
+                <DropdownItem key='paid'>{t('dropdown.paid')}</DropdownItem>
+                <DropdownItem key='pending'>{t('dropdown.pending')}</DropdownItem>
+                <DropdownItem key='cancelled'>{t('dropdown.cancelled')}</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -147,21 +149,23 @@ export default function ChefOrdersPage() {
         <>
           {filteredOrders.length === 0 ? (
             <div className='py-12 text-center'>
-              <p className='text-gray-500'>No orders found</p>
+              <p className='text-gray-500'>{t('orders-page.no-orders-found')}</p>
             </div>
           ) : (
             <Card>
               <CardBody>
                 <Table aria-label='Orders table'>
                   <TableHeader>
-                    <TableColumn>ORDER ID</TableColumn>
-                    <TableColumn>CUSTOMER</TableColumn>
-                    <TableColumn>PRODUCT</TableColumn>
-                    <TableColumn>QUANTITY</TableColumn>
-                    <TableColumn>TOTAL</TableColumn>
-                    <TableColumn>STATUS</TableColumn>
-                    <TableColumn>DATE</TableColumn>
-                    <TableColumn>ACTIONS</TableColumn>
+                    <TableColumn className='uppercase'> {t('dashboard.order-id')}</TableColumn>
+                    <TableColumn className='uppercase'>
+                      {t('dashboard.customer')}CUSTOMER
+                    </TableColumn>
+                    <TableColumn className='uppercase'>{t('dashboard.product')}</TableColumn>
+                    <TableColumn className='uppercase'>{t('dashboard.quantity')}</TableColumn>
+                    <TableColumn className='uppercase'>{t('dashboard.total')}</TableColumn>
+                    <TableColumn className='uppercase'>{t('dashboard.status')}</TableColumn>
+                    <TableColumn className='uppercase'>{t('dashboard.date')}</TableColumn>
+                    <TableColumn className='uppercase'>{t('dashboard.actions')}</TableColumn>
                   </TableHeader>
                   <TableBody>
                     {filteredOrders.map((order) => (

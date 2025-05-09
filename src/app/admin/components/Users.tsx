@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from '@/lib/translates';
 import type { User } from '@/types/user';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 
@@ -10,6 +11,7 @@ interface UsersProps {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
 const Users: React.FC<UsersProps> = ({ users }) => {
+  const t = useTranslations('admin');
   const now = Date.now();
   const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
   const newUsers = users.filter((user) => new Date(user.createdAt).getTime() > now - THIRTY_DAYS);
@@ -19,9 +21,9 @@ const Users: React.FC<UsersProps> = ({ users }) => {
   const inactiveUsers = users.filter((user) => user.banned);
 
   const userTypeData = [
-    { name: 'New Users', value: newUsers.length },
-    { name: 'Returning Users', value: returningUsers.length },
-    { name: 'Inactive Users', value: inactiveUsers.length },
+    { name: t('users.new-users'), value: newUsers.length },
+    { name: t('users.returning-users'), value: returningUsers.length },
+    { name: t('users.inactive-users'), value: inactiveUsers.length },
   ];
 
   const total = users.length || 1; // avoid division by zero
@@ -33,38 +35,40 @@ const Users: React.FC<UsersProps> = ({ users }) => {
 
   return (
     <div>
-      <h2 className='mb-6 font-semibold text-gray-800 text-xl'>Users</h2>
+      <h2 className='mb-6 font-semibold text-gray-800 text-xl'>{t('users.title')}</h2>
 
       <div className='mb-8 grid grid-cols-1 gap-6 md:grid-cols-3'>
         <div className='rounded-lg bg-white p-6 shadow-md'>
-          <h3 className='mb-2 font-medium text-gray-500 text-sm'>Total Users</h3>
+          <h3 className='mb-2 font-medium text-gray-500 text-sm'>{t('users.total-users')}</h3>
           <p className='font-bold text-3xl'>{users.length}</p>
         </div>
 
         <div className='rounded-lg bg-white p-6 shadow-md'>
-          <h3 className='mb-2 font-medium text-gray-500 text-sm'>Active Users</h3>
+          <h3 className='mb-2 font-medium text-gray-500 text-sm'>{t('users.active-users')}</h3>
           <p className='font-bold text-3xl'>{users.filter((user) => !user.banned).length}</p>
           <p className='mt-2 text-gray-500 text-sm'>
-            {((users.filter((user) => !user.banned).length / total) * 100).toFixed(1)}% of total
-            users
+            {((users.filter((user) => !user.banned).length / total) * 100).toFixed(1)}%{' '}
+            {t('users.of-total-users')}
           </p>
         </div>
 
         <div className='rounded-lg bg-white p-6 shadow-md'>
-          <h3 className='mb-2 font-medium text-gray-500 text-sm'>New Users (This Month)</h3>
+          <h3 className='mb-2 font-medium text-gray-500 text-sm'>{t('users.new-users-month')}</h3>
           <p className='font-bold text-3xl'>{newUsers.length}</p>
           <p className='mt-2 text-gray-500 text-sm'>
-            {((newUsers.length / total) * 100).toFixed(1)}% of total users
+            {((newUsers.length / total) * 100).toFixed(1)}% {t('users.of-total-users')}
           </p>
         </div>
       </div>
 
       <div className='grid grid-cols-1 gap-8 lg:grid-cols-2'>
         <div className='rounded-lg bg-white p-6 shadow-md'>
-          <h3 className='mb-4 font-medium text-gray-900 text-lg'>User Distribution</h3>
+          <h3 className='mb-4 font-medium text-gray-900 text-lg'>{t('users.distribution')}</h3>
           <div className='h-80'>
             {users.length === 0 ? (
-              <div className='flex h-full items-center justify-center text-gray-400'>No data</div>
+              <div className='flex h-full items-center justify-center text-gray-400'>
+                {t('common.no-data-found')}
+              </div>
             ) : (
               <ResponsiveContainer width='100%' height='100%'>
                 <PieChart>
@@ -90,10 +94,10 @@ const Users: React.FC<UsersProps> = ({ users }) => {
         </div>
 
         <div className='rounded-lg bg-white p-6 shadow-md'>
-          <h3 className='mb-4 font-medium text-gray-900 text-lg'>Recent Users</h3>
+          <h3 className='mb-4 font-medium text-gray-900 text-lg'>{t('users.recent-users')}</h3>
           <div className='max-h-80 overflow-y-auto'>
             {recentUsers.length === 0 ? (
-              <div className='text-gray-400'>No recent users</div>
+              <div className='text-gray-400'>{t('common.no-data-found')}</div>
             ) : (
               <ul className='divide-y divide-gray-200'>
                 {recentUsers.map((user) => (
@@ -116,7 +120,7 @@ const Users: React.FC<UsersProps> = ({ users }) => {
                           user.banned ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
                         }`}
                       >
-                        {user.banned ? 'Banned' : 'Active'}
+                        {user.banned ? t('users.status.inactive') : t('users.status.active')}
                       </span>
                     </div>
                   </li>

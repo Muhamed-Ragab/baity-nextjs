@@ -9,15 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import type { Product } from '@/types/product';
 import { getCurrency } from '@/utils/price';
-
-const columns = [
-  { name: 'Product ID', uid: 'id' },
-  { name: 'Name', uid: 'name' },
-  { name: 'Price', uid: 'price' },
-  { name: 'Status', uid: 'status' },
-];
 
 interface ProductsTableProps {
   products: Product[];
@@ -32,16 +26,29 @@ export default function ProductsTable({
   onStatusChange,
   loading,
 }: ProductsTableProps) {
+  const t = useTranslations('admin');
+  const columns = [
+    { name: 'products.table.product-id', uid: 'id' },
+    { name: 'products.table.name', uid: 'name' },
+    { name: 'products.table.price', uid: 'price' },
+    { name: 'products.table.status', uid: 'status' },
+  ];
+
   return (
     <Table aria-label='Products Table' isStriped className='rounded-xl shadow'>
       <TableHeader columns={columns}>
         {(column) => (
           <TableColumn key={column.uid} align={column.uid === 'actions' ? 'center' : 'start'}>
-            {column.name}
+            {/* biome-ignore lint/suspicious/noExplicitAny: <explanation> */}
+            {t(column.name as any)}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent='No products found' items={products} isLoading={loading}>
+      <TableBody
+        emptyContent={t('products.table.no-products')}
+        items={products}
+        isLoading={loading}
+      >
         {(product) => (
           <TableRow key={product.id}>
             <TableCell>{product.id}</TableCell>

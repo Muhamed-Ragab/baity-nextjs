@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, CardBody, Spinner } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';
 import { redirect } from 'next/navigation';
@@ -37,6 +38,7 @@ const cancelSubscription = async () => {
 };
 
 export default function ChefSubscribePage() {
+  const t = useTranslations('chefs-profile');
   const [selectedPlan, setSelectedPlan] = useState(SUBSCRIPTION_PLANS[0].id); // Default to Pro plan
 
   const { loading: subscribeLoading, data: subscriptionData } = useRequest(getSubscriptionAction);
@@ -77,9 +79,12 @@ export default function ChefSubscribePage() {
 
     return (
       <div className='container mx-auto max-w-5xl px-4 py-8'>
-        <h1 className='mb-8 font-bold text-3xl'>Your Subscription</h1>
-        <p className='mb-8 text-gray-600'>You are subscribed to the {subscribe?.plan} plan.</p>
-        <p className='text-gray-600'>Features included:</p>
+        <h1 className='mb-8 font-bold text-3xl'>{t('subscription.your-subscription')}</h1>
+        <p className='mb-8 text-gray-600'>
+          {t('subscription.subscription-description-p1')} {subscribe?.plan}{' '}
+          {t('subscription.subscription-description-p2')}
+        </p>
+        <p className='text-gray-600'>{t('subscription.features.features-included-title')}:</p>
         <ul className='mb-6 space-y-2'>
           {features?.map((feature: string) => (
             <li key={feature} className='flex items-center gap-2'>
@@ -96,7 +101,7 @@ export default function ChefSubscribePage() {
             isLoading={cancelLoading}
             onPress={handleCancelSubscription}
           >
-            Cancel Subscription
+            {t('subscription.cancel-subscription-button')}
           </Button>
         )}
       </div>
@@ -105,11 +110,9 @@ export default function ChefSubscribePage() {
 
   return (
     <div className='container mx-auto max-w-5xl px-4 py-8'>
-      <h1 className='mb-8 font-bold text-3xl'>Chef Subscription Plans</h1>
+      <h1 className='mb-8 font-bold text-3xl'>{t('subscription.title')}</h1>
 
-      <p className='mb-8 text-gray-600'>
-        Choose a subscription plan that best fits your business needs. Upgrade or downgrade anytime.
-      </p>
+      <p className='mb-8 text-gray-600'>{t('subscription.description')}</p>
 
       <div className='mb-8 flex justify-center gap-6'>
         {SUBSCRIPTION_PLANS.map((plan) => (
@@ -123,7 +126,7 @@ export default function ChefSubscribePage() {
           >
             {plan.recommended && (
               <div className='absolute top-0 right-0 bg-blue-500 px-3 py-1 text-white'>
-                Recommended
+                {t('subscription.recommended')}
               </div>
             )}
             <CardBody className='flex flex-col justify-between p-6'>
@@ -148,7 +151,9 @@ export default function ChefSubscribePage() {
                 isLoading={subscribeRunLoading}
                 onPress={() => handlePlanSelect(plan.id)}
               >
-                {selectedPlan === plan.id ? 'Selected' : 'Select Plan'}
+                {selectedPlan === plan.id
+                  ? t('subscription.selected')
+                  : t('subscription.selecte-plan')}
               </Button>
             </CardBody>
           </Card>
@@ -163,7 +168,7 @@ export default function ChefSubscribePage() {
           isLoading={subscribeRunLoading}
           onPress={handleSubscribe}
         >
-          Subscribe
+          {t('subscription.subscribe-button')}
         </Button>
       </div>
     </div>
