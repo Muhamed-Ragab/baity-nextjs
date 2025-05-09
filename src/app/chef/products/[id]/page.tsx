@@ -1,8 +1,8 @@
 'use client';
 
 import { Button, Card, CardBody, Spinner } from '@/components/heroui';
-import { useTranslations } from '@/lib/translates';
 import { Image } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getProductById } from '@/services/product';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';

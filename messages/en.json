@@ -135,7 +135,7 @@
     "error-message": "Something went wrong. Please try again later."
   },
   "products": {
-    "lables": {
+    "labels": {
       "email": "Email",
       "quantity": "Quantity",
       "address": "Address",

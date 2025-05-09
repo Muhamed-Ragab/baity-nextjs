@@ -12,8 +12,8 @@ import {
   Spinner,
 } from '@/components/heroui';
 import { addToast } from '@/components/heroui';
-import { useTranslations } from '@/lib/translates';
 import { Image } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getDashboardProducts, updateProductStatus } from '@/services/product';
 import { getCurrency } from '@/utils/price';
 import { useRequest } from 'ahooks';

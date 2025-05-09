@@ -1,7 +1,7 @@
 'use client';
 
-import { useTranslations } from '@/lib/translates';
 import { Image, Link } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getAuth } from '@/services/user';
 import { useRequest } from 'ahooks';
 import type React from 'react';
