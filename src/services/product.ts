@@ -79,14 +79,17 @@ export const getProducts = async ({
   limit = 10,
   page = 1,
   status = 'all',
-}: { limit?: number; page?: number; status?: Product['status'] | 'all' }) => {
+}: { limit?: number; page?: number; status?: Product['status'][] | Product['status'] | 'all' }) => {
   const dbProduct = await db.query.product.findMany({
     with: {
       orders: true,
       user: true,
     },
     orderBy: (product, { desc }) => [desc(product.createdAt)],
-    ...(status !== 'all' && { where: eq(product.status, status) }),
+    ...(status !== 'all' && {
+      where: (product, { eq, inArray }) =>
+        Array.isArray(status) ? inArray(product.status, status) : eq(product.status, status),
+    }),
   });
 
   const unbannedChefProducts = dbProduct.filter(
@@ -135,10 +138,10 @@ export const getNewArrival = async (
       user: true,
     },
     orderBy: (order, { desc }) => desc(order.createdAt),
-    where: (product, { and, gt }) =>
+    where: (product, { and, gt, inArray }) =>
       and(
         gt(product.createdAt, new Date(new Date().setMonth(new Date().getMonth() - 1))),
-        eq(product.status, 'active'),
+        inArray(product.status, ['active', 'inactive']),
       ),
   });
 
