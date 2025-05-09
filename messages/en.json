@@ -12,7 +12,7 @@
     "description": "Track and manage your orders ",
     "no-orders": "No orders found ",
     "order-id": "Order ID ",
-    "search-lable": "Search by order ID or product... ",
+    "search-label": "Search by order ID or product... ",
     "order-status": "Order Status ",
     "payment-information": "Payment Information ",
     "on-delivery": "On Delivery ",
@@ -133,7 +133,7 @@
     "error-message": "Something went wrong. Please try again later. "
   },
   "products": {
-    "lables": {
+    "labels": {
       "email": "Email ",
       "quantity": "Quantity ",
       "address": "Address ",
@@ -162,7 +162,9 @@
     "no-products": "No products found "
   },
   "checkout": {
-    "common": { "continue-shopping-button": "Continue Shopping " },
+    "common": {
+      "continue-shopping-button": "Continue Shopping "
+    },
     "success": {
       "title": "Order Successful! ",
       "description": "Thank you for your purchase. Your order has been successfully processed. You will receive a confirmation email shortly. ",

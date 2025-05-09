@@ -3,6 +3,7 @@
 import type { RadioProps } from '@/components/heroui';
 import {
   Button,
+  Form,
   Input,
   Modal,
   ModalBody,
@@ -14,32 +15,28 @@ import {
   RadioGroup,
   Textarea,
   addToast,
-  cn,
   useDisclosure,
 } from '@/components/heroui';
 import { useTranslations } from '@/lib/translates';
+import { cn } from '@/lib/utils';
 import { getChefByProductId } from '@/services/user';
 import { useRequest } from 'ahooks';
 import { redirect } from 'next/navigation';
-import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { checkoutAction } from '../action';
 
 interface BuyProductProps {
-  order: {
-    price: number;
-    productId: string;
-    quantity: number;
-    address: string;
-  };
+  productId: string;
 }
 
-export default function CheckoutButton({ order }: BuyProductProps) {
+export default function CheckoutButton({ productId }: BuyProductProps) {
+  const { control, handleSubmit } = useForm();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const t = useTranslations('products');
   const { data: chef } = useRequest(getChefByProductId, {
-    refreshDeps: [order.productId],
+    refreshDeps: [productId],
     refreshOnWindowFocus: true,
-    defaultParams: [order.productId],
+    defaultParams: [productId],
     onSuccess: (data) => {
       if (!data.online) {
         addToast({ title: t('chef-offline-toast'), color: 'danger' });
@@ -52,67 +49,110 @@ export default function CheckoutButton({ order }: BuyProductProps) {
     onSuccess: (data) => {
       if (!data.success) {
         addToast({ title: data.message, color: 'danger' });
+        return;
       }
+
+      addToast({ title: data.message, color: 'success' });
+      if (data.data) {
+        redirect(data.data);
+      }
+
+      redirect('/checkout/success');
     },
   });
 
-  // const handleBuyProduct = async () => {
-  //   const { message, success } = await checkoutActionAsync(order);
+  const onSubmit = async (data: Record<string, string>) => {
+    const orderData = {
+      ...data,
+      quantity: Number(data.quantity || 1),
+      productId,
+    };
 
-  //   if (!success) {
-  //     addToast({ title: message, color: 'danger' });
-  //     return;
-  //   }
-
-  //   addToast({ title: message, color: 'success' });
-  //   redirect('/checkout/success');
-  // };
+    await checkoutActionAsync(orderData);
+  };
 
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size='xl'>
         <ModalContent>
           {(onClose) => (
-            <>
-              <ModalHeader className='flex flex-col gap-1'>Checkout</ModalHeader>
-              <ModalBody>
-                <RadioGroup
-                  description='Select payment method'
-                  orientation='horizontal'
-                  label='Payment Method'
-                  defaultValue={'cash'}
-                >
-                  <CustomRadio description='' value='cash'>
-                    Cash on Delivery
-                  </CustomRadio>
-                  <CustomRadio description='' value='visa'>
-                    Pay Now
-                  </CustomRadio>
-                </RadioGroup>
-                <NumberInput
-                  label='quantity'
-                  minValue={1}
-                  maxValue={10}
-                  isRequired
-                  className='mb-4'
+            <Form onSubmit={handleSubmit(onSubmit)}>
+              <ModalHeader>Checkout</ModalHeader>
+              <ModalBody className='w-full'>
+                <Controller
+                  control={control}
+                  name='paymentMethod'
+                  defaultValue='cash'
+                  render={({ field }) => (
+                    <RadioGroup
+                      {...field}
+                      description='Select payment method'
+                      orientation='horizontal'
+                      label='Payment Method'
+                    >
+                      <CustomRadio value='cash'>Cash on Delivery</CustomRadio>
+                      <CustomRadio value='visa'>Pay Now</CustomRadio>
+                    </RadioGroup>
+                  )}
                 />
-                <Input
-                  label='address'
-                  placeholder='e.g., 123 Main St, Minya, Egypt'
-                  isRequired
-                  className='mb-4'
+                <Controller
+                  control={control}
+                  name='quantity'
+                  defaultValue={1}
+                  render={({ field }) => (
+                    <NumberInput
+                      {...field}
+                      label='quantity'
+                      minValue={1}
+                      maxValue={10}
+                      isRequired
+                      className='mb-4'
+                    />
+                  )}
                 />
-                <Textarea label='Note' placeholder='Add your note' />
+                <Controller
+                  control={control}
+                  name='address'
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      label='address'
+                      placeholder='e.g., 123 Main St, Minya, Egypt'
+                      isRequired
+                      className='mb-4'
+                    />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name='note'
+                  render={({ field }) => (
+                    <Textarea {...field} label='Note' placeholder='Add your note' />
+                  )}
+                />
               </ModalBody>
-              <ModalFooter>
-                <Button color='danger' variant='light' onPress={onClose}>
+              <ModalFooter className='w-full'>
+                <Button
+                  fullWidth
+                  type='reset'
+                  color='danger'
+                  variant='light'
+                  onPress={onClose}
+                  isDisabled={checkoutLoading}
+                >
                   Close
                 </Button>
-                <Button color='primary' onPress={onClose}>
+                <Button
+                  fullWidth
+                  type='submit'
+                  color='primary'
+                  isDisabled={checkoutLoading}
+                  isLoading={checkoutLoading}
+                >
                   Confirm
                 </Button>
               </ModalFooter>
-            </>
+            </Form>
           )}
         </ModalContent>
       </Modal>
@@ -131,9 +171,7 @@ export default function CheckoutButton({ order }: BuyProductProps) {
   );
 }
 
-export const CustomRadio = (props: RadioProps) => {
-  const { children, ...otherProps } = props;
-
+export const CustomRadio = ({ children, ...otherProps }: RadioProps) => {
   return (
     <Radio
       {...otherProps}

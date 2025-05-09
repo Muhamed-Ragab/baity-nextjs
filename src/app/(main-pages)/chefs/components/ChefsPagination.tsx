@@ -1,6 +1,6 @@
 'use client';
 
-import { Pagination } from '@heroui/react';
+import { Pagination } from '@/components/heroui';
 import { useRouter } from 'next/navigation';
 
 interface ChefsPaginationProps {

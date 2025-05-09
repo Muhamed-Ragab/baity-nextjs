@@ -128,7 +128,7 @@ export default function OrdersPage() {
         <CardBody className='p-4'>
           <div className='flex flex-col items-center gap-4 sm:flex-row'>
             <Input
-              placeholder={t('search-lable')}
+              placeholder={t('search-label')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               startContent={<span className='text-gray-400'>🔍</span>}

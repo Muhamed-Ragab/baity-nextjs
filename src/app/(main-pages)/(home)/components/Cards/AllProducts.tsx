@@ -2,9 +2,9 @@
 
 import { CardPrice } from '@/app/(main-pages)/components/ProductCard/CardPrise';
 import { Spotlight } from '@/app/(main-pages)/components/motion/spotlight';
+import { Button, Card, CardBody, Chip, Image } from '@/components/heroui';
 import { useTranslations } from '@/lib/translates';
 import type { getProducts } from '@/services/product';
-import { Button, Card, CardBody, Chip, Image } from '@heroui/react';
 import Link from 'next/link';
 
 type AllProductsProps = Awaited<ReturnType<typeof getProducts>>[number];

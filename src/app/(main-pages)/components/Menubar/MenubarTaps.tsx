@@ -1,6 +1,6 @@
+import { Divider } from '@/components/heroui';
 import { getAuth } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
-import { Divider } from '@heroui/react';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 

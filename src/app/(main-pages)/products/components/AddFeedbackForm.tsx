@@ -23,7 +23,7 @@ export const AddFeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, onCance
     <form onSubmit={handleSubmit} className='mb-6 rounded-lg bg-gray-50 p-4'>
       <div className='mb-4'>
         <Select
-          label={t('lables.rating')}
+          label={t('labels.rating')}
           value={rating}
           onChange={(e) => setRating(Number(e.target.value))}
           className='w-full rounded-lg border p-2'
@@ -37,7 +37,7 @@ export const AddFeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, onCance
       </div>
       <div className='mb-4'>
         <Textarea
-          label={t('lables.comment')}
+          label={t('labels.comment')}
           placeholder={t('feedback.write-feedback')}
           value={comment}
           onChange={(e) => setComment(e.target.value)}

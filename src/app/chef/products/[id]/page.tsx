@@ -1,9 +1,9 @@
 'use client';
 
 import { Button, Card, CardBody, Spinner } from '@/components/heroui';
+import { Image } from '@/components/heroui';
 import { getProductById } from '@/services/product';
 import { getCurrency } from '@/utils/price';
-import { Image } from '@heroui/react';
 import { useRequest } from 'ahooks';
 import { useParams, useRouter } from 'next/navigation';
 

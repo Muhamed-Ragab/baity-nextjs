@@ -1,11 +1,10 @@
 'use client';
 
-import { Chip, Input, NumberInput } from '@/components/heroui';
+import { Chip } from '@/components/heroui';
 import { useTranslations } from '@/lib/translates';
 import type { getProductById } from '@/services/product';
 import { getCurrency } from '@/utils/price';
 import Link from 'next/link';
-import { useState } from 'react';
 import CheckoutButton from './CheckoutButton';
 
 type ProductInfoProps = Awaited<ReturnType<typeof getProductById>> & {
@@ -22,8 +21,6 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
   status,
 }) => {
   const t = useTranslations('products');
-  const [quantity, setQuantity] = useState(1);
-  const [address, setAddress] = useState('');
 
   return (
     <section className='flex flex-1 flex-col justify-between'>
@@ -39,7 +36,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
             {user.name}
           </Link>
           <p className='text-gray-500 text-sm'>
-            {t('lables.email')}: <span className='font-semibold'>{user.email}</span>
+            {t('labels.email')}: <span className='font-semibold'>{user.email}</span>
           </p>
         </section>
       )}
@@ -50,30 +47,13 @@ const ProductInfo: React.FC<ProductInfoProps> = ({
         </p>
       </section>
 
-      <NumberInput
-        label={t('lables.quantity')}
-        minValue={1}
-        maxValue={10}
-        value={quantity}
-        onValueChange={setQuantity}
-        isRequired
-        className='mb-4'
-      />
-      <Input
-        label={t('lables.address')}
-        placeholder='e.g., 123 Main St, Minya, Egypt'
-        value={address}
-        onValueChange={setAddress}
-        isRequired
-        className='mb-4'
-      />
       {status === 'active' ? (
         <>
           <Chip className='mb-3' radius='sm' color='success'>
             Available
           </Chip>
 
-          <CheckoutButton order={{ price, productId: id, quantity, address }} />
+          <CheckoutButton productId={id} />
         </>
       ) : (
         <Chip className='mb-3' color='danger'>

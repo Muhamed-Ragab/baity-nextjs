@@ -1,7 +1,7 @@
 'use client';
 
+import { Image, Link } from '@/components/heroui';
 import { getAuth } from '@/services/user';
-import { Image, Link } from '@heroui/react';
 import { useRequest } from 'ahooks';
 import type React from 'react';
 

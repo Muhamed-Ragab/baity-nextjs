@@ -1,6 +1,6 @@
 'use client';
 
-import { Image } from '@heroui/react';
+import { Image } from '@/components/heroui';
 import { Autoplay, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 

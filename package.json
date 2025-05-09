@@ -73,19 +73,9 @@
     "tailwindcss": "3.4",
     "typescript": "^5.8.3"
   },
-  "trustedDependencies": [
-    "@heroui/shared-utils",
-    "esbuild",
-    "sharp",
-    "unrs-resolver"
-  ],
+  "trustedDependencies": ["@heroui/shared-utils", "esbuild", "sharp", "unrs-resolver"],
   "pnpm": {
-    "ignoredBuiltDependencies": [
-      "@heroui/shared-utils",
-      "esbuild",
-      "sharp",
-      "unrs-resolver"
-    ]
+    "ignoredBuiltDependencies": ["@heroui/shared-utils", "esbuild", "sharp", "unrs-resolver"]
   },
   "overrides": {
     "@types/react": "19.1.3",

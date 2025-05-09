@@ -2,8 +2,8 @@ export const getCurrency = (amount: number) => {
   return new Intl.NumberFormat('en-EG', {
     style: 'currency',
     currency: 'EGP',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(amount);
 };
 

@@ -2,6 +2,7 @@
 
 import { Spinner } from '@/components/heroui';
 import { authClient } from '@/lib/auth/client';
+import { toggleBanUser } from '@/services/admin';
 import { getUsers } from '@/services/user';
 import { useRequest } from 'ahooks';
 import { useMemo, useState } from 'react';
@@ -38,13 +39,8 @@ export default function AdminUsersPage() {
     setPage(1);
   };
 
-  const onBanToggle = async (userId: string, banned: boolean) => {
-    if (banned) {
-      await authClient.admin.banUser({ userId });
-      return;
-    }
-
-    await authClient.admin.unbanUser({ userId });
+  const onBanToggle = async (userId: string) => {
+    await toggleBanUser({ userId });
 
     refresh();
   };

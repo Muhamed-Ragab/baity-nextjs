@@ -1,8 +1,11 @@
 'use server';
 
+import { env } from '@/config/env';
+import { stripeClient } from '@/config/stripe';
 import { db } from '@/db';
-import { order, product } from '@/db/schema';
+import { order } from '@/db/schema';
 import type { NewOrder, Order } from '@/types/order';
+import type { Product } from '@/types/product';
 import { tryCatch } from '@/utils/tryCatch';
 import { and, eq } from 'drizzle-orm';
 import { getAuth } from './user';
@@ -11,6 +14,46 @@ export const createOrder = async (orderData: NewOrder) => {
   const orders = await db.insert(order).values(orderData).returning();
 
   return orders[0];
+};
+
+export const createOrderWithStripe = async (orderData: NewOrder, orderProduct: Product) => {
+  const successUrlParams = new URLSearchParams(
+    Object.entries(orderData).reduce(
+      (acc, [key, value]) => {
+        acc[key] = value?.toString() ?? '';
+        return acc;
+      },
+      {} as Record<string, string>,
+    ),
+  );
+  const [checkoutSessionError, checkoutSession] = await tryCatch(
+    stripeClient.checkout.sessions.create({
+      payment_method_types: ['card'],
+      currency: 'egp',
+      line_items: [
+        {
+          price_data: {
+            currency: 'egp',
+            product_data: {
+              name: orderProduct.name,
+              images: orderProduct.images ?? [],
+              description: orderProduct.description ?? '',
+            },
+            unit_amount: Math.floor(orderData.total * 100),
+            tax_behavior: 'exclusive',
+          },
+          quantity: orderData.quantity,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${env.BASE_URL}/checkout/success?${successUrlParams.toString()}`,
+      cancel_url: `${env.BASE_URL}/checkout/cancelled`,
+    }),
+  );
+
+  if (checkoutSessionError) throw checkoutSessionError;
+
+  return checkoutSession.url;
 };
 
 export const getOrderById = async (id: string) => {
@@ -82,7 +125,7 @@ export const getDashboardOrders = async (
         },
       },
     },
-    where: eq(product.userId, auth.id),
+    where: (product, { eq }) => eq(product.userId, auth.id),
   });
 
   const orders = products.flatMap((product) => product.orders);

@@ -1,4 +1,4 @@
-import { Button, Chip } from '@heroui/react';
+import { Button, Chip } from '@/components/heroui';
 
 import { getCurrency } from '@/utils/price';
 

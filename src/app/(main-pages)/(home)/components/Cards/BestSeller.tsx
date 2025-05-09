@@ -1,10 +1,10 @@
 'use client';
 
 import { Spotlight } from '@/app/(main-pages)/components/motion/spotlight';
+import { Button, Card, CardBody, Image } from '@/components/heroui';
 import { useTranslations } from '@/lib/translates';
 import { cn } from '@/lib/utils';
 import type { getBestSellers } from '@/services/user';
-import { Button, Card, CardBody, Image } from '@heroui/react';
 import Link from 'next/link';
 import { MdVerified } from 'react-icons/md';
 

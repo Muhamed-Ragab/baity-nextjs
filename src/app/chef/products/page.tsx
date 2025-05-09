@@ -12,9 +12,9 @@ import {
   Spinner,
 } from '@/components/heroui';
 import { addToast } from '@/components/heroui';
+import { Image } from '@/components/heroui';
 import { getDashboardProducts, updateProductStatus } from '@/services/product';
 import { getCurrency } from '@/utils/price';
-import { Image } from '@heroui/react';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
 import { useState } from 'react';

@@ -84,7 +84,7 @@ const ProductFeedbacks: React.FC<ProductFeedbacksProps> = ({
             className='min-w-[220px] max-w-xs flex-1 rounded-lg bg-gray-50 p-4 shadow'
           >
             <div className='mb-1 flex items-center gap-2'>
-              <span className='font-semibold text-primary'>{t('lables.rating')}:</span>
+              <span className='font-semibold text-primary'>{t('labels.rating')}:</span>
               <span className='font-bold'>{fb.rating} / 5</span>
             </div>
             <p className='text-gray-700'>{fb.comment}</p>

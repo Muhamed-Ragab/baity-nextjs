@@ -15,7 +15,7 @@ import type { User } from '@/types/user';
 interface UsersTableProps {
   users: User[];
   loading: boolean;
-  onBanToggle: (userId: string, banned: boolean) => Promise<void>;
+  onBanToggle: (userId: string) => Promise<void>;
   onRoleChange: (userId: string, newRole: string) => Promise<void>;
 }
 
@@ -45,14 +45,14 @@ export default function UsersTable({ users, loading, onBanToggle, onRoleChange }
                   <Radio
                     value='1'
                     checked={!!user.banned}
-                    onChange={async () => await onBanToggle(user.id, !user.banned)}
+                    onChange={async () => await onBanToggle(user.id)}
                   >
                     Active
                   </Radio>
                   <Radio
                     value='2'
                     checked={!user.banned}
-                    onChange={async () => await onBanToggle(user.id, !user.banned)}
+                    onChange={async () => await onBanToggle(user.id)}
                   >
                     Inactive
                   </Radio>
