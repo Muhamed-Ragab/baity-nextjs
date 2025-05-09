@@ -1,6 +1,7 @@
 'use client';
 
 import { Spinner } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getAdminOrders, getAdminProducts } from '@/services/admin';
 import { getOrders } from '@/services/order';
 import { getUsers } from '@/services/user';
@@ -15,6 +16,7 @@ import Users from './components/Users';
 export type ActiveTap = 'dashboard' | 'products' | 'orders' | 'users';
 
 export default function AdminPage() {
+  const t = useTranslations('admin');
   const [activeTab, setActiveTab] = useState<ActiveTap>('dashboard');
   const { loading: productsLoading, data: products = [] } = useRequest(getAdminProducts);
   const { loading: usersLoading, data: users = [] } = useRequest(getUsers);

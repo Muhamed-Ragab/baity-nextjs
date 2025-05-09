@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from '@/lib/translates';
 import { cn } from '@/lib/utils';
 import type { getAdminOrders } from '@/services/admin';
 import { getCurrency } from '@/utils/price';
@@ -20,12 +21,16 @@ interface OrdersProps {
 }
 
 const Orders: React.FC<OrdersProps> = ({ orderData, orders }) => {
+  const t = useTranslations('admin');
+
   return (
     <div>
-      <h2 className='mb-6 font-semibold text-gray-800 text-xl'>Orders</h2>
+      <h2 className='mb-6 font-semibold text-gray-800 text-xl'>{t('navigation.orders')}</h2>
 
       <div className='mb-8 rounded-lg bg-white p-6 shadow-md'>
-        <h3 className='mb-4 font-medium text-gray-900 text-lg'>Monthly Orders Trend</h3>
+        <h3 className='mb-4 font-medium text-gray-900 text-lg'>
+          {t('dashboard.charts.monthly-orders')}
+        </h3>
         <div className='h-80'>
           <ResponsiveContainer width='100%' height='100%'>
             <BarChart data={orderData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
@@ -48,31 +53,31 @@ const Orders: React.FC<OrdersProps> = ({ orderData, orders }) => {
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Order ID
+                {t('orders.table.order-id')}
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Date
+                {t('orders.table.date')}
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Customer
+                {t('orders.table.customer')}
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Status
+                {t('orders.table.status')}
               </th>
               <th
                 scope='col'
                 className='px-6 py-3 text-left font-medium text-gray-500 text-xs uppercase tracking-wider'
               >
-                Amount
+                {t('orders.table.amount')}
               </th>
             </tr>
           </thead>

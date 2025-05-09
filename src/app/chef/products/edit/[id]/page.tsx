@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, CardBody, Input, Textarea, addToast } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { uploadFile } from '@/services/files';
 import { getProductById, updateProductById } from '@/services/product';
 import { useParams, useRouter } from 'next/navigation';
@@ -8,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
 
 export default function EditProductPage() {
+  const t = useTranslations('chefs-profile');
   const router = useRouter();
   const { id } = useParams() as { id: string };
   const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +74,7 @@ export default function EditProductPage() {
 
     setIsLoading(false);
     addToast({
-      title: 'Product updated successfully!',
+      title: t('messages.updated-successfully'),
       color: 'success',
     });
     router.push('/chef/products');
@@ -80,7 +82,7 @@ export default function EditProductPage() {
 
   return (
     <main className='container mx-auto px-4 py-8'>
-      <h1 className='mb-8 text-center font-bold text-3xl'>Edit Product</h1>
+      <h1 className='mb-8 text-center font-bold text-3xl'>{t('edit-product-page.title')}</h1>
       <Card className='mx-auto max-w-2xl'>
         <CardBody className='p-6'>
           <form onSubmit={handleSubmit} className='space-y-6'>
@@ -88,7 +90,7 @@ export default function EditProductPage() {
               <Input
                 id='name'
                 name='name'
-                label='Product Name'
+                label={t('edit-product-page.product-name-label')}
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder='Enter product name'
@@ -98,7 +100,7 @@ export default function EditProductPage() {
               <Textarea
                 id='description'
                 name='description'
-                label='Description'
+                label={t('edit-product-page.description-label')}
                 value={formData.description}
                 onChange={handleInputChange}
                 placeholder='Enter product description'
@@ -110,7 +112,7 @@ export default function EditProductPage() {
                 id='price'
                 name='price'
                 type='number'
-                label='Price ($)'
+                label={t('edit-product-page.price-label')}
                 value={formData.price}
                 onChange={handleInputChange}
                 placeholder='0.00'
@@ -154,14 +156,14 @@ export default function EditProductPage() {
             </div>
             <div className='flex justify-end gap-4 pt-4'>
               <Button variant='flat' onPress={() => router.back()}>
-                Cancel
+                {t('edit-product-page.cancel-button')}
               </Button>
               <Button
                 type='submit'
                 className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
                 isLoading={isLoading}
               >
-                Update Product
+                {t('edit-product-page.update-button')}
               </Button>
             </div>
           </form>

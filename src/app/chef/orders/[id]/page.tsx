@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, CardBody, Divider, Image, Spinner } from '@/components/heroui';
+import { useTranslations } from '@/lib/translates';
 import { getOrderById } from '@/services/order';
 import type { Order } from '@/types/order';
 import { calcPriceWithoutTax, calculateTax } from '@/utils/calcTax';
@@ -10,6 +11,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { FiArrowLeft, FiPackage, FiUser } from 'react-icons/fi';
 
 export default function OrderDetailsPage() {
+  const t = useTranslations('chefs-profile');
   const router = useRouter();
   const { id } = useParams() as { id: string };
   const { loading, data: order } = useRequest(getOrderById, {
@@ -42,7 +44,7 @@ export default function OrderDetailsPage() {
   if (!order) {
     return (
       <div className='container mx-auto px-4 py-8 text-center'>
-        <p className='text-2xl text-muted-foreground'>Order not found</p>
+        <p className='text-2xl text-muted-foreground'>{t('orders-page.order-not-found')}</p>
       </div>
     );
   }
@@ -55,14 +57,16 @@ export default function OrderDetailsPage() {
         onPress={() => router.back()}
         className='mb-6'
       >
-        Back to Orders
+        {t('orders-page.back-to-orders')}
       </Button>
 
       <div className='mb-8 flex flex-col items-start justify-between md:flex-row md:items-center'>
         <div>
-          <h1 className='mb-2 font-bold text-3xl'>Order #{id}</h1>
+          <h1 className='mb-2 font-bold text-3xl'>
+            {t('orders-page.order')} #{id}
+          </h1>
           <p className='text-gray-500'>
-            Placed on {order.createdAt.toLocaleDateString()} at{' '}
+            {t('orders-page.placed-on')} {order.createdAt.toLocaleDateString()} at{' '}
             {order.createdAt.toLocaleTimeString()}
           </p>
         </div>
@@ -78,7 +82,7 @@ export default function OrderDetailsPage() {
           <Card className='mb-6'>
             <CardBody>
               <h2 className='mb-4 flex items-center font-semibold text-xl'>
-                <FiPackage className='mr-2' /> Order Details
+                <FiPackage className='mr-2' /> {t('orders-page.order-details')}
               </h2>
 
               <div className='flex flex-col overflow-hidden rounded-lg border sm:flex-row'>
@@ -91,8 +95,12 @@ export default function OrderDetailsPage() {
                 </div>
                 <div className='flex-1 p-4'>
                   <h3 className='font-medium text-lg'>{order.product.name}</h3>
-                  <p className='mb-2 text-gray-500'>Quantity: {order.quantity}</p>
-                  <p className='font-medium'>EGP {order.product.price.toFixed(2)} each</p>
+                  <p className='mb-2 text-gray-500'>
+                    {t('dashboard.quantity')}: {order.quantity}
+                  </p>
+                  <p className='font-medium'>
+                    EGP {order.product.price.toFixed(2)} {t('orders-page.each')}
+                  </p>
                 </div>
               </div>
 
@@ -100,18 +108,18 @@ export default function OrderDetailsPage() {
 
               <div className='space-y-2'>
                 <div className='flex justify-between'>
-                  <span className='text-gray-600'>Subtotal</span>
+                  <span className='text-gray-600'>{t('orders-page.subtotal')}</span>
                   <span>
                     {getCurrency(calcPriceWithoutTax(order.product.price * order.quantity))}
                   </span>
                 </div>
                 <div className='flex justify-between'>
-                  <span className='text-gray-600'>Tax</span>
+                  <span className='text-gray-600'>{t('orders-page.tax')}</span>
                   <span>{getCurrency(calculateTax(order.product.price * order.quantity))}</span>
                 </div>
                 <Divider className='my-2' />
                 <div className='flex justify-between font-bold text-lg'>
-                  <span>Total</span>
+                  <span>{t('dashboard.total')}</span>
                   <span>{getCurrency(order.product.price * order.quantity)}</span>
                 </div>
               </div>
@@ -123,24 +131,24 @@ export default function OrderDetailsPage() {
           <Card className='mb-6'>
             <CardBody>
               <h2 className='mb-4 flex items-center font-semibold text-xl'>
-                <FiUser className='mr-2' /> Customer Information
+                <FiUser className='mr-2' /> {t('orders-page.customer-information')}
               </h2>
 
               <div className='space-y-4'>
                 <div>
-                  <h3 className='text-gray-500 text-sm'>Name</h3>
+                  <h3 className='text-gray-500 text-sm'>{t('orders-page.name')}</h3>
                   <p>{order.user.name}</p>
                 </div>
                 <div>
-                  <h3 className='text-gray-500 text-sm'>Email</h3>
+                  <h3 className='text-gray-500 text-sm'>{t('orders-page.email')}</h3>
                   <p>{order.user.email}</p>
                 </div>
                 <div>
-                  <h3 className='text-gray-500 text-sm'>Phone</h3>
+                  <h3 className='text-gray-500 text-sm'>{t('orders-page.phone')}</h3>
                   <p>{order.user.phone}</p>
                 </div>
                 <div>
-                  <h3 className='text-gray-500 text-sm'>Shipping Address</h3>
+                  <h3 className='text-gray-500 text-sm'>{t('orders-page.Shipping Address')}</h3>
                   <p>{order.address}</p>
                 </div>
               </div>

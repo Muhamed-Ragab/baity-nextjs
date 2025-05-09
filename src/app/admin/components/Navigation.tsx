@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from '@/lib/translates';
 import type { ActiveTap } from '../page';
 
 interface NavigationProps {
@@ -8,6 +9,7 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
+  const t = useTranslations('admin');
   const tabs: ActiveTap[] = ['dashboard', 'products', 'orders', 'users'];
 
   return (
@@ -24,7 +26,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, setActiveTab }) => {
                 : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
             } whitespace-nowrap border-b-2 px-1 py-4 font-medium text-sm capitalize`}
           >
-            {tab}
+            {t(`navigation.${tab}`)}
           </button>
         ))}
       </nav>
