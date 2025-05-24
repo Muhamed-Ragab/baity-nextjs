@@ -27,25 +27,26 @@ export const Navbar = async () => {
 
         <Button
           variant='faded'
-          size='sm'
+          color='primary'
+          size='md'
           onPress={async () => {
             'use server';
             await setLocale(locale === 'en' ? 'ar' : 'en');
           }}
         >
-          <IoLanguageSharp />
-          {locale}
+          <IoLanguageSharp size={19} />
+          <p className='uppercase font-semibold'>{locale}</p>
         </Button>
 
-        <Button variant='light' as={Link} href='/contact'>
-          {t('contact-us')}
+        <Button variant='faded' color='primary' as={Link} href='/contact'>
+          <p className='uppsercase font-semibold'> {t('contact-us')}</p>
         </Button>
 
         {authError || !user ? (
           <Link href='/auth/login' className='max-sm:hidden'>
             <Button
               variant='flat'
-              className='bg-gradient-to-tr from-customBlue to-customLightBlue font-semibold text-white shadow-lg'
+              className='bg-gradient-to-tr from-customBlue to-customLightBlue w-28 font-semibold text-white shadow-lg'
             >
               {t('login')}
             </Button>
