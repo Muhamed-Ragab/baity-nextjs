@@ -4,7 +4,7 @@ import { Button, addToast } from '@/components/heroui';
 import { authClient } from '@/lib/auth/client';
 import { useTranslations } from '@/lib/translates';
 import { tryCatch } from '@/utils/tryCatch';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export const SignOut = () => {
@@ -24,7 +24,7 @@ export const SignOut = () => {
 
     addToast({ title: t('messages.signed-out-successfully'), color: 'success' });
     router.refresh();
-    redirect('/');
+    router.replace('/');
   };
 
   return (

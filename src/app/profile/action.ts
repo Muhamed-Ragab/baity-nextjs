@@ -110,8 +110,6 @@ export const updateProfileAction = async (data: unknown) => {
     };
   }
 
-  revalidatePath('/');
-
   const [getAuthError, authData] = await tryCatch(getAuth());
 
   if (getAuthError) {

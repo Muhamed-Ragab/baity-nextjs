@@ -5,7 +5,6 @@ import { db } from '@/db';
 import * as schema from '@/db/schema';
 import { sendResetPassword } from '@/services/mailer';
 import { tryCatch } from '@/utils/tryCatch';
-import { LoginSchema, RegisterSchema } from '@/validations/auth';
 import { stripe as stripePlugin } from '@better-auth/stripe';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
@@ -14,6 +13,7 @@ import { nextCookies } from 'better-auth/next-js';
 import { admin, openAPI } from 'better-auth/plugins';
 import { validator } from 'validator-better-auth';
 import { sendEmail } from '../mailer';
+import { RegisterSchema } from '@/validations/auth';
 
 export const auth = betterAuth({
   appName: 'Baity',
@@ -104,6 +104,9 @@ export const auth = betterAuth({
   },
   plugins: [
     admin(),
+    validator({
+      middlewares: [{ path: '/sign-up/email', schemas: { body: RegisterSchema } }],
+    }),
     stripePlugin({
       stripeClient,
       stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,

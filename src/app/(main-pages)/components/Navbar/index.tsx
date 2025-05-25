@@ -1,5 +1,4 @@
-import { Button } from '@/components/heroui';
-import { Image } from '@/components/heroui';
+import { Button, Image } from '@/components/heroui';
 import { getTranslations } from '@/lib/translates';
 import { getLocale, setLocale } from '@/services/locale';
 import { getAuth } from '@/services/user';
