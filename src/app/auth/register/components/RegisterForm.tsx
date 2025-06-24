@@ -1,83 +1,74 @@
 'use client';
 
-import { Button, Form, Input, addToast } from '@/components/heroui';
+import { Button, Form, Input } from '@/components/heroui';
 import { PasswordInput } from '@/components/shared/PasswordInput';
 import { useTranslations } from '@/lib/translates';
-import { redirect } from 'next/navigation';
-import { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { registerAction } from '../action';
+import { RegisterSchema } from '@/validations/auth';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useHookFormAction } from '@next-safe-action/adapter-react-hook-form/hooks';
+import { mapHeroUIFormErrors } from '@/lib/utils';
 
 export const RegisterForm = () => {
   const t = useTranslations('auth');
-  const { handleSubmit, control, formState } = useForm();
-  const [error, setError] = useState<Record<string, string[]> | null>(null);
-
-  const onSubmit = async (data: object) => {
-    setError(null);
-    const result = await registerAction(data);
-
-    if (!result.success) {
-      setError(result.errors);
-      return;
-    }
-
-    addToast({
-      title: 'Registration successful',
-      color: 'success',
-    });
-
-    redirect('/');
-  };
+  const { action, form, handleSubmitWithAction } = useHookFormAction(
+    registerAction,
+    zodResolver(RegisterSchema)
+  );
 
   return (
     <Form
-      onSubmit={handleSubmit(onSubmit)}
-      validationErrors={error ?? {}}
-      validationBehavior='aria'
-      className='space-y-8'
+      onSubmit={handleSubmitWithAction}
+      validationBehavior="aria"
+      className="space-y-8"
+      validationErrors={mapHeroUIFormErrors(form.formState.errors) ?? {}}
     >
-      {error?.form && (
-        <div className='mx-auto mt-4'>
-          {error.form.map((err) => (
-            <p key={err} className='text-center text-red-600'>
-              {err}
-            </p>
-          ))}
+      {form.formState.errors.root && (
+        <div className="mx-auto mt-4">
+          <p className="text-center text-red-600">
+            {form.formState.errors.root.message}
+          </p>
         </div>
       )}
 
       <Controller
-        control={control}
-        name='email'
+        control={form.control}
+        name="email"
         render={({ field }) => (
-          <Input label={t('shared.email')} type='email' fullWidth {...field} />
+          <Input label={t('shared.email')} type="email" fullWidth {...field} />
         )}
       />
       <Controller
-        control={control}
-        name='password'
-        render={({ field }) => <PasswordInput label={t('shared.password')} fullWidth {...field} />}
+        control={form.control}
+        name="password"
+        render={({ field }) => (
+          <PasswordInput label={t('shared.password')} fullWidth {...field} />
+        )}
       />
       <Controller
-        control={control}
-        name='name'
-        render={({ field }) => <Input label={t('shared.name')} fullWidth {...field} />}
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <Input label={t('shared.name')} fullWidth {...field} />
+        )}
       />
       <Controller
-        control={control}
-        name='phone'
-        render={({ field }) => <Input label={t('shared.phone')} fullWidth {...field} />}
+        control={form.control}
+        name="phone"
+        render={({ field }) => (
+          <Input label={t('shared.phone')} fullWidth {...field} />
+        )}
       />
 
       <Button
-        color='primary'
-        className='w-full font-semibold text-medium'
-        variant='solid'
-        size='lg'
-        type='submit'
-        isLoading={formState.isSubmitting}
-        isDisabled={formState.isSubmitting}
+        color="primary"
+        className="w-full font-semibold text-medium"
+        variant="solid"
+        size="lg"
+        type="submit"
+        isLoading={action.isPending}
+        isDisabled={action.isPending}
       >
         {t('register.button')}
       </Button>
