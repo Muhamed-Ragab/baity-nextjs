@@ -114,7 +114,7 @@
       "profile-updated": "Profile updated successfully",
       "profile-updated-successfully": "Your profile has been updated successfully.",
       "signed-out-successfully": "Signed out successfully",
-      "error-signing-out": "Error signing out - khara"
+      "error-signing-out": "Error signing out"
     },
     "profile": {
       "sign-out": "Sign Out",
@@ -228,7 +228,7 @@
       "back-to-orders": "Back to Orders",
       "placed-on": "Placed on",
       "each": "each",
-      "order": "Order - khara",
+      "order": "Order",
       "order-details": "Order Details",
       "subtotal": "Subtotal",
       "tax": "Tax",
@@ -263,7 +263,7 @@
         "chef-badge": "Chef badge",
         "Advanced analytics": "Advanced analytics",
         "priority-support": "Priority support",
-        "featured-products": "Featured products - khara"
+        "featured-products": "Featured products"
       }
     },
     "Products-page": {
@@ -293,9 +293,9 @@
     "messages": {
       "error": "Error",
       "error-description": "Something went wrong.",
-      "order-approved": "Order approved - khara",
-      "order-approved-description": "The order has been approved. - khara",
-      "order-cancelled": "Order approved - khara",
+      "order-approved": "Order approved",
+      "order-approved-description": "The order has been approved.",
+      "order-cancelled": "Order approved",
       "order-cancelled-description": "The order has been approved.",
       "updated-successfully": "Product updated successfully!"
     }
