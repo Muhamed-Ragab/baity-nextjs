@@ -6,6 +6,9 @@ import { cn } from '@/lib/utils';
 import { getAuth, updateUser } from '@/services/user';
 import { useRequest } from 'ahooks';
 import Link from 'next/link';
+import { setLocale } from '@/services/locale';
+import { useLocale } from 'next-intl';
+import { IoLanguageSharp } from 'react-icons/io5';
 
 export default function Header() {
   const t = useTranslations('chefs-profile');
@@ -24,6 +27,7 @@ export default function Header() {
   const handleUpdateUserStatus = async () => {
     await updateUserAsync({ online: !auth?.online });
   };
+  const locale = useLocale();
 
   return (
     <header className='bg-white shadow-sm'>
@@ -31,6 +35,19 @@ export default function Header() {
         <div className='flex h-16 items-center justify-between'>
           <h1 className='font-bold text-2xl text-gray-900'>{t('title')}</h1>
           <div className='flex items-center gap-2'>
+            <Button
+              variant='faded'
+              color='primary'
+              size='md'
+              onPress={async () => {
+                // 'use server';
+                await setLocale(locale === 'en' ? 'ar' : 'en');
+              }}
+            >
+              <IoLanguageSharp size={19} />
+              <p className='uppercase font-semibold'>{locale}</p>
+            </Button>
+
             <Button
               type='button'
               size='sm'
