@@ -1,19 +1,19 @@
-import { randomUUID } from 'node:crypto';
 import { env } from '@/config/env';
 import { stripeClient } from '@/config/stripe';
 import { db } from '@/db';
 import * as schema from '@/db/schema';
 import { sendResetPassword } from '@/services/mailer';
 import { tryCatch } from '@/utils/tryCatch';
+import { RegisterSchema } from '@/validations/auth';
 import { stripe as stripePlugin } from '@better-auth/stripe';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { APIError } from 'better-auth/api';
 import { nextCookies } from 'better-auth/next-js';
 import { admin, openAPI } from 'better-auth/plugins';
+import { randomUUID } from 'node:crypto';
 import { validator } from 'validator-better-auth';
 import { sendEmail } from '../mailer';
-import { RegisterSchema } from '@/validations/auth';
 
 export const auth = betterAuth({
   appName: 'Baity',
@@ -31,9 +31,19 @@ export const auth = betterAuth({
   user: {
     changeEmail: {
       enabled: true,
-      sendChangeEmailVerification: async ({ newEmail, url, token, user: { email } }) => {
+      sendChangeEmailVerification: async ({
+        newEmail,
+        url,
+        token,
+        user: { email },
+      }) => {
         const [error] = await tryCatch(
-          sendEmail('changeEmailVerification', { to: email, url, token, newEmail }),
+          sendEmail('changeEmailVerification', {
+            to: email,
+            url,
+            token,
+            newEmail,
+          })
         );
 
         if (error) {
@@ -64,7 +74,7 @@ export const auth = betterAuth({
   },
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days
-    updateAge: 60 * 60 * 24 * 3, // 3 days
+    updateAge: 60 * 60 * 24 * 1, // 3 days
     cookieCache: { enabled: true, maxAge: 60 * 60 * 24 * 7 }, // 7 days
     storeSessionInDatabase: true,
   },
@@ -79,7 +89,9 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user: { email }, token, url }) => {
-      const [error] = await tryCatch(sendEmail('emailVerification', { to: email, url, token }));
+      const [error] = await tryCatch(
+        sendEmail('emailVerification', { to: email, url, token })
+      );
 
       if (error) {
         console.log(error);
@@ -93,7 +105,7 @@ export const auth = betterAuth({
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      mapProfileToUser: (profile) => ({
+      mapProfileToUser: profile => ({
         email: profile.email,
         phone: '',
         image: profile.picture,
@@ -105,7 +117,9 @@ export const auth = betterAuth({
   plugins: [
     admin(),
     validator({
-      middlewares: [{ path: '/sign-up/email', schemas: { body: RegisterSchema } }],
+      middlewares: [
+        { path: '/sign-up/email', schemas: { body: RegisterSchema } },
+      ],
     }),
     stripePlugin({
       stripeClient,
@@ -113,7 +127,7 @@ export const auth = betterAuth({
       createCustomerOnSignUp: true,
       onCustomerCreate: async ({ customer, stripeCustomer, user }) => {
         console.log(
-          `Customer ${customer.id} created for user ${user.id} with email ${stripeCustomer.email}`,
+          `Customer ${customer.id} created for user ${user.id} with email ${stripeCustomer.email}`
         );
       },
       subscription: {

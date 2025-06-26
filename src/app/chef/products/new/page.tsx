@@ -1,6 +1,13 @@
 'use client';
 
-import { Button, Card, CardBody, Input, Textarea, addToast } from '@/components/heroui';
+import {
+  Button,
+  Card,
+  CardBody,
+  Input,
+  Textarea,
+  addToast,
+} from '@/components/heroui';
 import { uploadFile } from '@/services/files';
 import { createProduct } from '@/services/product';
 import { getAuth } from '@/services/user';
@@ -18,14 +25,19 @@ export default function CreateProductPage() {
     images: [] as File[],
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFormData((prev) => ({ ...prev, images: Array.from(e.target.files || []) }));
+      setFormData(prev => ({
+        ...prev,
+        images: Array.from(e.target.files || []),
+      }));
     }
   };
 
@@ -35,15 +47,22 @@ export default function CreateProductPage() {
 
     const auth = await getAuth();
 
-    const images = await Promise.all(formData.images.map(async (file) => uploadFile(file)));
-    const imagesLinks = images.map((image) => image.secure_url);
+    const images = await Promise.all(
+      formData.images.map(async file => uploadFile(file))
+    );
+    const imagesLinks = images.map(image => image.secure_url);
 
     await createProduct({
       name: formData.name,
       description: formData.description,
       price: Number(formData.price),
       userId: auth.id,
-      images: imagesLinks,
+      images:
+        imagesLinks.length > 0
+          ? imagesLinks
+          : [
+              'https://res.cloudinary.com/dzjto7pvb/image/upload/v1750948003/default-product_jaiit2.jpg',
+            ],
     });
 
     setIsLoading(false);
@@ -55,63 +74,67 @@ export default function CreateProductPage() {
   };
 
   return (
-    <main className='container mx-auto px-4 py-8'>
-      <h1 className='mb-8 text-center font-bold text-3xl'>Create New Product</h1>
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="mb-8 text-center font-bold text-3xl">
+        Create New Product
+      </h1>
 
-      <Card className='mx-auto max-w-2xl'>
-        <CardBody className='p-6'>
-          <form onSubmit={handleSubmit} className='space-y-6'>
-            <div className='space-y-4'>
+      <Card className="mx-auto max-w-2xl">
+        <CardBody className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-4">
               <Input
-                id='name'
-                name='name'
-                label='Product Name'
+                id="name"
+                name="name"
+                label="Product Name"
                 value={formData.name}
                 onChange={handleInputChange}
-                placeholder='Enter product name'
+                placeholder="Enter product name"
                 required
                 fullWidth
               />
 
               <Textarea
-                id='description'
-                name='description'
-                label='Description'
+                id="description"
+                name="description"
+                label="Description"
                 value={formData.description}
                 onChange={handleInputChange}
-                placeholder='Enter product description'
+                placeholder="Enter product description"
                 required
                 minRows={4}
                 fullWidth
               />
 
               <Input
-                id='price'
-                name='price'
-                type='number'
-                label='Price ($)'
+                id="price"
+                name="price"
+                type="number"
+                label="Price ($)"
                 value={formData.price}
                 onChange={handleInputChange}
-                placeholder='0.00'
+                placeholder="0.00"
                 required
                 fullWidth
               />
 
-              <div className='rounded-lg border-2 border-gray-300 border-dashed p-6 text-center'>
+              <div className="rounded-lg border-2 border-gray-300 border-dashed p-6 text-center">
                 <input
-                  id='images'
-                  type='file'
-                  name='images'
+                  id="images"
+                  type="file"
+                  name="images"
                   multiple
-                  accept='image/*'
+                  accept="image/*"
                   onChange={handleFileChange}
-                  className='hidden'
+                  className="hidden"
                 />
-                <label htmlFor='images' className='cursor-pointer'>
-                  <div className='flex flex-col items-center justify-center'>
-                    <FiUpload className='mb-2 text-3xl text-gray-400' />
-                    <p className='text-gray-500 text-sm'>Click to upload images</p>
-                    <p className='mt-1 text-gray-400 text-xs'>
+                <label htmlFor="images" className="cursor-pointer">
+                  <div className="flex flex-col items-center justify-center">
+                    <FiUpload className="mb-2 text-3xl text-gray-400" />
+                    <p className="text-gray-500 text-sm">
+                      Click to upload images
+                    </p>
+                    <p className="mt-1 text-gray-400 text-xs">
                       {formData.images.length > 0
                         ? `${formData.images.length} files selected`
                         : 'PNG, JPG up to 5MB'}
@@ -121,13 +144,13 @@ export default function CreateProductPage() {
               </div>
             </div>
 
-            <div className='flex justify-end gap-4 pt-4'>
-              <Button variant='flat' onPress={() => router.back()}>
+            <div className="flex justify-end gap-4 pt-4">
+              <Button variant="flat" onPress={() => router.back()}>
                 Cancel
               </Button>
               <Button
-                type='submit'
-                className='bg-gradient-to-r from-customBlue to-customLightBlue text-white'
+                type="submit"
+                className="bg-gradient-to-r from-customBlue to-customLightBlue text-white"
                 isLoading={isLoading}
               >
                 Create Product

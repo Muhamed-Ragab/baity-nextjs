@@ -18,7 +18,7 @@ export const createProduct = async (data: NewProduct) => {
   const [subscriptionError, userSubscription] = await tryCatch(
     db.query.subscription.findFirst({
       where: eq(subscription.stripeCustomerId, auth.stripeCustomerId),
-    }),
+    })
   );
 
   if (subscriptionError) throw subscriptionError;
@@ -28,10 +28,12 @@ export const createProduct = async (data: NewProduct) => {
       .insert(product)
       .values({
         ...data,
-        featured: userSubscription ? userSubscription.status === 'active' : false,
+        featured: userSubscription
+          ? userSubscription.status === 'active'
+          : false,
         userId: auth.id,
       })
-      .returning(),
+      .returning()
   );
 
   if (createProductError) throw createProductError;
@@ -79,7 +81,11 @@ export const getProducts = async ({
   limit = 10,
   page = 1,
   status = 'all',
-}: { limit?: number; page?: number; status?: Product['status'][] | Product['status'] | 'all' }) => {
+}: {
+  limit?: number;
+  page?: number;
+  status?: Product['status'][] | Product['status'] | 'all';
+}) => {
   const dbProduct = await db.query.product.findMany({
     with: {
       orders: true,
@@ -88,16 +94,18 @@ export const getProducts = async ({
     orderBy: (product, { desc }) => [desc(product.createdAt)],
     ...(status !== 'all' && {
       where: (product, { eq, inArray }) =>
-        Array.isArray(status) ? inArray(product.status, status) : eq(product.status, status),
+        Array.isArray(status)
+          ? inArray(product.status, status)
+          : eq(product.status, status),
     }),
   });
 
   const unbannedChefProducts = dbProduct.filter(
-    (product) => product.user.role === 'chef' && !product.user.banned,
+    product => product.user.role === 'chef' && !product.user.banned
   );
 
   const sortedByFeatured = unbannedChefProducts.sort((a, b) =>
-    a.featured === b.featured ? 0 : a.featured ? -1 : 1,
+    a.featured === b.featured ? 0 : a.featured ? -1 : 1
   );
 
   const offset = (page - 1) * limit;
@@ -117,19 +125,22 @@ export const getProductById = async (id: string) => {
         },
       },
       where: eq(product.id, id),
-    }),
+    })
   );
 
   if (productError) throw productError;
   if (!result) throw new Error('Product not found');
 
-  const paidOrders = result.orders.filter((order) => order.status === 'paid');
+  const paidOrders = result.orders.filter(order => order.status === 'paid');
 
   return { ...result, orders: paidOrders };
 };
 
 export const getNewArrival = async (
-  { limit, offset }: { limit?: number; offset?: number } = { limit: undefined, offset: 0 },
+  { limit, offset }: { limit?: number; offset?: number } = {
+    limit: undefined,
+    offset: 0,
+  }
 ) => {
   const products = await db.query.product.findMany({
     limit,
@@ -140,21 +151,29 @@ export const getNewArrival = async (
     orderBy: (order, { desc }) => desc(order.createdAt),
     where: (product, { and, gt, inArray }) =>
       and(
-        gt(product.createdAt, new Date(new Date().setMonth(new Date().getMonth() - 1))),
-        inArray(product.status, ['active', 'inactive']),
+        gt(
+          product.createdAt,
+          new Date(new Date().setMonth(new Date().getMonth() - 1))
+        ),
+        inArray(product.status, ['active', 'inactive'])
       ),
   });
 
-  const unbannedUsersProducts = products.filter((product) => !product.user.banned);
+  const unbannedUsersProducts = products.filter(
+    product => !product.user.banned
+  );
 
   const sortedByFeatured = unbannedUsersProducts.sort((a, b) =>
-    a.featured === b.featured ? 0 : a.featured ? -1 : 1,
+    a.featured === b.featured ? 0 : a.featured ? -1 : 1
   );
 
   return sortedByFeatured;
 };
 
-export const updateProductStatus = async (id: string, status: Product['status']) => {
+export const updateProductStatus = async (
+  id: string,
+  status: Product['status']
+) => {
   const auth = await getAuth();
 
   // Soft delete: set status to 'deleted'
@@ -165,9 +184,9 @@ export const updateProductStatus = async (id: string, status: Product['status'])
       .where(
         auth.role !== 'admin'
           ? and(eq(product.id, id), eq(product.userId, auth.id))
-          : eq(product.id, id),
+          : eq(product.id, id)
       )
-      .returning(),
+      .returning()
   );
 
   if (productError) throw productError;
@@ -176,7 +195,10 @@ export const updateProductStatus = async (id: string, status: Product['status'])
   return result[0];
 };
 
-export const updateProductById = async (id: string, data: Partial<NewProduct>) => {
+export const updateProductById = async (
+  id: string,
+  data: Partial<NewProduct>
+) => {
   const auth = await getAuth();
   const { name, description, price, images } = data;
 
@@ -187,9 +209,9 @@ export const updateProductById = async (id: string, data: Partial<NewProduct>) =
       .where(
         auth.role !== 'admin'
           ? and(eq(product.id, id), eq(product.userId, auth.id))
-          : eq(product.id, id),
+          : eq(product.id, id)
       )
-      .returning(),
+      .returning()
   );
 
   if (productError) throw productError;

@@ -156,17 +156,17 @@ export default function EditProductPage() {
                 <div className="mt-2 flex flex-wrap gap-2">
                   {formData.images
                     .filter(img => typeof img === 'string')
-                    .map((img, idx) => (
+                    .map((img, idx, arr) => (
                       <div key={img} className="group relative">
                         <img
-                          src={img as string}
+                          src={(img as string) ?? '/default-image.jpg'}
                           alt="Product"
                           className="h-16 w-16 rounded object-cover"
                         />
                         <button
                           type="button"
                           aria-label="Remove image"
-                          className="absolute top-0 right-0 m-1 rounded-full border border-gray-300 bg-white bg-opacity-80 p-1 text-red-500 text-xs opacity-0 shadow transition-opacity group-hover:opacity-100"
+                          className="absolute top-0 right-0 m-1 rounded-full border border-gray-300 bg-white bg-opacity-80 px-1 py-0.5 text-red-500 text-xs opacity-0 shadow transition-opacity disabled:cursor-not-allowed disabled:opacity-30 group-hover:opacity-100"
                           onClick={() => {
                             setFormData(prev => ({
                               ...prev,
@@ -177,6 +177,12 @@ export default function EditProductPage() {
                               ),
                             }));
                           }}
+                          disabled={arr.length === 1}
+                          title={
+                            arr.length === 1
+                              ? 'At least one image is required'
+                              : 'Remove image'
+                          }
                         >
                           ×
                         </button>
