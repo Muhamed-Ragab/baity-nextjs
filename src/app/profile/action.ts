@@ -17,7 +17,14 @@ const updateProfileSchema = z.object({
     .min(3, 'Name must be at least 3 characters long')
     .max(50, 'Name must be at most 50 characters long'),
   email: z.string().email('Invalid email'),
-  phone: z.string().min(10, 'Phone number must be at least 10 characters long'),
+  phone: z
+    .string()
+    .min(10, 'Phone number must be at least 10 digits long')
+    .max(15, 'Phone number must be at most 15 digits long')
+    .regex(
+      /^\+?\d{10,15}$/,
+      'Phone number must be valid and contain only digits, optionally starting with +'
+    ),
   image: z.union([z.string(), z.instanceof(File)]).optional(),
 });
 
