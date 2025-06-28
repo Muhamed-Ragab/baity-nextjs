@@ -16,15 +16,18 @@ export const createOrder = async (orderData: NewOrder) => {
   return orders[0];
 };
 
-export const createOrderWithStripe = async (orderData: NewOrder, orderProduct: Product) => {
+export const createOrderWithStripe = async (
+  orderData: NewOrder,
+  orderProduct: Product
+) => {
   const successUrlParams = new URLSearchParams(
     Object.entries(orderData).reduce(
       (acc, [key, value]) => {
         acc[key] = value?.toString() ?? '';
         return acc;
       },
-      {} as Record<string, string>,
-    ),
+      {} as Record<string, string>
+    )
   );
   const [checkoutSessionError, checkoutSession] = await tryCatch(
     stripeClient.checkout.sessions.create({
@@ -48,7 +51,7 @@ export const createOrderWithStripe = async (orderData: NewOrder, orderProduct: P
       mode: 'payment',
       success_url: `${env.BASE_URL}/checkout/success?${successUrlParams.toString()}`,
       cancel_url: `${env.BASE_URL}/checkout/cancelled`,
-    }),
+    })
   );
 
   if (checkoutSessionError) throw checkoutSessionError;
@@ -61,7 +64,9 @@ export const getOrderById = async (id: string) => {
 
   const result = await db.query.order.findFirst({
     where:
-      auth.role !== 'user' ? eq(order.id, id) : and(eq(order.id, id), eq(order.userId, auth.id)),
+      auth.role !== 'user'
+        ? eq(order.id, id)
+        : and(eq(order.id, id), eq(order.userId, auth.id)),
     with: {
       user: true,
       product: {
@@ -82,11 +87,15 @@ export const getOrderById = async (id: string) => {
 };
 
 export const getOrders = async (
-  { page = 1, limit = 10, paid = false }: { page?: number; limit?: number; paid?: boolean } = {
+  {
+    page = 1,
+    limit = 10,
+    paid = false,
+  }: { page?: number; limit?: number; paid?: boolean } = {
     page: 1,
     limit: 10,
     paid: false,
-  },
+  }
 ) => {
   const auth = await getAuth();
 
@@ -104,14 +113,17 @@ export const getOrders = async (
   const paginatedOrders = orders.slice(offset, offset + limit);
 
   if (paid) {
-    return paginatedOrders.filter((order) => order.status === 'paid');
+    return paginatedOrders.filter(order => order.status === 'paid');
   }
 
   return paginatedOrders;
 };
 
 export const getDashboardOrders = async (
-  { page = 1, limit = 10 }: { page?: number; limit?: number } = { page: 1, limit: 10 },
+  { page = 1, limit = 10 }: { page?: number; limit?: number } = {
+    page: 1,
+    limit: 10,
+  }
 ) => {
   const auth = await getAuth();
 
@@ -128,7 +140,7 @@ export const getDashboardOrders = async (
     where: (product, { eq }) => eq(product.userId, auth.id),
   });
 
-  const orders = products.flatMap((product) => product.orders);
+  const orders = products.flatMap(product => product.orders);
 
   const offset = (page - 1) * limit;
   const paginatedOrders = orders.slice(offset, offset + limit);
@@ -137,7 +149,7 @@ export const getDashboardOrders = async (
 };
 
 export const getChefOrders = async (
-  { limit, offset }: { limit?: number; offset?: number } = { offset: 0 },
+  { limit, offset }: { limit?: number; offset?: number } = { offset: 0 }
 ) => {
   const auth = await getAuth();
 
@@ -153,7 +165,7 @@ export const getChefOrders = async (
     },
   });
 
-  const chefOrders = orders.filter((order) => order.product.userId === auth.id);
+  const chefOrders = orders.filter(order => order.product.userId === auth.id);
 
   return {
     orders: chefOrders,
@@ -179,6 +191,40 @@ export const updateOrder = async (id: string, orderData: Partial<Order>) => {
     .set(orderData)
     .where(and(eq(order.id, id)))
     .returning();
+
+  return orders[0];
+};
+
+export const approveOrder = async (id: string) => {
+  const [getOrderError] = await tryCatch(getOrderById(id));
+  if (getOrderError) throw getOrderError;
+
+  const orders = await db
+    .update(order)
+    .set({ status: 'approved' })
+    .where(and(eq(order.id, id)))
+    .returning();
+
+  if (orders.length === 0) {
+    throw new Error('Order not found');
+  }
+
+  return orders[0];
+};
+
+export const cancelOrder = async (id: string) => {
+  const [getOrderError] = await tryCatch(getOrderById(id));
+  if (getOrderError) throw getOrderError;
+
+  const orders = await db
+    .update(order)
+    .set({ status: 'cancelled' })
+    .where(and(eq(order.id, id)))
+    .returning();
+
+  if (orders.length === 0) {
+    throw new Error('Order not found');
+  }
 
   return orders[0];
 };
