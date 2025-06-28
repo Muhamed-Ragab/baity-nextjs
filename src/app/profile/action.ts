@@ -1,6 +1,5 @@
 'use server';
 
-import { env } from '@/config/env';
 import { db } from '@/db';
 import { user as userTable } from '@/db/schema';
 import { auth } from '@/lib/auth';
@@ -9,14 +8,16 @@ import { uploadFile } from '@/services/files';
 import { getAuth } from '@/services/user';
 import { tryCatch } from '@/utils/tryCatch';
 import { eq } from 'drizzle-orm';
-import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import { z } from 'zod';
 
 const updateProfileSchema = z.object({
-  name: z.string().min(1, 'Name is required.'),
-  email: z.string().email('Invalid email.'),
-  phone: z.string().optional(),
+  name: z
+    .string()
+    .min(3, 'Name must be at least 3 characters long')
+    .max(50, 'Name must be at most 50 characters long'),
+  email: z.string().email('Invalid email'),
+  phone: z.string().min(10, 'Phone number must be at least 10 characters long'),
   image: z.union([z.string(), z.instanceof(File)]).optional(),
 });
 
@@ -71,7 +72,7 @@ export const updateProfileAction = async (data: unknown) => {
         body: {
           newEmail: email,
         },
-      }),
+      })
     );
 
     if (changeEmailError) {
@@ -85,7 +86,10 @@ export const updateProfileAction = async (data: unknown) => {
       };
     }
 
-    await db.update(userTable).set({ emailVerified: false }).where(eq(userTable.id, user.id));
+    await db
+      .update(userTable)
+      .set({ emailVerified: false })
+      .where(eq(userTable.id, user.id));
   }
 
   const [updateUserError] = await tryCatch(
@@ -96,7 +100,7 @@ export const updateProfileAction = async (data: unknown) => {
         phone,
         ...(imageUrl && { image: imageUrl }),
       },
-    }),
+    })
   );
 
   if (updateUserError) {
@@ -152,7 +156,7 @@ export const sendVerificationEmail = async () => {
   const [verifyEmailError] = await tryCatch(
     authClient.sendVerificationEmail({
       email: user.email,
-    }),
+    })
   );
 
   if (verifyEmailError) {
