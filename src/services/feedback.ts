@@ -3,10 +3,37 @@
 import { db } from '@/db';
 import { feedback } from '@/db/schemas/feedback';
 import type { NewFeedback } from '@/types/feedback';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
+import { z } from 'zod';
+
+export const feedbackSchema = z.object({
+  id: z.string().optional(),
+  userId: z.string(),
+  productId: z.string(),
+  comment: z.string().min(1, 'Comment is required'),
+  rating: z.number().int().min(1).max(5),
+});
 
 export const createFeedback = async (newFeedback: NewFeedback) => {
-  const { id, ...feedbackData } = newFeedback;
+  const parsed = feedbackSchema.safeParse(newFeedback);
+
+  if (!parsed.success) {
+    throw new Error(parsed.error.errors.map(e => e.message).join(', '));
+  }
+
+  // Check if user already left feedback for this product
+  const existing = await db.query.feedback.findFirst({
+    where: and(
+      eq(feedback.userId, parsed.data.userId),
+      eq(feedback.productId, parsed.data.productId)
+    ),
+  });
+
+  if (existing) {
+    throw new Error('You have already submitted feedback for this product.');
+  }
+
+  const { id, ...feedbackData } = parsed.data;
   const result = await db.insert(feedback).values(feedbackData);
 
   return result;
@@ -26,7 +53,10 @@ export const getFeedbackById = async (id: string) => {
   return result;
 };
 
-export const updateFeedback = async (id: string, data: Partial<NewFeedback>) => {
+export const updateFeedback = async (
+  id: string,
+  data: Partial<NewFeedback>
+) => {
   const result = await db.update(feedback).set(data).where(eq(feedback.id, id));
 
   return result;

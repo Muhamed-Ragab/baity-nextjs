@@ -28,6 +28,11 @@ export const createProduct = async (data: NewProduct) => {
       .insert(product)
       .values({
         ...data,
+        images: !data.images?.length
+          ? [
+              'https://res.cloudinary.com/dzjto7pvb/image/upload/v1750948003/default-product_jaiit2.jpg',
+            ]
+          : data.images,
         featured: userSubscription
           ? userSubscription.status === 'active'
           : false,
@@ -39,33 +44,6 @@ export const createProduct = async (data: NewProduct) => {
   if (createProductError) throw createProductError;
 
   return createdProduct[0];
-};
-
-export const getDashboardProducts = async () => {
-  const auth = await getAuth();
-
-  if (auth.role !== 'admin') {
-    return await db.query.product.findMany({
-      where: eq(product.userId, auth.id),
-      with: {
-        user: true,
-        orders: true,
-        feedbacks: {
-          with: { user: true },
-        },
-      },
-    });
-  }
-
-  return await db.query.product.findMany({
-    with: {
-      user: true,
-      orders: true,
-      feedbacks: {
-        with: { user: true },
-      },
-    },
-  });
 };
 
 export const getProductsByUserId = async (userId: string) => {

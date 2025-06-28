@@ -147,7 +147,7 @@
       "by": "By",
       "add-feedback": "Add Feedback",
       "write-feedback": "Write your feedback here",
-      "error-submitting-feedback:": "Error submitting feedback:",
+      "error-submitting-feedback": "Error submitting feedback:",
       "submit-button": "Submit",
       "reset-button": "Cancel"
     },

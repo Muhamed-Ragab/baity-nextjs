@@ -57,12 +57,7 @@ export default function CreateProductPage() {
       description: formData.description,
       price: Number(formData.price),
       userId: auth.id,
-      images:
-        imagesLinks.length > 0
-          ? imagesLinks
-          : [
-              'https://res.cloudinary.com/dzjto7pvb/image/upload/v1750948003/default-product_jaiit2.jpg',
-            ],
+      images: imagesLinks,
     });
 
     setIsLoading(false);
