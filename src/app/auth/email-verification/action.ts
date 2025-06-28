@@ -17,7 +17,11 @@ const ForgetPasswordSchema = z.object({
 });
 
 export const forgetPasswordAction = async (data: unknown) => {
-  const { success, data: validatedData, error } = ForgetPasswordSchema.safeParse(data);
+  const {
+    success,
+    data: validatedData,
+    error,
+  } = ForgetPasswordSchema.safeParse(data);
 
   if (!success) {
     return {
@@ -30,7 +34,7 @@ export const forgetPasswordAction = async (data: unknown) => {
   const [userExistsError, userExists] = await tryCatch(
     db.query.user.findFirst({
       where: eq(user.email, validatedData.email),
-    }),
+    })
   );
 
   if (userExistsError) {
@@ -38,7 +42,7 @@ export const forgetPasswordAction = async (data: unknown) => {
       success: false,
       data: null,
       error: {
-        form: [userExistsError.message],
+        form: ['Error checking user existence, please try again later'],
       },
     };
   }
@@ -48,7 +52,7 @@ export const forgetPasswordAction = async (data: unknown) => {
       success: false,
       data: null,
       error: {
-        form: ['User does not exist'],
+        form: ['Check and confirm your email address'],
       },
     };
   }
@@ -59,7 +63,7 @@ export const forgetPasswordAction = async (data: unknown) => {
         email: validatedData.email,
         redirectTo: '/auth/reset-password',
       },
-    }),
+    })
   );
 
   if (forgetPasswordError) {
