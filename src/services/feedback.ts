@@ -6,7 +6,7 @@ import type { NewFeedback } from '@/types/feedback';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 
-export const feedbackSchema = z.object({
+const feedbackSchema = z.object({
   id: z.string().optional(),
   userId: z.string(),
   productId: z.string(),

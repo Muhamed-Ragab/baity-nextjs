@@ -9,7 +9,7 @@ import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { getAuth } from './user';
 
-export const createProductSchema = z.object({
+const createProductSchema = z.object({
   name: z.string().min(3, 'Name is required'),
   description: z
     .string()
