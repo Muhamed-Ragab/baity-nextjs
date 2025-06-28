@@ -10,19 +10,34 @@ import {
 } from '@/components/heroui';
 import { uploadFile } from '@/services/files';
 import { createProduct } from '@/services/product';
-import { getAuth } from '@/services/user';
+import { useRequest } from 'ahooks';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
 
 export default function CreateProductPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     price: '',
     images: [] as File[],
+  });
+  const { loading, runAsync: createProductAsync } = useRequest(createProduct, {
+    manual: true,
+    onError: (error: Error) => {
+      addToast({
+        title: error.message || 'Error creating product',
+        color: 'danger',
+      });
+    },
+    onSuccess: () => {
+      addToast({
+        title: 'Product created successfully!',
+        color: 'success',
+      });
+      router.push('/chef/products');
+    },
   });
 
   const handleInputChange = (
@@ -43,29 +58,18 @@ export default function CreateProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    const auth = await getAuth();
 
     const images = await Promise.all(
       formData.images.map(async file => uploadFile(file))
     );
     const imagesLinks = images.map(image => image.secure_url);
 
-    await createProduct({
+    await createProductAsync({
       name: formData.name,
       description: formData.description,
       price: Number(formData.price),
-      userId: auth.id,
       images: imagesLinks,
     });
-
-    setIsLoading(false);
-    addToast({
-      title: 'Product created successfully!',
-      color: 'success',
-    });
-    router.push('/chef/products');
   };
 
   return (
@@ -146,7 +150,7 @@ export default function CreateProductPage() {
               <Button
                 type="submit"
                 className="bg-gradient-to-r from-customBlue to-customLightBlue text-white"
-                isLoading={isLoading}
+                isLoading={loading}
               >
                 Create Product
               </Button>

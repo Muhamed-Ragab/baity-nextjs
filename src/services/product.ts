@@ -6,9 +6,27 @@ import { product } from '@/db/schemas/product';
 import type { NewProduct, Product } from '@/types/product';
 import { tryCatch } from '@/utils/tryCatch';
 import { and, eq } from 'drizzle-orm';
+import { z } from 'zod';
 import { getAuth } from './user';
 
-export const createProduct = async (data: NewProduct) => {
+export const createProductSchema = z.object({
+  name: z.string().min(3, 'Name is required'),
+  description: z
+    .string()
+    .min(3, 'Description is required')
+    .nullable()
+    .optional(),
+  price: z.number().positive('Price must be positive'),
+  images: z.array(z.string().url()).nullable().optional(),
+});
+
+export const createProduct = async (data: Omit<NewProduct, 'userId'>) => {
+  const parsed = createProductSchema.safeParse(data);
+
+  if (!parsed.success) {
+    throw new Error(parsed.error.errors.map(e => e.message).join(', '));
+  }
+
   const [authError, auth] = await tryCatch(getAuth());
 
   if (authError || auth.role !== 'chef' || !auth.stripeCustomerId) {
@@ -27,7 +45,7 @@ export const createProduct = async (data: NewProduct) => {
     db
       .insert(product)
       .values({
-        ...data,
+        ...parsed.data,
         images: !data.images?.length
           ? [
               'https://res.cloudinary.com/dzjto7pvb/image/upload/v1750948003/default-product_jaiit2.jpg',
