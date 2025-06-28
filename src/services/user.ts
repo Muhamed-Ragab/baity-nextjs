@@ -33,13 +33,29 @@ export const getAuth = async () => {
 export const updateUser = async (data: Partial<NewUser>) => {
   const auth = await getAuth();
 
-  const [error] = await tryCatch(db.update(user).set(data).where(eq(user.id, auth.id)));
+  const [error] = await tryCatch(
+    db.update(user).set(data).where(eq(user.id, auth.id))
+  );
 
   if (error) {
     throw error;
   }
 
   return auth;
+};
+
+export const toggleUserStatus = async () => {
+  const auth = await getAuth();
+
+  const [error] = await tryCatch(
+    db.update(user).set({ online: !auth.online }).where(eq(user.id, auth.id))
+  );
+
+  if (error) {
+    throw new Error('Failed to update user status');
+  }
+
+  return true;
 };
 
 export const getUsers = async () => {
@@ -82,21 +98,25 @@ export const getBestSellers = async (limit = 10) => {
     where: (user, { eq }) => eq(user.role, 'chef'),
   });
 
-  const unbannedUsers = users.filter((user) => !user.banned);
+  const unbannedUsers = users.filter(user => !user.banned);
 
   const usersSortedByTotalAmount = unbannedUsers
-    .map((user) => {
-      const totalAmount = user.orders.reduce((acc, order) => acc + order.total, 0);
+    .map(user => {
+      const totalAmount = user.orders.reduce(
+        (acc, order) => acc + order.total,
+        0
+      );
       return { ...user, totalAmount };
     })
     .toSorted((a, b) => b.totalAmount - a.totalAmount);
 
-  const sortedBySubscriptionStatus = usersSortedByTotalAmount.toSorted((a, b) =>
-    a.subscriptions?.status === b.subscriptions?.status
-      ? 0
-      : a.subscriptions?.status === 'active'
-        ? -1
-        : 1,
+  const sortedBySubscriptionStatus = usersSortedByTotalAmount.toSorted(
+    (a, b) =>
+      a.subscriptions?.status === b.subscriptions?.status
+        ? 0
+        : a.subscriptions?.status === 'active'
+          ? -1
+          : 1
   );
 
   return sortedBySubscriptionStatus;
@@ -112,7 +132,7 @@ export const getChefs = async (page = 1, limit = 12) => {
     where: (user, { and, eq }) => and(eq(user.role, 'chef')),
   });
 
-  const unbannedUsers = chefs.filter((user) => !user.banned);
+  const unbannedUsers = chefs.filter(user => !user.banned);
 
   return {
     chefs: unbannedUsers,
@@ -140,10 +160,12 @@ export const getChefById = async (id: string) => {
     throw new Error('chef not found');
   }
 
-  const activeChefProducts = chef.products.filter((product) => product.status === 'active');
+  const activeChefProducts = chef.products.filter(
+    product => product.status === 'active'
+  );
 
-  const paidOrders = activeChefProducts.flatMap((product) =>
-    product.orders.filter((order) => order.status === 'paid'),
+  const paidOrders = activeChefProducts.flatMap(product =>
+    product.orders.filter(order => order.status === 'paid')
   );
 
   const totalOrders = paidOrders.length;
