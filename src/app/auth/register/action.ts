@@ -19,8 +19,13 @@ export const registerAction = async (data: unknown) => {
 
   const [error] = await tryCatch(
     auth.api.signUpEmail({
-      body: validatedData,
-    }),
+      body: {
+        ...validatedData,
+        // @ts-ignore
+        image:
+          'https://res.cloudinary.com/dzjto7pvb/image/upload/v1751103773/default-avatar_eurwt8.png',
+      },
+    })
   );
 
   if (error) {
