@@ -73,6 +73,33 @@ export const getProductsByUserId = async (userId: string) => {
   });
 };
 
+export const getDashboardProducts = async () => {
+  const auth = await getAuth();
+
+  if (auth.role !== 'admin') {
+    return await db.query.product.findMany({
+      where: eq(product.userId, auth.id),
+      with: {
+        user: true,
+        orders: true,
+        feedbacks: {
+          with: { user: true },
+        },
+      },
+    });
+  }
+
+  return await db.query.product.findMany({
+    with: {
+      user: true,
+      orders: true,
+      feedbacks: {
+        with: { user: true },
+      },
+    },
+  });
+};
+
 export const getProducts = async ({
   limit = 10,
   page = 1,
