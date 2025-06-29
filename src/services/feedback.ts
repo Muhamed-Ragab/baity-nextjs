@@ -1,6 +1,7 @@
 'use server';
 
 import { db } from '@/db';
+import { order } from '@/db/schema';
 import { feedback } from '@/db/schemas/feedback';
 import type { NewFeedback } from '@/types/feedback';
 import { and, eq } from 'drizzle-orm';
@@ -31,6 +32,20 @@ export const createFeedback = async (newFeedback: NewFeedback) => {
 
   if (existing) {
     throw new Error('You have already submitted feedback for this product.');
+  }
+
+  // Check if user has ordered this product before
+  const existingOrder = await db.query.order.findFirst({
+    where: and(
+      eq(order.userId, parsed.data.userId),
+      eq(order.productId, parsed.data.productId)
+    ),
+  });
+
+  if (!existingOrder) {
+    throw new Error(
+      'You can only leave feedback for products you have ordered.'
+    );
   }
 
   const { id, ...feedbackData } = parsed.data;
