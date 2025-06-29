@@ -1,33 +1,33 @@
-import { GoHeart } from 'react-icons/go';
+import { FaRegListAlt } from 'react-icons/fa';
+import { FaBoxOpen } from 'react-icons/fa6';
 import { IoHomeOutline } from 'react-icons/io5';
-import { PiShoppingCartSimple } from 'react-icons/pi';
-import { TbCategoryPlus } from 'react-icons/tb';
-import { VscAccount } from 'react-icons/vsc';
+import { MdOutlineRestaurantMenu } from 'react-icons/md';
 
-export const items = [
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export const getTranslatedItems = (t: any) => [
   {
     Icon: IoHomeOutline,
-    text: 'Home',
+    text: t('links.home'),
     path: '/',
   },
   {
-    Icon: TbCategoryPlus,
-    text: 'Categories',
-    path: '/categories',
+    Icon: MdOutlineRestaurantMenu,
+    text: t('links.chefs'),
+    path: '/chefs',
   },
   {
-    Icon: GoHeart,
-    text: 'Wishlist',
-    path: '/wishlist',
+    Icon: FaBoxOpen,
+    text: t('links.new-arrivals'),
+    path: '/products/new-arrivals',
   },
   {
-    Icon: VscAccount,
-    text: 'My Account',
-    path: '/account',
+    Icon: FaBoxOpen,
+    text: t('links.products'),
+    path: '/products',
   },
   {
-    Icon: PiShoppingCartSimple,
-    text: 'Cart',
-    path: '/cart',
+    Icon: FaRegListAlt,
+    text: t('links.orders'),
+    path: '/orders',
   },
 ];
